@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="数组," />
 
 
 
@@ -105,14 +105,16 @@
 
 
 
+<meta name="description" content="给定正整数数组 A，A[i] 表示第 i 个观光景点的评分，并且两个景点 i 和 j 之间的距离为 j - i。 一对景点（i &lt; j）组成的观光组合的得分为（A[i] + A[j] + i - j）：景点的评分之和减去它们两者之间的距离。 返回一对观光景点能取得的最高分。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java基础总结">
-<meta property="og:url" content="https://www.realmicah.xyz/posts/503970b4.html">
+<meta property="og:title" content="1014. 最佳观光组合">
+<meta property="og:url" content="https://www.realmicah.xyz/posts/6cc1ef4f.html">
 <meta property="og:site_name" content="Micah">
-<meta property="article:published_time" content="2020-05-11T14:19:39.797Z">
-<meta property="article:modified_time" content="2020-05-12T08:59:14.908Z">
+<meta property="og:description" content="给定正整数数组 A，A[i] 表示第 i 个观光景点的评分，并且两个景点 i 和 j 之间的距离为 j - i。 一对景点（i &lt; j）组成的观光组合的得分为（A[i] + A[j] + i - j）：景点的评分之和减去它们两者之间的距离。 返回一对观光景点能取得的最高分。">
+<meta property="article:published_time" content="2020-06-17T11:44:59.651Z">
+<meta property="article:modified_time" content="2020-06-17T12:03:42.775Z">
 <meta property="article:author" content="Micah">
-<meta property="article:tag" content="Java">
+<meta property="article:tag" content="数组">
 <meta name="twitter:card" content="summary">
 
 
@@ -143,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="https://www.realmicah.xyz/posts/503970b4.html"/>
+  <link rel="canonical" href="https://www.realmicah.xyz/posts/6cc1ef4f.html"/>
 
 
 
 
 
-  <title>Java基础总结 | Micah</title>
+  <title>1014. 最佳观光组合 | Micah</title>
   
 
 
@@ -324,7 +326,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/503970b4.html">
+    <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/6cc1ef4f.html">
 
     <span hidden itemprop="author" itemscope itemtype="https://schema.org/Person">
       <meta itemprop="name" content="Micah">
@@ -341,7 +343,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java基础总结</h1>
+          <h1 class="post-title" itemprop="name headline">1014. 最佳观光组合</h1>
         
 
         <div class="post-meta">
@@ -351,8 +353,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T22:19:39+08:00">
-                2020-05-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T19:44:59+08:00">
+                2020-06-17
               </time>
             
 
@@ -372,8 +374,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java%E5%90%8E%E7%AB%AF%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index">
-                    <span itemprop="name">Java后端面试</span>
+                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">Leetcode</span>
                   </a>
                 </span>
 
@@ -390,8 +392,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/posts/503970b4.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/posts/503970b4.html" itemprop="commentCount"></span>
+                <a href="/posts/6cc1ef4f.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/posts/6cc1ef4f.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -418,7 +420,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  266
+                  548
                 </span>
               
 
@@ -443,24 +445,26 @@
       
 
       
-        <p/>
-
+        <blockquote>
+<p>给定正整数数组 A，A[i] 表示第 i 个观光景点的评分，并且两个景点 i 和 j 之间的距离为 j - i。</p>
+<p>一对景点（i &lt; j）组成的观光组合的得分为（A[i] + A[j] + i - j）：景点的评分之和减去它们两者之间的距离。</p>
+<p>返回一对观光景点能取得的最高分。</p>
+</blockquote>
 <a id="more"></a>
 
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><ol>
-<li>byte：1字节</li>
-<li>char：2字节</li>
-<li>int：4字节</li>
-<li>short：2字节</li>
-<li>long：8字节</li>
-<li>float：4字节</li>
-<li>double：8字节</li>
-<li>boolean：JVM编译时会转为int类型存储，true-&gt;1,false-&gt;0</li>
-</ol>
-<h3 id="包装类型"><a href="#包装类型" class="headerlink" title="包装类型"></a>包装类型</h3><div class="note info"><p>每个基本数据类型都有自己的包装类型，之间的自动转化称为拆箱和装箱。封装成包装类型主要是面向对象的设计，可以提供更方便的操作某种数据类型的方法，例如<code>parseInt()</code>。</p>
-<p>包装类型设有缓存池，在使用<code>valueOf()</code>的方法时先查看是否在缓存池中，没有再通过 <code>new Integer()</code>在堆中创建一个新对象。</p></div>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line">    输入：[<span class="number">8</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">6</span>]</span><br><span class="line">    输出：<span class="number">11</span></span><br><span class="line">    解释：i=<span class="number">0</span>,j=<span class="number">2</span>,A[i]+A[j]+i-j=<span class="number">8</span>+<span class="number">5</span>+<span class="number">0</span>-<span class="number">2</span>=<span class="number">11</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>在Java中String被<strong>final</strong>关键字修饰，因此是不可被继承的。存储字符串内容的char数组也通过<strong>final</strong>修饰，并且不提供修改数组的方法，因此String是不可变的。Java9中改用byte数组存放，并用coder指定编码类型（0-单字节Latin-1，1-双字节UTF-16）。主要是为了节省空间。</p>
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>在数组中寻找的问题通常最直观的思路是暴力的遍历，这道题同样可以使用这种方法，从前往后枚举每一个元素，并对该元素遍历除了本身之外的其他所有元素，在这个过程中更新最大值<code>max</code>。由于数据规模是<code>50000</code>，因此这种<code>o(n²)</code>的做法是会超时的。</p>
+<div><div class="fold_hider"><div class="close hider_title">代码</div></div><div class="fold">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxScoreSightseeingPair</span><span class="params">(<span class="keyword">int</span>[] A)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(A==<span class="keyword">null</span> || A.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = A.length;</span><br><span class="line">    <span class="keyword">int</span> max = Integer.MIN_VALUE;</span><br><span class="line">    <span class="comment">//暴力-超时</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span> ; j &lt; n; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j != i)&#123;</span><br><span class="line">                max = Math.max(max, A[i]+A[j]-Math.abs(i-j));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</div></div>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>在暴力做法中，对于得分公式<code>A[i] + A[j] + i - j</code>，我们将其划分成了<code>A[i] + i</code>和<code>A[j]-j</code>两部分，在外层循环确定一个<code>A[i]+i</code>，在内层循环中枚举所有<code>A[j]-j</code>，以此找到最大值。这导致了时间复杂度是<code>O(n²)</code>的，那么我们如何将这两层循环减为一层呢？答案是从这两部分出发，只要两部分都是最大值，那么组合结果一定是最大值。我们可以在遍历过程中，同时维护原本外层循环的<code>A[i]+i</code>始终为最大值即可通过一层循环求出结果。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxScoreSightseeingPair</span><span class="params">(<span class="keyword">int</span>[] A)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(A==<span class="keyword">null</span> || A.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = A.length;</span><br><span class="line">    <span class="keyword">int</span> max = Integer.MIN_VALUE;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//遍历的同时维护a始终为最大的A[i]+i值</span></span><br><span class="line">    <span class="keyword">int</span> a = A[<span class="number">0</span>] + <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">        max = Integer.max(max, a + A[i] - i);</span><br><span class="line">        a = Integer.max(a, A[i] + i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -517,7 +521,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/%E6%95%B0%E7%BB%84/" rel="tag"># 数组</a>
           
         </div>
       
@@ -530,8 +534,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/posts/37cbfc16.html" rel="next" title="221. 最大正方形">
-                <i class="fa fa-chevron-left"></i> 221. 最大正方形
+              <a href="/posts/f2adbb58.html" rel="next" title="739-每日温度">
+                <i class="fa fa-chevron-left"></i> 739-每日温度
               </a>
             
           </div>
@@ -539,10 +543,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/27e1a968.html" rel="prev" title="152. 乘积最大子数组">
-                152. 乘积最大子数组 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -651,7 +651,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -700,7 +700,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">1.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据类型"><span class="nav-number">1.1.</span> <span class="nav-text">基本数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包装类型"><span class="nav-number">1.2.</span> <span class="nav-text">包装类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-number">1.3.</span> <span class="nav-text">String</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#💡-思路"><span class="nav-number">1.</span> <span class="nav-text">💡 思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📈-优化"><span class="nav-number">2.</span> <span class="nav-text">📈 优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🧾-代码"><span class="nav-number">3.</span> <span class="nav-text">🧾 代码</span></a></li></ol></div>
             
 
           </div>
