@@ -1961,7 +1961,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #a1e0ff;
+  background: #ff117f;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2791,6 +2791,18 @@ embed {
 }
 .links-of-blogroll-inline .links-of-blogroll-item {
   display: inline-block;
+}
+.post-sticky-flag {
+  font-size: inherit;
+  float: left;
+  color: #000;
+  cursor: help;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+}
+.post-sticky-flag:hover {
+  color: #07b39b;
 }
 .pagination .page-number {
   border: 3px solid #49b1f5;
