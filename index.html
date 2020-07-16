@@ -1004,76 +1004,20 @@
 
       
         
-          
-            <h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。</p>
-<p>运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：</p>
-<p><img src="https://realmicah.xyz/img/notes/java_exception_1.png" alt="图片"></p>
-<p>Error下有OutOfMemoryError和StackOverflowError，Exception下有RuntimeException和IOException。常见的Runtime有NumberFormatException，ClassNotFoundException，ClassCastException，CloneNotSpportException，IndexOutOfBoundException，常见的IOException有FileNotFoundException，FileExistsException，EncodeException，DecodeException，SocketException等。</p>
-<h2 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h2><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><ol>
-<li><p>逻辑：如果有finally，执行完try会执行finally，如果有finally有return或者让程序结束的语句，则直接结束，否则会回到try中执行。</p>
-</li>
-<li><p>字节码：先是try中的翻译成机器指令(比如4-8条)，然后是finally块的指令(比如9-10条)，然后是return(11条)。接下来的字节码是catch中的指令(12-14)，然后是final的指令(15-16跟第一个finally一样的)，最后是goto指令(17)。每个catch有这么一段，goto指令都指向最后一句return(38)。最后还会有未被catch的其他异常，字节码结构为astore存储异常(33)，finally的指令(34-35)，aload取出异常，然后是抛出异常的athrow指令，最后一句是return(38条).也就是所有catch之后goto的位置。接下来是异常表Exception Table决定在抛异常后跳转到的位置，格式如下：</p>
-<table>
-<thead>
-<tr>
-<th align="center">from指令开始行</th>
-<th align="center">to指令最后行</th>
-<th align="center">target跳转到目标指令行号</th>
-<th align="center">type异常类型</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">12</td>
-<td align="center">Exception1–异常1</td>
-<td align="center">在try中抛出了异常Exception1</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">18</td>
-<td align="center">Exception2–异常2</td>
-<td align="center">在try中抛出了异常Exception2</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在try中抛出了未被catch的异常</td>
-</tr>
-<tr>
-<td align="center">12</td>
-<td align="center">17</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理Exception1时抛出了其他异常</td>
-</tr>
-<tr>
-<td align="center">18</td>
-<td align="center">23</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理Exception2时抛出了其他异常</td>
-</tr>
-<tr>
-<td align="center">33</td>
-<td align="center">37</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理其他异常的时候抛出了异常，准确来说是处理其他异常时finally抛出的异常</td>
-</tr>
-</tbody></table>
-</li>
-</ol>
-<h3 id="throw和throws"><a href="#throw和throws" class="headerlink" title="throw和throws"></a>throw和throws</h3><ol>
-<li>throw：用在方法体内，抛出异常，在运行时是一定会抛出的，由上层调用者处理抛出的异常</li>
-<li>throws：用在方法声明中，表示在运行时可能抛出异常，由上层调用者处理</li>
-</ol>
-
-          
+          <p></p>
+					
+						<div class="out-img-topic">
+							<img src=https://realmicah.xyz/img/notes/java_exception.png class="img-topic" />
+						</div>
+					
+				
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/posts/f885a170.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2505,7 +2449,7 @@
 
 
   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//cdn.bootcdn.net/ajax/libs/valine/1.3.4/Valine.min.js"></script>
+  <script src="/js/src/Valine-1.3.4.min.js"></script>
   
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];
