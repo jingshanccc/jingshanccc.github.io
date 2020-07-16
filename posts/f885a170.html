@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -105,20 +105,19 @@
 
 
 
-<meta name="description" content="Micah个人博客是一个关注Java技术的个人博客，分享算法题解、Java学习的笔记、工作经验总结。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Micah">
-<meta property="og:url" content="https://www.realmicah.xyz/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/index.html">
+<meta name="description" content="Java的异常体系Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。 运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：  Error下有Ou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java异常体系">
+<meta property="og:url" content="https://www.realmicah.xyz/posts/f885a170.html">
 <meta property="og:site_name" content="Micah">
-<meta property="og:description" content="Micah个人博客是一个关注Java技术的个人博客，分享算法题解、Java学习的笔记、工作经验总结。">
+<meta property="og:description" content="Java的异常体系Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。 运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：  Error下有Ou">
+<meta property="og:image" content="https://realmicah.xyz/img/notes/java_exception_1.png">
+<meta property="article:published_time" content="2020-07-16T14:45:35.463Z">
+<meta property="article:modified_time" content="2020-07-16T15:14:33.691Z">
 <meta property="article:author" content="Micah">
-<meta property="article:tag" content="博客">
 <meta property="article:tag" content="Java">
-<meta property="article:tag" content="Leetcode">
-<meta property="article:tag" content="Spring">
-<meta property="article:tag" content="blog">
-<meta property="article:tag" content="Micah">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://realmicah.xyz/img/notes/java_exception_1.png">
 
 
 
@@ -148,13 +147,13 @@
 
 
 
-  <link rel="canonical" href="https://www.realmicah.xyz/tags/二叉搜索树/"/>
+  <link rel="canonical" href="https://www.realmicah.xyz/posts/f885a170.html"/>
 
 
 
 
 
-  <title>标签: 二叉搜索树 | Micah</title>
+  <title>Java异常体系 | Micah</title>
   
 
 
@@ -175,7 +174,7 @@
   
 	
 	<script src="/share/js/social-share.min.js"></script>
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
@@ -315,54 +314,307 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>二叉搜索树<small>标签</small>
-        </h1>
-      </div>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="https://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/f885a170.html">
+
+    <span hidden itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <meta itemprop="name" content="Micah">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiefeiji.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+      <meta itemprop="name" content="Micah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java异常体系</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-16T22:45:35+08:00">
+                2020-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/f885a170.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/posts/f885a170.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  608
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="my-post post-type-normal" itemscope itemtype="https://schema.org/Article">
-    <header class="my-post-header">
-
-      <div class="my-post-meta">
-        <time class="my-post-time" itemprop="dateCreated"
-              datetime="2020-05-05T08:31:01+08:00"
-              content="2020-05-05" >
-          05-05
-        </time>
-      </div>
-			
-      <h2 class="my-post-title">
-        
-            <a class="my-post-title-link" href="/posts/5e0c5aa8.html" itemprop="url">
-              
-                <span itemprop="name">98. 验证二叉搜索树</span>
-              
-            </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
+      
+        <h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。</p>
+<p>运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：</p>
+<p><img src="https://realmicah.xyz/img/notes/java_exception_1.png" alt="图片"></p>
+<p>Error下有OutOfMemoryError和StackOverflowError，Exception下有RuntimeException和IOException。常见的Runtime有NumberFormatException，ClassNotFoundException，ClassCastException，CloneNotSpportException，IndexOutOfBoundException，常见的IOException有FileNotFoundException，FileExistsException，EncodeException，DecodeException，SocketException等。</p>
+<h2 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h2><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><ol>
+<li><p>逻辑：如果有finally，执行完try会执行finally，如果有finally有return或者让程序结束的语句，则直接结束，否则会回到try中执行。</p>
+</li>
+<li><p>字节码：先是try中的翻译成机器指令(比如4-8条)，然后是finally块的指令(比如9-10条)，然后是return(11条)。接下来的字节码是catch中的指令(12-14)，然后是final的指令(15-16跟第一个finally一样的)，最后是goto指令(17)。每个catch有这么一段，goto指令都指向最后一句return(38)。最后还会有未被catch的其他异常，字节码结构为astore存储异常(33)，finally的指令(34-35)，aload取出异常，然后是抛出异常的athrow指令，最后一句是return(38条).也就是所有catch之后goto的位置。接下来是异常表Exception Table决定在抛异常后跳转到的位置，格式如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">from指令开始行</th>
+<th align="center">to指令最后行</th>
+<th align="center">target跳转到目标指令行号</th>
+<th align="center">type异常类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">12</td>
+<td align="center">Exception1–异常1</td>
+<td align="center">在try中抛出了异常Exception1</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">18</td>
+<td align="center">Exception2–异常2</td>
+<td align="center">在try中抛出了异常Exception2</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在try中抛出了未被catch的异常</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">17</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理Exception1时抛出了其他异常</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="center">23</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理Exception2时抛出了其他异常</td>
+</tr>
+<tr>
+<td align="center">33</td>
+<td align="center">37</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理其他异常的时候抛出了异常，准确来说是处理其他异常时finally抛出的异常</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h3 id="throw和throws"><a href="#throw和throws" class="headerlink" title="throw和throws"></a>throw和throws</h3><ol>
+<li>throw：用在方法体内，抛出异常，在运行时是一定会抛出的，由上层调用者处理抛出的异常</li>
+<li>throws：用在方法声明中，表示在运行时可能抛出异常，由上层调用者处理</li>
+</ol>
 
       
     </div>
+    
+    
+    
+		
+    
 
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果这篇文章对您很有帮助，不妨</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Micah 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Micah 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+		<div>
+			
+				<div id="end-thanks">
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+			
+		</div>
+		
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/372eebb7.html" rel="next" title="本地配置Git多账户">
+                <i class="fa fa-chevron-left"></i> 本地配置Git多账户
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+      	<div data-weibo-title="分享到微博" data-qq-title="分享到QQ" data-douban-title="分享到豆瓣" class="social-share" class="share-component" data-disabled="twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣">分享到：</div>
+			
+      
+    </div>
+  </div>
 
 
           </div>
@@ -370,6 +622,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -390,8 +649,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
             
@@ -471,6 +739,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java的异常体系"><span class="nav-number">1.</span> <span class="nav-text">Java的异常体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常的处理"><span class="nav-number">2.</span> <span class="nav-text">异常的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#try-catch-finally"><span class="nav-number">2.1.</span> <span class="nav-text">try catch finally</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#throw和throws"><span class="nav-number">2.2.</span> <span class="nav-text">throw和throws</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -615,6 +899,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
