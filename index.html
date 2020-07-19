@@ -894,6 +894,273 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/75890e6e.html">
+
+    <span hidden itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <meta itemprop="name" content="Micah">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiefeiji.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+      <meta itemprop="name" content="Micah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/75890e6e.html" itemprop="url">红黑树基础</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-18T15:39:30+08:00">
+                2020-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/75890e6e.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/posts/75890e6e.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.6k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="从2-3树开始说起"><a href="#从2-3树开始说起" class="headerlink" title="从2-3树开始说起"></a>从2-3树开始说起</h2><h3 id="🍉简介"><a href="#🍉简介" class="headerlink" title="🍉简介"></a>🍉简介</h3><p>我们知道二分搜索树在插入元素本身是有序的情况下，其将退化成一个链表，查询效率也由O(logN)退化到O(N)，为了提升效率，将二分搜索树优化为平衡二叉树，在插入删除过程中保证左右子树的高度差不超过1，让树的高度最小。但是维护平衡也需要带来更多更复杂的操作，因此引入了2-3树。</p>
+<p>2-3树是一棵绝对平衡的树，它的结点可以有2个孩子或3个孩子，这也是其名字的由来，它满足二分搜索树的基本性质，其大小关系如下图</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_1.png" alt="图片"></p>
+<h3 id="🍓插入操作"><a href="#🍓插入操作" class="headerlink" title="🍓插入操作"></a>🍓插入操作</h3><p>2-3树在插入结点时不能将结点插入到一个空结点上，因为要保证其绝对平衡的性质，新的结点只能通过分裂或者融合产生。</p>
+<p>下面通过对上图的2-3树的构建过程，了解2-3树的插入操作。</p>
+<p>依次插入16-15-13-12-11-10-8-6-5</p>
+<ol>
+<li><p>插入16-15-13</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_2.png" alt="图片"></p>
+<p>在插入13之后，形成了一个“4结点”，于是通过<strong>分裂</strong>将其转变为3个2结点</p>
+</li>
+<li><p>插入12-11</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_3.png" alt="图片"></p>
+<p>在插入11之后，形成了一个“4结点”，于是通过<strong>分裂</strong>将其转变为3个2结点，但也因此出现了不平衡，所以需要通过<strong>融合</strong>保证树的绝对平衡。</p>
+</li>
+<li><p>插入10-8</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_4.png" alt="图片"></p>
+<p>和前面的过程类似，需要通过多次的<strong>分裂</strong>和<strong>融合</strong>来保证平衡</p>
+</li>
+<li><p>插入6-&gt;5</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_5.png" alt="图片"></p>
+</li>
+</ol>
+<div class="note info"><p>可以发现，在插入过程中，2-3树通过融合和分裂两个操作的多次使用，来保证树的绝对平衡。其情况可总结为以下4种</p>
+<p>①插入一个2结点，<strong>融合</strong></p>
+<p>②插入一个3结点，且是根结点，先<strong>融合</strong>成一个4结点，再<strong>分裂</strong>成三个2结点</p>
+<p>③插入一个3结点，其父亲结点是2结点，先<strong>融合</strong>成一个4结点，再<strong>分裂</strong>成三个2结点，再和父亲结点<strong>融合</strong>成一个3结点</p>
+<p>④插入一个3结点，其父亲结点是3结点，先<strong>融合</strong>成一个4结点，再<strong>分裂</strong>成三个2结点，再和父亲结点<strong>融合</strong>成一个4结点，再<strong>分裂</strong>成三个2结点…</p>
+<p>其实只要理解了<strong>融合</strong>和<strong>分裂</strong>两个过程，遇到具体情况再具体分析即可，不需要死记情况。</p></div>
+
+<h2 id="与2-3树等价的红黑树"><a href="#与2-3树等价的红黑树" class="headerlink" title="与2-3树等价的红黑树"></a>与2-3树等价的红黑树</h2><h3 id="😯从2-3树到红黑树"><a href="#😯从2-3树到红黑树" class="headerlink" title="😯从2-3树到红黑树"></a>😯从2-3树到红黑树</h3><p>由于2-3树的结点并不统一，也就是2-3树的结点可能有1个元素或者2个元素，在实现上会比较复杂，于是尝试保持结点仍然只有1个元素，但是保持2-3树的思想，大体的做法是：对于2结点，不需要修改；对于3结点，将2个元素拆开，成为两个2结点；并以颜色区分2结点和3结点，2结点为黑色，3结点拆分出来的左侧（较小）的结点为红色，右侧的结点为黑色；这样实现出来的树称为红黑树。</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_6.png" alt="图片"></p>
+<h3 id="🍉基本性质"><a href="#🍉基本性质" class="headerlink" title="🍉基本性质"></a>🍉基本性质</h3><p>在有了2-3树的基础之后，再来看《算法导论》这本书中对于红黑树的性质介绍，就比较容易理解了。</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_7.png" alt="图片"></p>
+<ol>
+<li>所有的结点或者是红色，或者是黑色。这个是红黑树本身的定义</li>
+<li>根结点是黑色的。对于2-3树，它的根结点要么是2结点，要么是3结点，对于2结点，它本身就转化为黑色结点；对于3结点，我们将右侧作为父亲结点，左侧作为孩子结点，并且右侧为黑色，左侧为红色；因此根结点一定是黑色的</li>
+<li>所有叶子结点（<strong>空结点</strong>）都为黑色。此处的叶子结点是空结点，而不是左右子树为空的结点。当红黑树为空树时，由性质2，可知根结点为黑色，而此时根结点为空，因此也是性质3的体现</li>
+<li>红色结点的左右孩子结点都是黑色的。在2-3树中，从3结点分离出来的红色结点，它的子树根结点只能是2结点或3结点，而经过转化之后，这个子树的根结点只能变为黑色结点，参考性质2。因此红色结点的孩子结点都是黑色的</li>
+<li>从每一个结点到其叶子结点所经过的黑色结点数目是相同的。原因是2-3树是一棵绝对平衡的树，因此从一个结点到其叶子结点经过的结点数是相同的，而在转化成红黑树之后，无论是2结点还是3结点，都会转化出一个黑色结点</li>
+</ol>
+<h4 id="题外问：为什么红黑树能保持O（logN）的复杂度？"><a href="#题外问：为什么红黑树能保持O（logN）的复杂度？" class="headerlink" title="题外问：为什么红黑树能保持O（logN）的复杂度？"></a>题外问：为什么红黑树能保持O（logN）的复杂度？</h4><p>因为红黑树的最大高度为2logN，出现在当有一条从根结点到叶子结点都是3结点的情况下，如果都是2结点，那么和平常的二叉树一样，都是logN，在全是3结点的时候，转化为红黑树时，一个3结点会成为一个红色结点和一个黑色结点，因此高度是2logN的，由于2是常数，在时间复杂度上仍然当作O（logN）级别。</p>
+<h3 id="🍓插入操作-1"><a href="#🍓插入操作-1" class="headerlink" title="🍓插入操作"></a>🍓插入操作</h3><p>红黑树也是一棵二分搜索树，因此插入操作的基本步骤是相同的，首先是查找要插入的位置，然后将新结点设置为红色，这一步的原因在于如果将新结点设置为黑色，就会导致从根到叶子的路径上多一个额外的黑色结点，难以调整，而连续的两个红色结点可以通过旋转和颜色翻转来调整。第三步是自下而上的调整树，使其仍为红黑树。</p>
+<p>具体的调整分为以下几种情况：</p>
+<ol>
+<li><p>插入到黑色结点左侧：这种情况即相当于在2-3树中插入到2结点，融合形成3结点，而3结点转化成红黑树正好是左侧为红色、右侧为黑色，因此不需要调整</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_8.png" alt="图片"></p>
+</li>
+<li><p>插入到黑色结点右侧：在2-3树中仍然是和2结点融合形成3结点，因此我们只需要考虑如何将其调整为3结点转化为红黑树之后的形态，而这一步调整根据我们在AVL树中的经验，可以使用<strong>左旋转</strong>来实现。</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_9.png" alt="图片"></p>
+<p>对应的代码为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">leftRotate</span><span class="params">(Node node)</span></span>&#123;</span><br><span class="line">    Node x = node.right; <span class="comment">//42</span></span><br><span class="line">    <span class="comment">//左旋</span></span><br><span class="line">    node.right = x.left;</span><br><span class="line">    x.left = node;</span><br><span class="line">    <span class="comment">//颜色</span></span><br><span class="line">    x.color = node.color; <span class="comment">//当前子树的根结点从node变为x, 因此x的颜色需要变为node的颜色</span></span><br><span class="line">    node.color = RED;<span class="comment">//在2-3树中的3结点转化后,左侧的结点为红色结点</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> x;<span class="comment">//返回子树新的根结点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>插入到左孩子为红色结点的黑色结点右侧：左孩子为红色结点的结点对应于2-3树中的3结点，在其右侧插入新结点后，融合形成一个”4结点“，经过分裂成为3个2结点，也就是黑色结点，其中子树根结点需要保持原来的颜色(（红色）。因此整个过程等同于根结点和其孩子结点交换颜色，称为<strong>颜色翻转</strong></p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_10.png" alt="图片"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">flipColors</span><span class="params">(Node node)</span></span>&#123;</span><br><span class="line">    node.color = RED;</span><br><span class="line">    node.left.color = BLACK;</span><br><span class="line">    node.right.color = BLACK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="4">
+<li><p>插入到左孩子为红色结点的黑色结点左侧：相当于在2-3树中的3结点左侧插入一个新结点，为了构造出“4结点”分裂后的树，需要先经过一次<strong>右旋</strong>，由于根结点变为37，因此37需要保持原来根结点42的黑色，而42为了表示其作为“4结点”的一部分，需要变为红色。在经过右旋之后，就成为了情况3，因此之后需要经过一次<strong>颜色翻转</strong></p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_11.png" alt="图片"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">rightRotate</span><span class="params">(Node node)</span></span>&#123;</span><br><span class="line">    <span class="comment">//node -&gt; 42</span></span><br><span class="line">    Node x = node.left; <span class="comment">//37</span></span><br><span class="line">    <span class="comment">//右旋</span></span><br><span class="line">    node.left = x.right;</span><br><span class="line">    x.right = node;</span><br><span class="line">    <span class="comment">//颜色</span></span><br><span class="line">    x.color = node.color;</span><br><span class="line">    node.color = RED;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="5">
+<li><p>插入到左孩子为红色结点的黑色结点中间：相当于在2-3树的3结点中间插入一个新结点，综合前面几种情况，可以比较快地构造出“4结点”分裂后的树，首先是先对37所在子树进行一次<strong>左旋</strong>，就得到了<strong>情况4</strong>，之后经过<strong>右旋</strong>，就得到了<strong>情况3</strong>，最后通过<strong>颜色翻转</strong>就可以调整为红黑树</p>
+<p><img src="https://realmicah.xyz/img/DataStructure/RBT_12.png" alt="图片"></p>
+</li>
+</ol>
+<p>可以发现，情况4和5可以通过旋转转换为情况3，因此上述的5种情况，其处理的方式可以在统一的流程里实现，即总是经过左旋-&gt;右旋-&gt;颜色翻转就可以完成对树的调整。</p>
+<div class="note info"><p>当前结点右孩子为红色结点，左孩子为黑色结点，需要左旋——对应情况2</p></div>
+
+<div class="note success"><p>当前结点左右孩子都为红色结点，需要颜色翻转——对应情况3</p></div>
+
+<div class="note warning"><p>当前结点左孩子为红色结点，左孩子的左孩子为红色结点，需要右旋——情况4</p></div>
+
+<p>于是，在对红黑树进行插入操作的代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(K key, V value)</span></span>&#123;</span><br><span class="line">    root = add(root, key, value);</span><br><span class="line">    root.color = BLACK; <span class="comment">//保持根结点为黑色</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">add</span><span class="params">(Node node, K key, V value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">        size ++; <span class="comment">//维护结点数</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Node(key, value, RED);<span class="comment">//新结点总是红色的</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//二分搜索树的查找并插入</span></span><br><span class="line">    <span class="keyword">if</span>(key.compareTo(node.key) &gt; <span class="number">0</span>)&#123;<span class="comment">//插入到右子树</span></span><br><span class="line">        node.right = add(node.right, key, value);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key.compareTo(node.key) &lt; <span class="number">0</span>)&#123;<span class="comment">// 插入到左子树</span></span><br><span class="line">        node.left = add(node.left, key, value);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        node.value = value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//维护红黑树</span></span><br><span class="line">    <span class="keyword">if</span>(isRed(node.right) &amp;&amp; !isRed(node.left))&#123;<span class="comment">//右孩子为红色 左孩子为黑色</span></span><br><span class="line">        leftRotate(node);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(isRed(node.left) &amp;&amp; isRed(node.left.left))&#123;<span class="comment">//左孩子和左孙子为红色</span></span><br><span class="line">        rightRotate(node);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(isRed(node.left) &amp;&amp; isRed(node.right))&#123;<span class="comment">//左右都红</span></span><br><span class="line">        filpColors(node);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ol>
+<li><a href="http://dongxicheng.org/structure/red-black-tree/" target="_blank" rel="noopener">数据结构之红黑树</a></li>
+<li><a href="https://class.imooc.com/datastructure" target="_blank" rel="noopener">liuyubobobo《算法和数据结构》</a></li>
+<li><a href="https://book.douban.com/subject/20432061/" target="_blank" rel="noopener">算法导论</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+		
+    
+
+    
+
+    
+
+		<div>
+			
+		</div>
+		
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="https://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/f885a170.html">
 
     <span hidden itemprop="author" itemscope itemtype="https://schema.org/Person">
@@ -1966,196 +2233,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="https://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/527f7711.html">
-
-    <span hidden itemprop="author" itemscope itemtype="https://schema.org/Person">
-      <meta itemprop="name" content="Micah">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/xiefeiji.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
-      <meta itemprop="name" content="Micah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/527f7711.html" itemprop="url">127. 单词接龙</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-07T23:28:39+08:00">
-                2020-06-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/527f7711.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/posts/527f7711.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  728
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：</p>
-<ol>
-<li>每次转换只能改变一个字母。</li>
-<li>转换过程中的中间单词必须是字典中的单词。</li>
-</ol>
-<p>说明:</p>
-<ul>
-<li>如果不存在这样的转换序列，返回 0。</li>
-<li>所有单词具有相同的长度。</li>
-<li>所有单词只由小写字母组成。</li>
-<li>字典中不存在重复的单词。</li>
-</ul>
-</blockquote>
-					
-				
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/527f7711.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-		
-    
-
-    
-
-    
-
-		<div>
-			
-		</div>
-		
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2211,7 +2288,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2222,7 +2299,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
