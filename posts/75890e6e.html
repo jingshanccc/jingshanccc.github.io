@@ -105,12 +105,10 @@
 
 
 
-<meta name="description" content="从2-3树开始说起🍉简介我们知道二分搜索树在插入元素本身是有序的情况下，其将退化成一个链表，查询效率也由O(logN)退化到O(N)，为了提升效率，将二分搜索树优化为平衡二叉树，在插入删除过程中保证左右子树的高度差不超过1，让树的高度最小。但是维护平衡也需要带来更多更复杂的操作，因此引入了2-3树。 2-3树是一棵绝对平衡的树，它的结点可以有2个孩子或3个孩子，这也是其名字的由来，它满足二分搜索">
 <meta property="og:type" content="article">
 <meta property="og:title" content="红黑树基础">
 <meta property="og:url" content="https://www.realmicah.xyz/posts/75890e6e.html">
 <meta property="og:site_name" content="Micah">
-<meta property="og:description" content="从2-3树开始说起🍉简介我们知道二分搜索树在插入元素本身是有序的情况下，其将退化成一个链表，查询效率也由O(logN)退化到O(N)，为了提升效率，将二分搜索树优化为平衡二叉树，在插入删除过程中保证左右子树的高度差不超过1，让树的高度最小。但是维护平衡也需要带来更多更复杂的操作，因此引入了2-3树。 2-3树是一棵绝对平衡的树，它的结点可以有2个孩子或3个孩子，这也是其名字的由来，它满足二分搜索">
 <meta property="og:image" content="https://realmicah.xyz/img/DataStructure/RBT_1.png">
 <meta property="og:image" content="https://realmicah.xyz/img/DataStructure/RBT_2.png">
 <meta property="og:image" content="https://realmicah.xyz/img/DataStructure/RBT_3.png">
@@ -124,7 +122,7 @@
 <meta property="og:image" content="https://realmicah.xyz/img/DataStructure/RBT_11.png">
 <meta property="og:image" content="https://realmicah.xyz/img/DataStructure/RBT_12.png">
 <meta property="article:published_time" content="2020-07-18T07:39:30.855Z">
-<meta property="article:modified_time" content="2020-07-19T10:02:22.790Z">
+<meta property="article:modified_time" content="2020-07-19T10:08:56.442Z">
 <meta property="article:author" content="Micah">
 <meta property="article:tag" content="博客">
 <meta property="article:tag" content="Java">
@@ -470,7 +468,11 @@
       
 
       
-        <h2 id="从2-3树开始说起"><a href="#从2-3树开始说起" class="headerlink" title="从2-3树开始说起"></a>从2-3树开始说起</h2><h3 id="🍉简介"><a href="#🍉简介" class="headerlink" title="🍉简介"></a>🍉简介</h3><p>我们知道二分搜索树在插入元素本身是有序的情况下，其将退化成一个链表，查询效率也由O(logN)退化到O(N)，为了提升效率，将二分搜索树优化为平衡二叉树，在插入删除过程中保证左右子树的高度差不超过1，让树的高度最小。但是维护平衡也需要带来更多更复杂的操作，因此引入了2-3树。</p>
+        <P></p>
+
+<a id="more"></a>
+
+<h2 id="从2-3树开始说起"><a href="#从2-3树开始说起" class="headerlink" title="从2-3树开始说起"></a>从2-3树开始说起</h2><h3 id="🍉简介"><a href="#🍉简介" class="headerlink" title="🍉简介"></a>🍉简介</h3><p>我们知道二分搜索树在插入元素本身是有序的情况下，其将退化成一个链表，查询效率也由O(logN)退化到O(N)，为了提升效率，将二分搜索树优化为平衡二叉树，在插入删除过程中保证左右子树的高度差不超过1，让树的高度最小。但是维护平衡也需要带来更多更复杂的操作，因此引入了2-3树。</p>
 <p>2-3树是一棵绝对平衡的树，它的结点可以有2个孩子或3个孩子，这也是其名字的由来，它满足二分搜索树的基本性质，其大小关系如下图</p>
 <p><img src="https://realmicah.xyz/img/DataStructure/RBT_1.png" alt="图片"></p>
 <h3 id="🍓插入操作"><a href="#🍓插入操作" class="headerlink" title="🍓插入操作"></a>🍓插入操作</h3><p>2-3树在插入结点时不能将结点插入到一个空结点上，因为要保证其绝对平衡的性质，新的结点只能通过分裂或者融合产生。</p>
