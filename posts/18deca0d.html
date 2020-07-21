@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="递归,动态规划,记忆化搜索,剑指Offer," />
+  <meta name="keywords" content="动态规划,递归,剑指Offer,记忆化搜索," />
 
 
 
@@ -111,16 +111,16 @@
 <meta property="og:url" content="https://www.realmicah.xyz/posts/18deca0d.html">
 <meta property="og:site_name" content="Micah">
 <meta property="og:description" content="写一个函数，输入 n ，求斐波那契数列的第 n 项。斐波那契数列定义如下： 1F(0) &#x3D; 0, F(1) &#x3D; 1, F(N) &#x3D; F(N-1)+F(N-2),N&gt;1.  答案需要取模 1e9+7(1000000007)，如计算结果为1000000008，则返回1.">
-<meta property="og:image" content="https://realmicah.xyz/img/%E5%89%91%E6%8C%87Offer/10/1-1.jpg">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004614.jpg">
 <meta property="article:published_time" content="2020-05-06T14:28:18.996Z">
-<meta property="article:modified_time" content="2020-05-12T01:08:15.595Z">
+<meta property="article:modified_time" content="2020-07-21T16:46:22.153Z">
 <meta property="article:author" content="Micah">
-<meta property="article:tag" content="递归">
 <meta property="article:tag" content="动态规划">
-<meta property="article:tag" content="记忆化搜索">
+<meta property="article:tag" content="递归">
 <meta property="article:tag" content="剑指Offer">
+<meta property="article:tag" content="记忆化搜索">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://realmicah.xyz/img/%E5%89%91%E6%8C%87Offer/10/1-1.jpg">
+<meta name="twitter:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004614.jpg">
 
 
 
@@ -469,7 +469,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt; <span class="number">2</span>)&#123;<span class="comment">//递归终止条件</span></span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fib(n-<span class="number">1</span>)%<span class="number">1000000007</span> + fib(n - <span class="number">2</span>)%<span class="number">1000000007</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>但是简单的这样递归时间复杂度是O(ф^n)，ф是黄金分割比，是一个指数级别的时间复杂度。原因是这样的求解过程中出现了大量的重复计算。</p>
-<p><img src="https://realmicah.xyz/img/%E5%89%91%E6%8C%87Offer/10/1-1.jpg" alt="重复计算"></p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004614.jpg" alt="重复计算"></p>
 <p>对数字n，求解fib(n-1)、<strong>fib(n-2)</strong>，之后对n-1，求解<strong>f(n-2)</strong>、<strong>f(n-3)</strong>，对n-2，求解<strong>f(n-3)</strong>、f(n-4)……因此我们可以通过先解决小问题，再求解大问题，先求解 1,2,3….直到n。这样就可以避免重复求解。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">0</span>; <span class="comment">//记录中间结果</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        sum = (a + b) % <span class="number">1000000007</span>;</span><br><span class="line">        b = a;<span class="comment">//往后移动</span></span><br><span class="line">        a = sum;<span class="comment">//往后移动</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
@@ -527,13 +527,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E9%80%92%E5%BD%92/" rel="tag"># 递归</a>
-          
             <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
           
-            <a href="/tags/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" rel="tag"># 记忆化搜索</a>
+            <a href="/tags/%E9%80%92%E5%BD%92/" rel="tag"># 递归</a>
           
             <a href="/tags/%E5%89%91%E6%8C%87Offer/" rel="tag"># 剑指Offer</a>
+          
+            <a href="/tags/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" rel="tag"># 记忆化搜索</a>
           
         </div>
       

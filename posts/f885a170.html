@@ -109,13 +109,13 @@
 <meta property="og:title" content="Java异常体系">
 <meta property="og:url" content="https://www.realmicah.xyz/posts/f885a170.html">
 <meta property="og:site_name" content="Micah">
-<meta property="og:image" content="https://realmicah.xyz/img/notes/java_exception_1.png">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004826.png">
 <meta property="article:published_time" content="2020-07-16T14:45:35.463Z">
-<meta property="article:modified_time" content="2020-07-16T15:20:45.785Z">
+<meta property="article:modified_time" content="2020-07-21T16:48:33.527Z">
 <meta property="article:author" content="Micah">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://realmicah.xyz/img/notes/java_exception_1.png">
+<meta name="twitter:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004826.png">
 
 
 
@@ -458,7 +458,7 @@
 
 <h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。</p>
 <p>运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：</p>
-<p><img src="https://realmicah.xyz/img/notes/java_exception_1.png" alt="图片"></p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004826.png" alt="图片"></p>
 <p>Error下有OutOfMemoryError和StackOverflowError，Exception下有RuntimeException和IOException。常见的Runtime有NumberFormatException，ClassNotFoundException，ClassCastException，CloneNotSpportException，IndexOutOfBoundException，常见的IOException有FileNotFoundException，FileExistsException，EncodeException，DecodeException，SocketException等。</p>
 <h2 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h2><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><ol>
 <li><p>逻辑：如果有finally，执行完try会执行finally，如果有finally有return或者让程序结束的语句，则直接结束，否则会回到try中执行。</p>

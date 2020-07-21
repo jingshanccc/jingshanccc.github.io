@@ -109,16 +109,16 @@
 <meta property="og:title" content="Java基础问题总结">
 <meta property="og:url" content="https://www.realmicah.xyz/posts/503970b4.html">
 <meta property="og:site_name" content="Micah">
-<meta property="og:image" content="https://realmicah.xyz/img/interviews/java_1.png">
-<meta property="og:image" content="https://realmicah.xyz/img/interviews/java_2.png">
-<meta property="og:image" content="https://realmicah.xyz/img/interviews/java_3.png">
-<meta property="og:image" content="https://realmicah.xyz/img/interviews/java_4.png">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004710.png">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004726.png">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004738.png">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004753.png">
 <meta property="article:published_time" content="2020-05-11T14:19:39.797Z">
-<meta property="article:modified_time" content="2020-07-21T04:19:14.269Z">
+<meta property="article:modified_time" content="2020-07-21T16:47:59.453Z">
 <meta property="article:author" content="Micah">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://realmicah.xyz/img/interviews/java_1.png">
+<meta name="twitter:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722004710.png">
 
 
 
@@ -459,7 +459,7 @@
 
 <a id="more"></a>
 
-<div class="note info"><p>⚠长文预警  🤣 谨慎食用 💡 善用搜索和目录</p></div>
+<div class="note info"><p>长文预警  🤣 谨慎食用 💡 善用搜索和目录</p></div>
 
 <h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="说说Java语言的特点？"><a href="#说说Java语言的特点？" class="headerlink" title="说说Java语言的特点？"></a>说说Java语言的特点？</h3><ol>
 <li>平台无关性：实现一次编译，到处运行</li>
@@ -489,7 +489,7 @@
 
 <h3 id="什么是泛型？"><a href="#什么是泛型？" class="headerlink" title="什么是泛型？"></a>什么是泛型？</h3><p>泛型可以看作一种数据类型，用来接收未知的数据类型，解决不确定对象具体类型时可能发生强制转换异常等问题，Java中的泛型时防止有效输入的，在编译器有效。通过反编译可以看到如果泛型T没有被指定，则会转换为多态，即类型声明为Object；在使用对应数据时将在返回之前加一条checkcast来做类型转换。</p>
 <h3 id="异常体系"><a href="#异常体系" class="headerlink" title="异常体系"></a>异常体系</h3><p>Throwable下有Error和Exception，Error用来标识JVM无法处理的错误，Exception分为受检异常和不受检异常，也叫编译期异常和运行时异常，编译期异常如果不处理会编译失败，运行时异常可以通过编译，RuntimeException及其所有子类都是运行时异常，除此之外都是编译期异常。其体系结构图如下：</p>
-<p><img src="https://realmicah.xyz/img/interviews/java_1.png" alt="图片"></p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004710.png" alt="图片"></p>
 <p>处理过程参见<a href="/posts/f885a170.html" title="Java异常体系">Java异常体系</a></p>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><ol>
 <li>byte：1字节</li>
@@ -842,7 +842,7 @@
 <li>JSON：转化为JSON字符串，不记录类型信息，因此反序列化需要提供类型信息才能正确进行；可读性高</li>
 </ol>
 <h2 id="JVM相关"><a href="#JVM相关" class="headerlink" title="JVM相关"></a>JVM相关</h2><h3 id="介绍一下Java虚拟机的整体结构？各个模块的作用"><a href="#介绍一下Java虚拟机的整体结构？各个模块的作用" class="headerlink" title="介绍一下Java虚拟机的整体结构？各个模块的作用"></a>介绍一下Java虚拟机的整体结构？各个模块的作用</h3><p>在Java程序的执行过程中，JVM把它管理的内存划分为不同的数据区，其中线程私有的有程序计数器、虚拟机栈、本地方法栈，线程共享的有堆、方法区，虚拟机的类加载器负责将类信息加载到内存中，执行引擎负责执行字节码，采用即时编译技术。</p>
-<p><img src="https://realmicah.xyz/img/interviews/java_2.png" alt="图片"></p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004726.png" alt="图片"></p>
 <ol>
 <li>程序计数器：每个线程有自己的计数器，指示当前线程所执行字节码的行号，改变计数器的值选取下一条指令。对于Java方法记录了字节码的指令地址；对于本地方法，值为undefined</li>
 <li>虚拟机栈：每个栈帧中有局部变量表存储方法内使用的变量、操作数栈、动态链接、返回地址，每新调用一个方法就创建一个栈帧，因此递归过深超过虚拟机允许的深度会报StackOverflowError</li>
@@ -880,7 +880,7 @@
 <li>标记-清除算法：使用可达性算法标记垃圾，之后将垃圾清除。会产生碎片</li>
 <li>标记-整理算法：使用可达性算法标记，移动存货的对象，将对象顺序排列，之后清除最后一个对象的地址之后的内存空间。减少碎片，也不需要设置两块内存，适用于存活率高的场景</li>
 </ul>
-<h3 id="常见的垃圾收集器有哪些？"><a href="#常见的垃圾收集器有哪些？" class="headerlink" title="常见的垃圾收集器有哪些？"></a>常见的垃圾收集器有哪些？</h3><p><img src="https://realmicah.xyz/img/interviews/java_3.png" alt="图片"></p>
+<h3 id="常见的垃圾收集器有哪些？"><a href="#常见的垃圾收集器有哪些？" class="headerlink" title="常见的垃圾收集器有哪些？"></a>常见的垃圾收集器有哪些？</h3><p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004738.png" alt="图片"></p>
 <ol>
 <li>Serial：单线程收集，采用复制算法，会STW，Client模式年轻代默认收集器</li>
 <li>ParNew：多线程收集，其他于Serial相同，追求低停顿</li>
@@ -890,7 +890,7 @@
 <li>CMS：追求最短停顿时间，采用标记-清除算法，过程较复杂</li>
 <li>G1：不再区分以老年代/年轻代简单区分内存，以Region内存布局面向局部收集，实现了可预测的停顿</li>
 </ol>
-<h4 id="CMS回收过程"><a href="#CMS回收过程" class="headerlink" title="CMS回收过程"></a>CMS回收过程</h4><p><img src="https://realmicah.xyz/img/interviews/java_4.png" alt="图片"></p>
+<h4 id="CMS回收过程"><a href="#CMS回收过程" class="headerlink" title="CMS回收过程"></a>CMS回收过程</h4><p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004753.png" alt="图片"></p>
 <p><strong>初始标记</strong>阶段进入STW，使用单线程标记GC Root直接关联的对象；<strong>并发标记</strong>阶段从初始标记的对象开始遍历，耗时较长但是不需要停顿；<strong>重新标记</strong>阶段修正在并发标记期间因用户程序运作而导致标记产生变动的部分记录，需要STW；<strong>并发清除</strong>清理垃圾，不需要移动对象，可以并发执行</p>
 <h4 id="G1回收过程"><a href="#G1回收过程" class="headerlink" title="G1回收过程"></a>G1回收过程</h4><p><strong>初始标记</strong>阶段进入STW，标记GC Root直接关联的对象，让下一阶段用户线程并发运行时能正确地在可用的Region中分配新对象；<strong>并发标记</strong>阶段从初始标记的对象开始遍历，查找整个堆，扫描完成后要重新处理此过程中变化的部分；<strong>最终标记</strong>进入短暂的STW，处理并发阶段结束后仍遗留的少量SATB记录；<strong>筛选回收</strong>对各Region的回收价值排序，根据用户期望停顿事件制定回收计划，需要暂停用户线程，多线程并发完成</p>
 <h3 id="你知道哪些内存分配和回收策略？"><a href="#你知道哪些内存分配和回收策略？" class="headerlink" title="你知道哪些内存分配和回收策略？"></a>你知道哪些内存分配和回收策略？</h3><ol>
