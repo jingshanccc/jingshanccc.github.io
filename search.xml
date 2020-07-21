@@ -32,25 +32,33 @@
       </tags>
   </entry>
   <entry>
-    <title>152. 乘积最大子数组</title>
-    <url>/posts/27e1a968.html</url>
+    <title>1022. 从根到叶的二进制数之和</title>
+    <url>/posts/39280e8c.html</url>
     <content><![CDATA[<blockquote>
-<p>给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>
+<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
+<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
+<p>以 10^9 + 7 为模，返回这些数字之和。</p>
 </blockquote>
 <a id="more"></a>
 
-<p>示例 1:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入: [<span class="number">2</span>,<span class="number">3</span>,-<span class="number">2</span>,<span class="number">4</span>]</span><br><span class="line">输出: <span class="number">6</span></span><br><span class="line">解释: 子数组 [<span class="number">2</span>,<span class="number">3</span>] 有最大乘积 <span class="number">6</span>。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line"></span><br><span class="line">输入: [-<span class="number">2</span>,<span class="number">0</span>,-<span class="number">1</span>]</span><br><span class="line">输出: <span class="number">0</span></span><br><span class="line">解释: 结果不能为 <span class="number">2</span>, 因为 [-<span class="number">2</span>,-<span class="number">1</span>] 不是子数组。</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
 
-]]></content>
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
+<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Leetcode</category>
-        <category>动态规划</category>
+        <category>二叉树</category>
       </categories>
       <tags>
         <tag>Leetcode</tag>
-        <tag>数组</tag>
-        <tag>动态规划</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+        <tag>深度优先搜索</tag>
       </tags>
   </entry>
   <entry>
@@ -87,55 +95,24 @@
       </tags>
   </entry>
   <entry>
-    <title>1022. 从根到叶的二进制数之和</title>
-    <url>/posts/39280e8c.html</url>
+    <title>152. 乘积最大子数组</title>
+    <url>/posts/27e1a968.html</url>
     <content><![CDATA[<blockquote>
-<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
-<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
-<p>以 10^9 + 7 为模，返回这些数字之和。</p>
+<p>给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>
 </blockquote>
 <a id="more"></a>
 
-<div class="note info"><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
-<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Leetcode</category>
-        <category>二叉树</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-        <tag>深度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>221. 最大正方形</title>
-    <url>/posts/37cbfc16.html</url>
-    <content><![CDATA[<blockquote>
-<p>在一个由 0 和 1 组成的二维矩阵内，找到只包含 1 的最大正方形，并返回其面积。</p>
-<p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line"><span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line"><span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">输出: <span class="number">4</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>在二维数组求解比较容易想到<strong>动态规划</strong>的思想，可能主要是机器人运动范围和岛屿数量这类问题的原因。于是开始考虑 <code>dp[i][j]</code>代表什么，由于题目求只包含 1 的最大正方形，因此可以考虑让 <code>dp[i][j]</code>代表以该位置为<strong>右下角</strong>的最大正方形<strong>边长</strong>。右下角是由于动态规划思想从之前的结果推得这次的结果，那么右下角就是最后离开这个正方形的地方。边长是由于可以通过边长求得面积。</p>
-<p>接下来考虑递推关系式，当当前位置为 0 时，<code>dp[i][j]</code> 也为0，因为没有以这个位置为右下角的正方形。当当前位置为 1 时，就比较复杂，需要一波分析。分析也不是毫无头绪和方向的，在二维数组的动态规划问题中，一般只有三个位置需要考虑，左侧、上方、左上角。</p>
-<h2 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maximalSquare</span><span class="params">(<span class="keyword">char</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> max = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> n = matrix.length, m = matrix[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n][m];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)&#123;</span><br><span class="line">        dp[<span class="number">0</span>][i] = matrix[<span class="number">0</span>][i] == <span class="string">'1'</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">        max = Math.max(max, dp[<span class="number">0</span>][i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">        dp[i][<span class="number">0</span>] = matrix[i][<span class="number">0</span>] == <span class="string">'1'</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">        max = Math.max(max, dp[i][<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; m; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j] == <span class="string">'0'</span>)&#123;</span><br><span class="line">                dp[i][j] = <span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i][j] = Math.min(dp[i-<span class="number">1</span>][j],Math.min(dp[i-<span class="number">1</span>][j-<span class="number">1</span>],dp[i][j-<span class="number">1</span>]))+<span class="number">1</span>;</span><br><span class="line">                max = Math.max(max, dp[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max*max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例 1:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入: [<span class="number">2</span>,<span class="number">3</span>,-<span class="number">2</span>,<span class="number">4</span>]</span><br><span class="line">输出: <span class="number">6</span></span><br><span class="line">解释: 子数组 [<span class="number">2</span>,<span class="number">3</span>] 有最大乘积 <span class="number">6</span>。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line"></span><br><span class="line">输入: [-<span class="number">2</span>,<span class="number">0</span>,-<span class="number">1</span>]</span><br><span class="line">输出: <span class="number">0</span></span><br><span class="line">解释: 结果不能为 <span class="number">2</span>, 因为 [-<span class="number">2</span>,-<span class="number">1</span>] 不是子数组。</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
         <category>Leetcode</category>
+        <category>动态规划</category>
       </categories>
       <tags>
         <tag>Leetcode</tag>
+        <tag>数组</tag>
         <tag>动态规划</tag>
       </tags>
   </entry>
@@ -191,73 +168,6 @@
       </tags>
   </entry>
   <entry>
-    <title>21. 合并两个有序链表</title>
-    <url>/posts/c8c06f39.html</url>
-    <content><![CDATA[<blockquote>
-<p>将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p><strong>示例：</strong></p>
-<p><strong>输入：</strong>1-&gt;2-&gt;4，1-&gt;3-&gt;4</p>
-<p><strong>输出：</strong>1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</p></div>
-
-<h3 id="💡思路"><a href="#💡思路" class="headerlink" title="💡思路"></a>💡思路</h3><p>这道题属于归并排序的应用，数组的归并过程是：使用两个索引<code>i , j</code>指向两个数组的左边界，每次根据两个数组中各自索引位置的元素大小来将一个元素放到结果数组中然后对应索引前进。当然了，我们还需要一个索引<code>k</code>来标识元素应该放到结果数组中的哪个位置。<div><div class="fold_hider"><div class="close hider_title">点击此处查看数组的归并</div></div><div class="fold">
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] merge(<span class="keyword">int</span>[] arr1, <span class="keyword">int</span>[] arr2)&#123;</span><br><span class="line">    <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[arr1.length+arr2.length];</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i &lt; arr1.length &amp;&amp; j &lt; arr2.length)&#123;<span class="comment">//终止条件是arr1用完或arr2用完</span></span><br><span class="line">        <span class="keyword">if</span>(arr1[i] &lt; arr2[j])&#123;</span><br><span class="line">            result[k++] = arr1[i++];</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            result[k++] = arr2[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i &lt; arr1.length)&#123;<span class="comment">//arr2用完</span></span><br><span class="line">        result[k++] = arr1[i++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(j &lt; arr2.length)&#123;<span class="comment">//arr1用完</span></span><br><span class="line">        result[k++] = arr2[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</div></div></p>
-<h3 id="🧾代码"><a href="#🧾代码" class="headerlink" title="🧾代码"></a>🧾代码</h3><p>了解了数组的归并过程，做这道题也就非常简单了。由于链表不像数组那样通过索引来方便的获取/修改该位置的元素，因此我们需要通过链表的<code>next</code>指针来推进归并过程。对于链表操作需要注意的是指针之间的引用关系。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//本着不修改输入的原则,我们应该使用两个指针指向输入,避免对l1,l2直接修改</span></span><br><span class="line">    ListNode h1 = l1, h2 = l2;</span><br><span class="line">    <span class="comment">//初始化一个虚拟头节点,作为结果链表</span></span><br><span class="line">    ListNode dummyHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    ListNode cur = dummyHead;</span><br><span class="line">    <span class="keyword">while</span>(h1 != <span class="keyword">null</span> &amp;&amp; h2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(h1.val &lt; h2.val)&#123;</span><br><span class="line">            cur.next = <span class="keyword">new</span> ListNode(h1.val);</span><br><span class="line">            cur = cur.next;</span><br><span class="line">            h1 = h1.next;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            cur.next = <span class="keyword">new</span> ListNode(h2.val);</span><br><span class="line">            cur = cur.next;</span><br><span class="line">            h2 = h2.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(h1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur.next = h1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(h2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur.next = h2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummyHead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>归并排序</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>35. 搜索插入位置</title>
-    <url>/posts/a8a97330.html</url>
-    <content><![CDATA[<blockquote>
-<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
-<p>你可以假设数组中无重复元素。</p>
-</blockquote>
-<a id="more"></a>
-
-<blockquote>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="👊暴力解法"><a href="#👊暴力解法" class="headerlink" title="👊暴力解法"></a>👊暴力解法</h3><p>从数组的第一个位置开始遍历，如果当前位置的值等于目标值，返回其索引值。否则继续向后查找直到第一个大于目标值的元素，返回其索引值。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; nums.length; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i] &gt;= target)&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="✍️二分查找"><a href="#✍️二分查找" class="headerlink" title="✍️二分查找"></a>✍️二分查找</h3><p>对于有序数组的查找问题，通常可以使用二分来解决。如果你对二分查找并不熟悉，可以先看看Leetcode <a href="/posts/41f30363.html" title="704. 二分查找">704. 二分查找</a> 问题。二分法的整体思路是：根据设定的左边界 <code>left</code> 和右边界 <code>right</code> 计算出中间位置 <code>mid</code> ，然后通过 <code>mid</code> 位置的元素来修改 <code>left</code> 和 <code>right</code> 。</p>
-<p>本题中，根据<code>mid</code> 位置元素和目标值 <code>target</code>的大小关系，分为一下三种情况：</p>
-<ul>
-<li>如果 <code>nums[mid] = target</code>，则直接返回<code>mid</code></li>
-<li>如果 <code>nums[mid] &lt; target</code>，则区间<code>[left...mid]</code>都小于 <code>target</code>，因此左边界 <code>left = mid + 1</code></li>
-<li>如果 <code>nums[mid] &gt; target</code>，则区间<code>[mid...right]</code>都大于 <code>target</code>，因此右边界 <code>right = mid - 1</code></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>, right = nums.length - <span class="number">1</span> ;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;<span class="comment">//循环结束条件是left&gt; right</span></span><br><span class="line">        <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>( nums[mid] &lt; target )&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>202. 快乐数</title>
     <url>/posts/827e2fc4.html</url>
     <content><![CDATA[<blockquote>
@@ -296,6 +206,35 @@
       </tags>
   </entry>
   <entry>
+    <title>21. 合并两个有序链表</title>
+    <url>/posts/c8c06f39.html</url>
+    <content><![CDATA[<blockquote>
+<p>将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p><strong>示例：</strong></p>
+<p><strong>输入：</strong>1-&gt;2-&gt;4，1-&gt;3-&gt;4</p>
+<p><strong>输出：</strong>1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</p></div>
+
+<h3 id="💡思路"><a href="#💡思路" class="headerlink" title="💡思路"></a>💡思路</h3><p>这道题属于归并排序的应用，数组的归并过程是：使用两个索引<code>i , j</code>指向两个数组的左边界，每次根据两个数组中各自索引位置的元素大小来将一个元素放到结果数组中然后对应索引前进。当然了，我们还需要一个索引<code>k</code>来标识元素应该放到结果数组中的哪个位置。<div><div class="fold_hider"><div class="close hider_title">点击此处查看数组的归并</div></div><div class="fold">
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] merge(<span class="keyword">int</span>[] arr1, <span class="keyword">int</span>[] arr2)&#123;</span><br><span class="line">    <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[arr1.length+arr2.length];</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i &lt; arr1.length &amp;&amp; j &lt; arr2.length)&#123;<span class="comment">//终止条件是arr1用完或arr2用完</span></span><br><span class="line">        <span class="keyword">if</span>(arr1[i] &lt; arr2[j])&#123;</span><br><span class="line">            result[k++] = arr1[i++];</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            result[k++] = arr2[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i &lt; arr1.length)&#123;<span class="comment">//arr2用完</span></span><br><span class="line">        result[k++] = arr1[i++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(j &lt; arr2.length)&#123;<span class="comment">//arr1用完</span></span><br><span class="line">        result[k++] = arr2[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div></div></p>
+<h3 id="🧾代码"><a href="#🧾代码" class="headerlink" title="🧾代码"></a>🧾代码</h3><p>了解了数组的归并过程，做这道题也就非常简单了。由于链表不像数组那样通过索引来方便的获取/修改该位置的元素，因此我们需要通过链表的<code>next</code>指针来推进归并过程。对于链表操作需要注意的是指针之间的引用关系。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//本着不修改输入的原则,我们应该使用两个指针指向输入,避免对l1,l2直接修改</span></span><br><span class="line">    ListNode h1 = l1, h2 = l2;</span><br><span class="line">    <span class="comment">//初始化一个虚拟头节点,作为结果链表</span></span><br><span class="line">    ListNode dummyHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    ListNode cur = dummyHead;</span><br><span class="line">    <span class="keyword">while</span>(h1 != <span class="keyword">null</span> &amp;&amp; h2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(h1.val &lt; h2.val)&#123;</span><br><span class="line">            cur.next = <span class="keyword">new</span> ListNode(h1.val);</span><br><span class="line">            cur = cur.next;</span><br><span class="line">            h1 = h1.next;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            cur.next = <span class="keyword">new</span> ListNode(h2.val);</span><br><span class="line">            cur = cur.next;</span><br><span class="line">            h2 = h2.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(h1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur.next = h1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(h2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur.next = h2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummyHead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>归并排序</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>287. 寻找重复数</title>
     <url>/posts/25e6dcf4.html</url>
     <content><![CDATA[<blockquote>
@@ -325,6 +264,61 @@
       <tags>
         <tag>数组</tag>
         <tag>二分查找</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>221. 最大正方形</title>
+    <url>/posts/37cbfc16.html</url>
+    <content><![CDATA[<blockquote>
+<p>在一个由 0 和 1 组成的二维矩阵内，找到只包含 1 的最大正方形，并返回其面积。</p>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line"><span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line"><span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">输出: <span class="number">4</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>在二维数组求解比较容易想到<strong>动态规划</strong>的思想，可能主要是机器人运动范围和岛屿数量这类问题的原因。于是开始考虑 <code>dp[i][j]</code>代表什么，由于题目求只包含 1 的最大正方形，因此可以考虑让 <code>dp[i][j]</code>代表以该位置为<strong>右下角</strong>的最大正方形<strong>边长</strong>。右下角是由于动态规划思想从之前的结果推得这次的结果，那么右下角就是最后离开这个正方形的地方。边长是由于可以通过边长求得面积。</p>
+<p>接下来考虑递推关系式，当当前位置为 0 时，<code>dp[i][j]</code> 也为0，因为没有以这个位置为右下角的正方形。当当前位置为 1 时，就比较复杂，需要一波分析。分析也不是毫无头绪和方向的，在二维数组的动态规划问题中，一般只有三个位置需要考虑，左侧、上方、左上角。</p>
+<h2 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maximalSquare</span><span class="params">(<span class="keyword">char</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> max = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> n = matrix.length, m = matrix[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n][m];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)&#123;</span><br><span class="line">        dp[<span class="number">0</span>][i] = matrix[<span class="number">0</span>][i] == <span class="string">'1'</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">        max = Math.max(max, dp[<span class="number">0</span>][i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">        dp[i][<span class="number">0</span>] = matrix[i][<span class="number">0</span>] == <span class="string">'1'</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">        max = Math.max(max, dp[i][<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; m; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j] == <span class="string">'0'</span>)&#123;</span><br><span class="line">                dp[i][j] = <span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i][j] = Math.min(dp[i-<span class="number">1</span>][j],Math.min(dp[i-<span class="number">1</span>][j-<span class="number">1</span>],dp[i][j-<span class="number">1</span>]))+<span class="number">1</span>;</span><br><span class="line">                max = Math.max(max, dp[i][j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max*max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>3. 无重复字符的最长子串</title>
+    <url>/posts/4bff4329.html</url>
+    <content><![CDATA[<blockquote>
+<p>给定一个字符串，请你找出其中不含有重复字符的 <strong>最长子串</strong> 的长度。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: &quot;abcabcbb&quot;</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>只要我们知道了以每一个位置为开头的无重复最长子串，就可以求得整个字符串的无重复最长子串。这样的做法时间复杂度是O(n²)的。</p>
+<p>过程：从一个位置开始，不断向后查找，当出现重复字符时，停下，记录子串长度。判断重复这里我使用一个HashSet来实现。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//暴力的做法是：判断以每一个位置为起点的最长无重复字符</span></span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> start = <span class="number">0</span>; start &lt; s.length(); start++)&#123;</span><br><span class="line">        HashSet&lt;Character&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        set.add(s.charAt(start));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> end = start+<span class="number">1</span>; end &lt; s.length(); end++ )&#123;</span><br><span class="line">            <span class="keyword">if</span>(!set.contains(s.charAt(end)))&#123;</span><br><span class="line">                set.add(s.charAt(end));</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//res = Math.max(res,set.size());//由于可能只有一个字符，无法进入内层循环因此不能在这里更新</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res = Math.max(res,set.size());<span class="comment">//在内层循环结束后更新</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="✍️-优化"><a href="#✍️-优化" class="headerlink" title="✍️ 优化"></a>✍️ 优化</h3><p>在上述的过程中，我们每次找完一个位置的子串之后就将之前的记录全部清除（<code>set = new HashSet&lt;&gt;();</code>)，再次从起点 <code>start</code> 的下一个位置开始查找，导致时间复杂度是O(N²)级别的。其实当出现重复时，<code>[start...end)</code> 左闭右开区间上，全都不是重复的，则<code>[start + 1...end)</code> 也是不重复的，那么我们可以保留 <code>end</code>位置，利用上一次记录的结果，不再从 <code>start + 1</code>的位置重新开始查找。这个过程我们就维护了一个<strong>滑动窗口</strong> <code>[start...end)</code>.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = s.length(), res = <span class="number">0</span>, right = <span class="number">0</span>, left = <span class="number">0</span>;</span><br><span class="line">    Set&lt;Character&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span>( left &lt; n)&#123;</span><br><span class="line">        <span class="keyword">if</span>( right &lt; n &amp;&amp; !set.contains(s.charAt(right)) )&#123;</span><br><span class="line">            set.add(s.charAt(right));</span><br><span class="line">            right ++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            res = Math.max(res, right - left);</span><br><span class="line">            set.remove(s.charAt(left));</span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note success"><p>更进一步的，当字符串中的出现字符的范围较小时，使用一个int数组来达到优化的效果。</p>
+<div><div class="fold_hider"><div class="close hider_title">点击展开</div></div><div class="fold">
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = s.length(), res = <span class="number">0</span>, right = <span class="number">0</span>, left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span>[] record = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">128</span>];</span><br><span class="line">    <span class="keyword">while</span>( left &lt; n)&#123;</span><br><span class="line">        <span class="keyword">if</span>( right &lt; n &amp;&amp; record[s.charAt(right)] == <span class="number">0</span>)&#123;<span class="comment">//未重复,右移</span></span><br><span class="line">            record[s.charAt(right++)] ++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            res = Math.max(res, right - left);</span><br><span class="line">            record[s.charAt(left++)]--;</span><br><span class="line">        &#125;           </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div></div></div>
+
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>滑动窗口</tag>
       </tags>
   </entry>
   <entry>
@@ -358,54 +352,32 @@
       </tags>
   </entry>
   <entry>
-    <title>538. 把二叉搜索树转换为累加树</title>
-    <url>/posts/7da63a80.html</url>
+    <title>35. 搜索插入位置</title>
+    <url>/posts/a8a97330.html</url>
     <content><![CDATA[<blockquote>
-<p>给定一个二叉搜索树，把它转换为累加树，使得每个节点的值是原来的节点值加上所有大于它的节点值之和。</p>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
+<p>你可以假设数组中无重复元素。</p>
 </blockquote>
-<div class="note info"><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入: 原始二叉搜索树:</span><br><span class="line">              <span class="number">5</span></span><br><span class="line">            /   \</span><br><span class="line">           <span class="number">2</span>     <span class="number">13</span></span><br><span class="line"></span><br><span class="line">输出: 转换为累加树:</span><br><span class="line">             <span class="number">18</span></span><br><span class="line">            /   \</span><br><span class="line">          <span class="number">20</span>     <span class="number">13</span></span><br></pre></td></tr></table></figure></div>
-
 <a id="more"></a>
 
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>根据题意，需要求每个节点比它大的所有节点值的和，对于一棵二叉搜索树，当题目所求和大小关系有关时，应该想到<strong>中序遍历</strong>。在二叉搜索树的中序遍历序列中，每个节点比它大的所有节点都在它的右侧。</p>
-<p>如示例中，中序遍历序列为 <code>[2,5,13]</code>，对于2，需要加上 <code>5+13</code> ，对于5，需要加上 <code>13</code>。我们可以发现，第一个节点加上了整个序列之和减去自身的值，接下来的节点也是类似。因此最直接的思路是先求所有节点之和 <code>add</code>，然后根据中序遍历顺序，<code>add</code>作为所有大于当前节点的值的和，修改每个节点的值并更新<code>add</code>即可。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> add = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">convertBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    inOrderForAdd(root);<span class="comment">//求和</span></span><br><span class="line">    inOrderForConvert(root);<span class="comment">//加值</span></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrderForAdd</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        inOrderForAdd(node.left);</span><br><span class="line">        add+=node.val;</span><br><span class="line">        inOrderForAdd(node.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrderForConvert</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        inOrderForConvert(node.left);</span><br><span class="line">        add-=node.val;</span><br><span class="line">        node.val+=add;</span><br><span class="line">        inOrderForConvert(node.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上述思路虽然直接，但是有些迂回了。我们需要转换一下想法，中序遍历是递增的，因此我们遍历的时候第一个到达的节点是最小值，需要加上其他所有值，这也导致了我们需要先进行一次遍历求得所有和。反过来向，如果能将中序遍历改造成递减的，那么第一个到达的节点是最大值，不需要加其他值，下一个节点只需要加上前一个节点即可，于是我们只需要遍历一次即可。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> add = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">convertBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root != <span class="keyword">null</span>)&#123;</span><br><span class="line">        convertBST(root.right);<span class="comment">// 反向中序遍历</span></span><br><span class="line">        root.val += add;</span><br><span class="line">        add = root.val;<span class="comment">//更新add</span></span><br><span class="line">        convertBST(root.left);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Leetcode</category>
-        <category>二叉树</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>3. 无重复字符的最长子串</title>
-    <url>/posts/4bff4329.html</url>
-    <content><![CDATA[<blockquote>
-<p>给定一个字符串，请你找出其中不含有重复字符的 <strong>最长子串</strong> 的长度。</p>
+<blockquote>
 <p><strong>示例 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: &quot;abcabcbb&quot;</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
 </blockquote>
-<a id="more"></a>
+<h3 id="👊暴力解法"><a href="#👊暴力解法" class="headerlink" title="👊暴力解法"></a>👊暴力解法</h3><p>从数组的第一个位置开始遍历，如果当前位置的值等于目标值，返回其索引值。否则继续向后查找直到第一个大于目标值的元素，返回其索引值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; nums.length; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i] &gt;= target)&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>只要我们知道了以每一个位置为开头的无重复最长子串，就可以求得整个字符串的无重复最长子串。这样的做法时间复杂度是O(n²)的。</p>
-<p>过程：从一个位置开始，不断向后查找，当出现重复字符时，停下，记录子串长度。判断重复这里我使用一个HashSet来实现。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//暴力的做法是：判断以每一个位置为起点的最长无重复字符</span></span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> start = <span class="number">0</span>; start &lt; s.length(); start++)&#123;</span><br><span class="line">        HashSet&lt;Character&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        set.add(s.charAt(start));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> end = start+<span class="number">1</span>; end &lt; s.length(); end++ )&#123;</span><br><span class="line">            <span class="keyword">if</span>(!set.contains(s.charAt(end)))&#123;</span><br><span class="line">                set.add(s.charAt(end));</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//res = Math.max(res,set.size());//由于可能只有一个字符，无法进入内层循环因此不能在这里更新</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res = Math.max(res,set.size());<span class="comment">//在内层循环结束后更新</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="✍️-优化"><a href="#✍️-优化" class="headerlink" title="✍️ 优化"></a>✍️ 优化</h3><p>在上述的过程中，我们每次找完一个位置的子串之后就将之前的记录全部清除（<code>set = new HashSet&lt;&gt;();</code>)，再次从起点 <code>start</code> 的下一个位置开始查找，导致时间复杂度是O(N²)级别的。其实当出现重复时，<code>[start...end)</code> 左闭右开区间上，全都不是重复的，则<code>[start + 1...end)</code> 也是不重复的，那么我们可以保留 <code>end</code>位置，利用上一次记录的结果，不再从 <code>start + 1</code>的位置重新开始查找。这个过程我们就维护了一个<strong>滑动窗口</strong> <code>[start...end)</code>.</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = s.length(), res = <span class="number">0</span>, right = <span class="number">0</span>, left = <span class="number">0</span>;</span><br><span class="line">    Set&lt;Character&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span>( left &lt; n)&#123;</span><br><span class="line">        <span class="keyword">if</span>( right &lt; n &amp;&amp; !set.contains(s.charAt(right)) )&#123;</span><br><span class="line">            set.add(s.charAt(right));</span><br><span class="line">            right ++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            res = Math.max(res, right - left);</span><br><span class="line">            set.remove(s.charAt(left));</span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note success"><p>更进一步的，当字符串中的出现字符的范围较小时，使用一个int数组来达到优化的效果。</p>
-<div><div class="fold_hider"><div class="close hider_title">点击展开</div></div><div class="fold">
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = s.length(), res = <span class="number">0</span>, right = <span class="number">0</span>, left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span>[] record = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">128</span>];</span><br><span class="line">    <span class="keyword">while</span>( left &lt; n)&#123;</span><br><span class="line">        <span class="keyword">if</span>( right &lt; n &amp;&amp; record[s.charAt(right)] == <span class="number">0</span>)&#123;<span class="comment">//未重复,右移</span></span><br><span class="line">            record[s.charAt(right++)] ++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            res = Math.max(res, right - left);</span><br><span class="line">            record[s.charAt(left++)]--;</span><br><span class="line">        &#125;           </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</div></div></div>
+<h3 id="✍️二分查找"><a href="#✍️二分查找" class="headerlink" title="✍️二分查找"></a>✍️二分查找</h3><p>对于有序数组的查找问题，通常可以使用二分来解决。如果你对二分查找并不熟悉，可以先看看Leetcode <a href="/posts/41f30363.html" title="704. 二分查找">704. 二分查找</a> 问题。二分法的整体思路是：根据设定的左边界 <code>left</code> 和右边界 <code>right</code> 计算出中间位置 <code>mid</code> ，然后通过 <code>mid</code> 位置的元素来修改 <code>left</code> 和 <code>right</code> 。</p>
+<p>本题中，根据<code>mid</code> 位置元素和目标值 <code>target</code>的大小关系，分为一下三种情况：</p>
+<ul>
+<li>如果 <code>nums[mid] = target</code>，则直接返回<code>mid</code></li>
+<li>如果 <code>nums[mid] &lt; target</code>，则区间<code>[left...mid]</code>都小于 <code>target</code>，因此左边界 <code>left = mid + 1</code></li>
+<li>如果 <code>nums[mid] &gt; target</code>，则区间<code>[mid...right]</code>都大于 <code>target</code>，因此右边界 <code>right = mid - 1</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>, right = nums.length - <span class="number">1</span> ;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;<span class="comment">//循环结束条件是left&gt; right</span></span><br><span class="line">        <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>( nums[mid] &lt; target )&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -413,7 +385,8 @@
       </categories>
       <tags>
         <tag>Leetcode</tag>
-        <tag>滑动窗口</tag>
+        <tag>数组</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
   <entry>
@@ -520,6 +493,83 @@
         <tag>Leetcode</tag>
         <tag>动态规划</tag>
         <tag>分治算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>538. 把二叉搜索树转换为累加树</title>
+    <url>/posts/7da63a80.html</url>
+    <content><![CDATA[<blockquote>
+<p>给定一个二叉搜索树，把它转换为累加树，使得每个节点的值是原来的节点值加上所有大于它的节点值之和。</p>
+</blockquote>
+<div class="note info"><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入: 原始二叉搜索树:</span><br><span class="line">              <span class="number">5</span></span><br><span class="line">            /   \</span><br><span class="line">           <span class="number">2</span>     <span class="number">13</span></span><br><span class="line"></span><br><span class="line">输出: 转换为累加树:</span><br><span class="line">             <span class="number">18</span></span><br><span class="line">            /   \</span><br><span class="line">          <span class="number">20</span>     <span class="number">13</span></span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>根据题意，需要求每个节点比它大的所有节点值的和，对于一棵二叉搜索树，当题目所求和大小关系有关时，应该想到<strong>中序遍历</strong>。在二叉搜索树的中序遍历序列中，每个节点比它大的所有节点都在它的右侧。</p>
+<p>如示例中，中序遍历序列为 <code>[2,5,13]</code>，对于2，需要加上 <code>5+13</code> ，对于5，需要加上 <code>13</code>。我们可以发现，第一个节点加上了整个序列之和减去自身的值，接下来的节点也是类似。因此最直接的思路是先求所有节点之和 <code>add</code>，然后根据中序遍历顺序，<code>add</code>作为所有大于当前节点的值的和，修改每个节点的值并更新<code>add</code>即可。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> add = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">convertBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    inOrderForAdd(root);<span class="comment">//求和</span></span><br><span class="line">    inOrderForConvert(root);<span class="comment">//加值</span></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrderForAdd</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        inOrderForAdd(node.left);</span><br><span class="line">        add+=node.val;</span><br><span class="line">        inOrderForAdd(node.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrderForConvert</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        inOrderForConvert(node.left);</span><br><span class="line">        add-=node.val;</span><br><span class="line">        node.val+=add;</span><br><span class="line">        inOrderForConvert(node.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上述思路虽然直接，但是有些迂回了。我们需要转换一下想法，中序遍历是递增的，因此我们遍历的时候第一个到达的节点是最小值，需要加上其他所有值，这也导致了我们需要先进行一次遍历求得所有和。反过来向，如果能将中序遍历改造成递减的，那么第一个到达的节点是最大值，不需要加其他值，下一个节点只需要加上前一个节点即可，于是我们只需要遍历一次即可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> add = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">convertBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root != <span class="keyword">null</span>)&#123;</span><br><span class="line">        convertBST(root.right);<span class="comment">// 反向中序遍历</span></span><br><span class="line">        root.val += add;</span><br><span class="line">        add = root.val;<span class="comment">//更新add</span></span><br><span class="line">        convertBST(root.left);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Leetcode</category>
+        <category>二叉树</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>572. 另一个树的子树</title>
+    <url>/posts/689f55a9.html</url>
+    <content><![CDATA[<blockquote>
+<p>给定两个非空二叉树 s 和 t ，检验 s 中是否包含和 t 具有相同结构和节点值的子树。s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。</p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p>示例 1:</p>
+<pre><code>给定的树 s:
+     3
+    / \
+   4   5
+  / \
+ 1   2
+给定的树 t：
+
+   4 
+  / \
+ 1   2
+返回 true，因为 t 与 s 的一个子树拥有相同的结构和节点值。</code></pre><p>示例 2:</p>
+<pre><code>给定的树 s：
+     3
+    / \
+   4   5
+  / \
+ 1   2
+    /
+   0
+给定的树 t：
+   4
+  / \
+ 1   2
+返回 false。</code></pre></div>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树的问题，通常可以使用递归来求解，因为树本身具有天然的递归结构。通常的做法是，判断当前树/当前树的左子树/当前树的右子树是否符合条件。求解这类问题的时候，可以先不考虑具体的边界/递归终止问题，只需要先把框架写出来，用几个示例套入框架，可以较快地确定递归终止条件。</p>
+<p>本题中，求一棵树是否为另一颗树的子树，根据上述的思路，可以先得到 <code>return isSub(s, t) || isSubTree(s.left , t) || isSubTree(s.right, t);</code> 这样的框架。然后我们需要写 <code>isSub(s , t)</code> 的逻辑，这个函数处理传入的两个树是否相等，需要满足以下三个条件：1. 节点值相等，即<code>s.val = t.val</code> 2. 节点左子树相等，即<code>isSub(s.left, t.left)</code> 3. 节点右子树相等，即<code>isSub(s.right, t.right)</code> 。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><p>于是我们综合上面的过程，再套入示例（这个过程最好自己实操一下），确定边界和终止条件。可以写出如下的代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSubtree</span><span class="params">(TreeNode s, TreeNode t)</span> </span>&#123;</span><br><span class="line">     <span class="comment">//s当前节点-t, s.left-t, s.right-t</span></span><br><span class="line">     <span class="keyword">if</span>(t == <span class="keyword">null</span>)&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span>(s == <span class="keyword">null</span>)&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> isSub(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSub</span><span class="params">(TreeNode s, TreeNode t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t == <span class="keyword">null</span> &amp;&amp; s == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || t == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(s.val == t.val)&#123;</span><br><span class="line">        <span class="keyword">return</span> isSub(s.left , t.left) &amp;&amp; isSub(s.right, t.right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
       </tags>
   </entry>
   <entry>
@@ -634,84 +684,6 @@
       </tags>
   </entry>
   <entry>
-    <title>572. 另一个树的子树</title>
-    <url>/posts/689f55a9.html</url>
-    <content><![CDATA[<blockquote>
-<p>给定两个非空二叉树 s 和 t ，检验 s 中是否包含和 t 具有相同结构和节点值的子树。s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p>示例 1:</p>
-<pre><code>给定的树 s:
-     3
-    / \
-   4   5
-  / \
- 1   2
-给定的树 t：
-
-   4 
-  / \
- 1   2
-返回 true，因为 t 与 s 的一个子树拥有相同的结构和节点值。</code></pre><p>示例 2:</p>
-<pre><code>给定的树 s：
-     3
-    / \
-   4   5
-  / \
- 1   2
-    /
-   0
-给定的树 t：
-   4
-  / \
- 1   2
-返回 false。</code></pre></div>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树的问题，通常可以使用递归来求解，因为树本身具有天然的递归结构。通常的做法是，判断当前树/当前树的左子树/当前树的右子树是否符合条件。求解这类问题的时候，可以先不考虑具体的边界/递归终止问题，只需要先把框架写出来，用几个示例套入框架，可以较快地确定递归终止条件。</p>
-<p>本题中，求一棵树是否为另一颗树的子树，根据上述的思路，可以先得到 <code>return isSub(s, t) || isSubTree(s.left , t) || isSubTree(s.right, t);</code> 这样的框架。然后我们需要写 <code>isSub(s , t)</code> 的逻辑，这个函数处理传入的两个树是否相等，需要满足以下三个条件：1. 节点值相等，即<code>s.val = t.val</code> 2. 节点左子树相等，即<code>isSub(s.left, t.left)</code> 3. 节点右子树相等，即<code>isSub(s.right, t.right)</code> 。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><p>于是我们综合上面的过程，再套入示例（这个过程最好自己实操一下），确定边界和终止条件。可以写出如下的代码。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSubtree</span><span class="params">(TreeNode s, TreeNode t)</span> </span>&#123;</span><br><span class="line">     <span class="comment">//s当前节点-t, s.left-t, s.right-t</span></span><br><span class="line">     <span class="keyword">if</span>(t == <span class="keyword">null</span>)&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span>(s == <span class="keyword">null</span>)&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> isSub(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSub</span><span class="params">(TreeNode s, TreeNode t)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t == <span class="keyword">null</span> &amp;&amp; s == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(s == <span class="keyword">null</span> || t == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(s.val == t.val)&#123;</span><br><span class="line">        <span class="keyword">return</span> isSub(s.left , t.left) &amp;&amp; isSub(s.right, t.right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer-03. 数组中重复的数字</title>
-    <url>/posts/2f50b40c.html</url>
-    <content><![CDATA[<blockquote>
-<p>找出数组中的重复数字</p>
-<p>在一个长度为 n 的数组 nums 里的所有数字都在 0~n-1 的范围内，其中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中的任意一个重复的数字。</p>
-</blockquote>
-<a id="more"></a>
-
-<p>示例 1：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">3</span>]</span><br><span class="line">输出：<span class="number">2</span> 或 <span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>重复的数字在数组中出现次数会大于1。在遍历数组的过程中，使用HashSet来记录出现过的数字，当HashSet中存在该元素时，说明重复，返回该元素即可。由于数字范围在 0~n-1 范围内，因此可以使用一个数组来记录某个元素出现的次数达到优化的目的。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] freq = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        <span class="keyword">if</span>(freq[i] == <span class="number">0</span>)&#123;</span><br><span class="line">            freq[i] ++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="✍️-优化"><a href="#✍️-优化" class="headerlink" title="✍️ 优化"></a>✍️ 优化</h3><p>暴力解法的实践和空间复杂度均达到了O(N)，本题由于数组数字范围和长度相同，因此可以将原数组作为哈希表，达到优化空间的目的，但是会<strong>修改输入</strong>。</p>
-<p>由于数字范围和数组长度一致，如果没有重复数字，那么每个位置上在排序后的状态下数字和位置是一一对应的，但是我们并不做排序这个工作，因为这样时间复杂度是O(nlogn)级别的。我们只是利用这一特征，遍历数组时，如果当前数字和位置不对应，则将当前数字交换到它应该在的位置上。如果应该在的位置上已经有了正确的数字，那么说明当前数字就是重复的。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++)&#123;</span><br><span class="line">        <span class="keyword">while</span>(nums[i] != i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[nums[i]] == nums[i])&#123;</span><br><span class="line">                <span class="keyword">return</span> nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> a = nums[nums[i]];</span><br><span class="line">            nums[nums[i]] = nums[i];</span><br><span class="line">            nums[i] = a;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <tags>
-        <tag>数组</tag>
-        <tag>哈希</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>983. 最低票价</title>
     <url>/posts/dcddc4fc.html</url>
     <content><![CDATA[<blockquote>
@@ -739,230 +711,85 @@
       </tags>
   </entry>
   <entry>
-    <title>面试题04. 二维数组中的查找</title>
-    <url>/posts/dda4a850.html</url>
-    <content><![CDATA[<blockquote>
-<p>在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的二维数组和一个整数，判断数组中是否含有该整数。</p>
-</blockquote>
-<a id="more"></a>
-<p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">matrix: </span><br><span class="line">[</span><br><span class="line">  [<span class="number">1</span>,   <span class="number">4</span>,  <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>],</span><br><span class="line">  [<span class="number">2</span>,   <span class="number">5</span>,  <span class="number">8</span>, <span class="number">12</span>, <span class="number">19</span>],</span><br><span class="line">  [<span class="number">3</span>,   <span class="number">6</span>,  <span class="number">9</span>, <span class="number">16</span>, <span class="number">22</span>],</span><br><span class="line">  [<span class="number">10</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">17</span>, <span class="number">24</span>],</span><br><span class="line">  [<span class="number">18</span>, <span class="number">21</span>, <span class="number">23</span>, <span class="number">26</span>, <span class="number">30</span>]</span><br><span class="line">]</span><br><span class="line">给定 target = <span class="number">5</span>，返回 <span class="keyword">true</span>。</span><br><span class="line">给定 target = <span class="number">20</span>，返回 <span class="keyword">false</span>。</span><br></pre></td></tr></table></figure>
+    <title>Java异常体系</title>
+    <url>/posts/f885a170.html</url>
+    <content><![CDATA[<p></p>
 
-<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历二维数组的每一个位置，判断是否和 <code>target</code> 相等。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//代码的鲁棒性</span></span><br><span class="line">    <span class="keyword">if</span>(matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; matrix.length; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; matrix[<span class="number">0</span>].length ; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j] == target)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>😂<del>就这都能双一百你敢信？</del></p>
-<p><img src="http://119.3.165.25/img/%E5%89%91%E6%8C%87Offer/04/1.png" alt="图片"></p>
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>暴力解法没有利用题目提供的每行有序和每列有序的特性。查找的过程无非是判断数字之间的大小关系，并且最好通过大小关系可以帮我们减小查找的范围，就像二分查找，每次可以排除一般的查找范围。</p>
-<p>这个二维数组拥有以下特征：对于每一个元素，它所在的行，左侧的元素都比它小，右侧的元素都比它大；它所在的列，上方的元素比它小，下方的元素比它大。要确保所有位置都被考虑到，因此需要确定从四个顶点的哪一个开始。如果从左上角开始，根据target和左上角元素的大小关系，我们无法缩小范围，因为对于左上角来说，只有右侧和下侧，都是比它大的。右小角同理。而对于右上角来说，比它小的在左侧，比它大的在下方，因此如果target比它大，则会出现在下方，我们可以不再考虑当前行；如果比它小，则会出现在左侧，我们可以不必考虑当前列。达到缩小查找范围的目的。左下角同理。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//代码的鲁棒性</span></span><br><span class="line">    <span class="keyword">if</span>(matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> row = matrix.length, col = matrix[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">int</span> curRow = <span class="number">0</span>, curCol = col-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>( curRow &lt; row &amp;&amp; curCol &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(matrix[curRow][curCol] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(matrix[curRow][curCol] &lt; target)&#123;</span><br><span class="line">            curRow ++;<span class="comment">//下一行</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            curCol --;<span class="comment">//前一列</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>二维数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题05. 替换空格</title>
-    <url>/posts/48c165ca.html</url>
-    <content><![CDATA[<blockquote>
-<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
-<p>示例1：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
-</blockquote>
 <a id="more"></a>
 
-<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
-]]></content>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题46. 把数字翻译成字符串</title>
-    <url>/posts/13cdcb1b.html</url>
-    <content><![CDATA[<blockquote>
-<p>给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 12258</span><br><span class="line">输出: 5</span><br><span class="line">解释: 12258有5种不同的翻译，分别是&quot;bccfi&quot;, &quot;bwfi&quot;, &quot;bczi&quot;, &quot;mcfi&quot;和&quot;mzi&quot;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>因为只有<code>26</code> 个小写字母，即数字范围为<code>[0-25]</code>可以翻译为一个字母，因此一个数字的翻译方式最多有两种，一种是单独翻译成一个字母，第二种是和前一个数字组合翻译。而两个数字能够组合翻译的条件是其组成的数字范围在<code>[10-25]</code>之间，因为<code>01</code>、<code>02</code>是不合法的。举个例子：</p>
-<ul>
-<li>如果只有一位数<code>1</code>，那么他只能有<strong>壹</strong>种翻译结果<code>b</code>；</li>
-<li>如果有两位数<code>12</code>，除了各自单独翻译这一种方法之外，由于组合的数字<code>12</code>在<code>[10-25]</code>之间满足要求，可以组合翻译，翻译种数为<code>1+1=2</code>；</li>
-<li>如果有三位数，如<code>121</code>，在两位数<code>12</code>的基础上，如果对第三位单独翻译，那么剩下的两位数<code>12</code>有<strong>两</strong>种不同的翻译；因为第二位<code>2</code>和第三位<code>1</code>组合得到<code>21∈{10, 25}</code>，因此他们可以组合翻译，那么剩下第一位<code>1</code>，它只有<strong>壹</strong>种翻译，所以三位数<code>121</code>总共有<code>2+1=3</code>种翻译；</li>
-<li>如果有四位数<code>1212</code>，在三位数的基础上，如果对第四位单独翻译，那么剩下的三位数<code>121</code>有<strong>叁</strong>种翻译；因为第三位<code>1</code>和第四位<code>2</code>组合的数字<code>12∈{10, 25}</code>，可以组合翻译，那么剩下两位数<code>12</code>，它有<strong>两</strong>种翻译；于是对于四位数<code>1212</code>，共有<code>3+2=5</code>种翻译。</li>
-</ul>
-<p>于是我们可以这样求解，从数字<code>num</code>的第一位（最高位）开始，遍历每一位，当前位的翻译种数至少和它前一位的种数相同（当前位单独翻译）；除此之外，如果当前位和前一位组成的数字在<code>[10-25]</code>之间，那么翻译种数需要再加上前两位的种数（当前位和前一位组合翻译）。</p>
-<p>这样的过程不断在使用之前的结果来推导出新的结果，也就是<strong>动态规划</strong>的思想。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><p>为了方便地从数字的高位遍历到低位，我们先将数字转换成字符串。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">translateNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    String s = String.valueOf(num);</span><br><span class="line">    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[s.length()];</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//动态规划，设dp[i]为前i个数字的翻译种数。对于i,两种情况：</span></span><br><span class="line">    <span class="comment">//1.自己翻译成一个字母,这样和上一位的种数是相同的;</span></span><br><span class="line">    <span class="comment">//2.如果和上一位组合的数字在10和25之间,可以组合翻译,这样种数就是前一位种数+前两位种数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; s.length(); i++)&#123;</span><br><span class="line">        dp[i] = dp[i-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i-<span class="number">1</span>) == <span class="string">'1'</span> || (s.charAt(i)&lt;<span class="string">'6'</span> &amp;&amp; s.charAt(i-<span class="number">1</span>)==<span class="string">'2'</span>))&#123;</span><br><span class="line">            dp[i] += i-<span class="number">2</span> &lt; <span class="number">0</span> ? <span class="number">1</span> : dp[i-<span class="number">2</span>]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[s.length()-<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>由于我们每次都只用到前一位和前两位的结果，因此可以对空间复杂度进行优化，这种优化方式称为滚动数组。仅仅使用两个变量保存结果。</p>
-<p>这里还有一个优化是我们将当前位<code>i</code>的结果记录在<code>i+1</code>的位置上，这样就不需要每次都进行 <code>i-2 &lt; 0</code>的检查。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">translateNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    String s = String.valueOf(num);</span><br><span class="line">    <span class="keyword">int</span> one = <span class="number">1</span>;<span class="comment">//前一位种数</span></span><br><span class="line">    <span class="keyword">int</span> two = <span class="number">1</span>;<span class="comment">//前两位种数</span></span><br><span class="line">    <span class="keyword">int</span> temp = <span class="number">0</span>;<span class="comment">//中间变量-备份</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= s.length(); i ++)&#123;</span><br><span class="line">        temp = one;<span class="comment">//暂存前一位种数</span></span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i-<span class="number">2</span>) == <span class="string">'1'</span> || (s.charAt(i-<span class="number">2</span>) == <span class="string">'2'</span> &amp;&amp; s.charAt(i-<span class="number">1</span>) &lt; <span class="string">'6'</span>))&#123;</span><br><span class="line">            one += two;</span><br><span class="line">        &#125;</span><br><span class="line">        two = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> one;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题06. 从尾到头打印链表</title>
-    <url>/posts/9649f58.html</url>
-    <content><![CDATA[<blockquote>
-<p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
-<p>示例1：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：head = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>]</span><br><span class="line">输出：[<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>对于链表的操作，无法方便地使用下标来获取元素，因此，必然需要从头节点开始通过next指针操作。但是需要从尾到头打印，也就是头节点最后被打印，尾节点第一个被打印。因此我们可以利用栈的后进先出的特点，帮助我们完成这道题。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;<span class="comment">//不修改输入</span></span><br><span class="line">    Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        stack.push(cur.val);</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[stack.size()];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; stack.size(); i++)&#123;</span><br><span class="line">        res[i] = stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>使用栈需要额外的空间复杂度，我们注意到返回结果是一个数组，而数组可以方便地使用下标来存取元素。因此我们先遍历链表获得链表的长度，初始化数组，再次遍历链表，将第一个节点值放在数组的最后一个位置，第二个节点放在倒数第二个位置，…以此类推。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;</span><br><span class="line">    <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        size ++;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[size];</span><br><span class="line">    cur = head;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        res[--size] = cur.val;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer-数组中数字出现的次数 I</title>
-    <url>/posts/1f1789a9.html</url>
-    <content><![CDATA[<blockquote>
-<p>一个整型数组 <code>nums</code> 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。</p>
-</blockquote>
-<a id="more"></a>
-
-<h4 id="⛔不符合要求的两种思路"><a href="#⛔不符合要求的两种思路" class="headerlink" title="⛔不符合要求的两种思路"></a>⛔不符合要求的两种思路</h4><ol>
-<li><p>数组中的次数问题，我们很容易联想到使用额外的数组记录次数来解决，但这里数组中的元素没有范围，并且由于空间复杂度的要求是O(1)，因此需要考虑其他思路。</p>
+<h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。</p>
+<p>运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004826.png" alt="图片"></p>
+<p>Error下有OutOfMemoryError和StackOverflowError，Exception下有RuntimeException和IOException。常见的Runtime有NumberFormatException，ClassNotFoundException，ClassCastException，CloneNotSpportException，IndexOutOfBoundException，常见的IOException有FileNotFoundException，FileExistsException，EncodeException，DecodeException，SocketException等。</p>
+<h2 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h2><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><ol>
+<li><p>逻辑：如果有finally，执行完try会执行finally，如果有finally有return或者让程序结束的语句，则直接结束，否则会回到try中执行。</p>
 </li>
-<li><p>首先从数组的特征出发，除两个数字之外，其他每个数字都出现了两次，那么我们可以先排序，然后遍历数组找到只出现一次的两个数字。由于排序的时间复杂度为O(NlogN)，因此也无法满足要求。</p>
+<li><p>字节码：先是try中的翻译成机器指令(比如4-8条)，然后是finally块的指令(比如9-10条)，然后是return(11条)。接下来的字节码是catch中的指令(12-14)，然后是final的指令(15-16跟第一个finally一样的)，最后是goto指令(17)。每个catch有这么一段，goto指令都指向最后一句return(38)。最后还会有未被catch的其他异常，字节码结构为astore存储异常(33)，finally的指令(34-35)，aload取出异常，然后是抛出异常的athrow指令，最后一句是return(38条).也就是所有catch之后goto的位置。接下来是异常表Exception Table决定在抛异常后跳转到的位置，格式如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">from指令开始行</th>
+<th align="center">to指令最后行</th>
+<th align="center">target跳转到目标指令行号</th>
+<th align="center">type异常类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">12</td>
+<td align="center">Exception1–异常1</td>
+<td align="center">在try中抛出了异常Exception1</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">18</td>
+<td align="center">Exception2–异常2</td>
+<td align="center">在try中抛出了异常Exception2</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在try中抛出了未被catch的异常</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">17</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理Exception1时抛出了其他异常</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="center">23</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理Exception2时抛出了其他异常</td>
+</tr>
+<tr>
+<td align="center">33</td>
+<td align="center">37</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理其他异常的时候抛出了异常，准确来说是处理其他异常时finally抛出的异常</td>
+</tr>
+</tbody></table>
 </li>
 </ol>
-<div class="note primary"><p>那么这道题考察什么呢？</p></div>
-
-<p>这是一道非常经典的题目，通过位运算<strong>异或</strong>来解决</p>
-<h4 id="☑️正确操作"><a href="#☑️正确操作" class="headerlink" title="☑️正确操作"></a>☑️正确操作</h4><p>先来看看异或的性质</p>
-<div class="note default no-icon"><ol>
-<li>交换律：p⊕q=q⊕p </li>
-<li>结合律：(p⊕q)⊕r = p⊕(q⊕r)</li>
-<li>恒等率：p⊕0 = p</li>
-<li>归零率：p⊕p = 0</li>
-</ol></div>
-
-<p>假设数组中不相同的两个数字是p，q。对数组中的数字进行异或操作，根据交换律，我们让每两个相同的数字异或得到0，最后剩下p，q，因为两个数不同，至少存在一个位不同。异或之后得到的结果肯定存在<strong>某个二进制位为1</strong>。根据这个位，将数组分为两份，由于相同的数字会分到同一组，分别为p和其他相同的数字、q和其他相同的数字。再进行异或，则可以得到p，q。</p>
-<div class="note info"><p>举个例子：nums=[1,2,10,4,1,4,3,3]</p>
-<ul>
-<li>异或和sum = 1⊕2⊕10⊕4⊕1⊕4⊕3⊕3 = 1⊕1⊕3⊕3⊕4⊕4⊕2⊕10 = 2⊕10 = 0010 ⊕ 1010 = 1000</li>
-<li>得到二进制为1的位index，sum每次右移一位，当最低位为1<code>sum &amp; 1 == 1</code>，index则为右移次数也即该位在sum中的位置。1000中右移三位0001&amp;1=1，index = 3。<u>此处理论上上使用任何一个为1的位都可以正确得到结果，但是在代码实现上求最右的1是最方便的。</u></li>
-<li>根据index划分两组，在划分过程中同时执行异或和计算。对于数组中的所有数字，要么index位为1，要么index位为0 <code>( i &gt;&gt; index ) &amp; 1</code>，如数字1在第三位为0，数字2在第三位为0，数字10在第三位为1，以此划分。</li>
-</ul></div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] singleNumbers(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">	<span class="comment">//1.得到异或和</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        sum ^= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2.找到二进制位为1的位</span></span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(sum &amp; <span class="number">1</span> == <span class="number">0</span>)&#123;</span><br><span class="line">        index+=<span class="number">1</span>;</span><br><span class="line">        sum &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//3.分组</span></span><br><span class="line">    <span class="keyword">int</span> p, q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        <span class="keyword">if</span>( (i &gt;&gt; index) &amp; <span class="number">1</span> == <span class="number">0</span> )&#123;</span><br><span class="line">            p ^= i;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            q ^= i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;p,q&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note info"><p>当你理解了上述的算法过程之后，如果你知道负数在机器中采用数值的<strong>补码</strong>来表示，那么第二步中的求异或和sum中为1的二进制位就可以使用<code>sum &amp; -sum</code>来得到，补码是原码按位取反+1，-8 使用 8 的补码表示为 1000，那么结果将是1000，接下来第三步操作也相应的有一些小小的改动。</p></div>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] singleNumbers(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">    <span class="comment">//1.得到异或和</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        sum ^= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2.找到二进制位为1的位</span></span><br><span class="line">    sum &amp;= -sum;</span><br><span class="line">	<span class="comment">//3.分组并求和</span></span><br><span class="line">    <span class="keyword">int</span> p, q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        <span class="keyword">if</span>((sum&amp;i) == <span class="number">0</span>)&#123;</span><br><span class="line">            p^=i;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            q^=i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;p,q&#125;;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-        <tag>剑指Offer</tag>
-        <tag>位运算</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题11. 旋转数组的最小数字</title>
-    <url>/posts/639f1318.html</url>
-    <content><![CDATA[<blockquote>
-<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序数组的一个旋转，输出旋转数组的最小元素。例如，数组<code>[3,4,5,1,2]</code> 为 <code>[1,2,3,4,5]</code> 的一个旋转，该数组的最小值为1.</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p><strong>示例 1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：[3,4,5,1,2]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,0,1]</span><br><span class="line">输出：0</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>暴力解法就不详述了，遍历可以得到降序的元素。</p>
-<p>这题和 Leetcode第 <a href="/posts/e3f3cf8a.html" title="153. 寻找旋转排序数组中的最小值">153. 寻找旋转排序数组中的最小值</a> 题类似，建议先阅读这一篇，解法类似，区别在于这里数组的元素可能出现<strong>重复</strong>，因此缩小区间的时候需要考虑重复元素的情况。</p>
-<p>本题中，中间位置元素和最右边的元素有大于小于等于三种关系：</p>
-<ol>
-<li>当 <code>nums[mid] &lt; nums[right]</code>，区间 <code>[mid...right]</code>保持<strong>升序</strong>，因此最小值在左侧，<code>right = mid</code></li>
-<li>当 <code>nums[mid] &gt; nums[right]</code> ，区间 <code>[mid...right]</code> 出现<strong>降序</strong>，因此最小值在右侧，<code>left  = mid + 1</code> </li>
-<li>当 <code>nums[mid] == nums[right]</code>，无法确认最小值出现在哪一侧，但是我们希望可以缩小区间。由于中间元素和右边相等，因此可以将右边界左移，就算当前右边界是最小值，但是我们保留了中间元素，所以不会出现问题。</li>
+<h3 id="throw和throws"><a href="#throw和throws" class="headerlink" title="throw和throws"></a>throw和throws</h3><ol>
+<li>throw：用在方法体内，抛出异常，在运行时是一定会抛出的，由上层调用者处理抛出的异常</li>
+<li>throws：用在方法声明中，表示在运行时可能抛出异常，由上层调用者处理</li>
 </ol>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minArray</span><span class="params">(<span class="keyword">int</span>[] numbers)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span> , r = numbers.length-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>( l &lt; r)&#123;<span class="comment">//跳出循环时 l = r，区间剩下的元素就是最小值</span></span><br><span class="line">        <span class="keyword">int</span> mid = l + (r - l)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(numbers[r] &gt; numbers[mid])&#123;</span><br><span class="line">            r = mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (numbers[r] &lt; numbers[mid])&#123;</span><br><span class="line">            l = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> r--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> numbers[l];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
-        <category>剑指Offer</category>
+        <category>笔记</category>
       </categories>
       <tags>
-        <tag>二分查找</tag>
-        <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题 04.04. 检查平衡性</title>
-    <url>/posts/4ad52213.html</url>
-    <content><![CDATA[<blockquote>
-<p>实现一个函数，检查二叉树是否平衡。在这个问题中，平衡树的定义如下：任意一个节点，其两棵子树的高度差不超过 1。</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p>示例 1:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">给定二叉树 [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">15</span>,<span class="number">7</span>]</span><br><span class="line">    <span class="number">3</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">9</span>  <span class="number">20</span></span><br><span class="line">    /  \</span><br><span class="line">   <span class="number">15</span>   <span class="number">7</span></span><br><span class="line">返回 <span class="keyword">true</span> 。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line">给定二叉树 [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">      <span class="number">1</span></span><br><span class="line">     / \</span><br><span class="line">    <span class="number">2</span>   <span class="number">2</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">3</span>   <span class="number">3</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">4</span>   <span class="number">4</span></span><br><span class="line">返回 <span class="keyword">false</span> 。</span><br></pre></td></tr></table></figure></div>
-
-
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树递归问题，在递归过程中我们将到达一个节点三次，在这三次过程中，我们需要收集树的信息并判断是否符合要求的条件，具体地说，在这个问题中，判断以当前节点为根节点的树是否是平衡的，需要知道左子树是否平衡、右子树是否平衡，当左右都平衡的时候，需要知道当前节点是否平衡——左子树和右子树的高度差。因此我们需要的信息是，左子树的高度以及是否平衡、右子树的高度是否平衡。</p>
-<p>于是我们确定了递归需要返回的信息是<strong>树的高度和是否平衡</strong>。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root).isBalanced;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> Data <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>(!left.isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>,<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>(!right .isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right.h - left.h) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Data(Math.max(left.h, right.h)+<span class="number">1</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">boolean</span> isBalanced;</span><br><span class="line">    Data(<span class="keyword">int</span> h , <span class="keyword">boolean</span> isBalanced)&#123;</span><br><span class="line">        <span class="keyword">this</span>.h = h;</span><br><span class="line">        <span class="keyword">this</span>.isBalanced = isBalanced;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>在把思路理清并写出了上面的代码之后，可以再简化代码，具体的是简化返回的内容。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root) != -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>( left == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>( right == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right - left) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Math.max(left, right)+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>程序员面试经典</category>
-        <category>Leetcode</category>
-        <category>二叉树</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-        <tag>程序员面试经典</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -1064,164 +891,6 @@
       </categories>
       <tags>
         <tag>Leetcode周赛</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java异常体系</title>
-    <url>/posts/f885a170.html</url>
-    <content><![CDATA[<p></p>
-
-<a id="more"></a>
-
-<h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。</p>
-<p>运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：</p>
-<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004826.png" alt="图片"></p>
-<p>Error下有OutOfMemoryError和StackOverflowError，Exception下有RuntimeException和IOException。常见的Runtime有NumberFormatException，ClassNotFoundException，ClassCastException，CloneNotSpportException，IndexOutOfBoundException，常见的IOException有FileNotFoundException，FileExistsException，EncodeException，DecodeException，SocketException等。</p>
-<h2 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h2><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><ol>
-<li><p>逻辑：如果有finally，执行完try会执行finally，如果有finally有return或者让程序结束的语句，则直接结束，否则会回到try中执行。</p>
-</li>
-<li><p>字节码：先是try中的翻译成机器指令(比如4-8条)，然后是finally块的指令(比如9-10条)，然后是return(11条)。接下来的字节码是catch中的指令(12-14)，然后是final的指令(15-16跟第一个finally一样的)，最后是goto指令(17)。每个catch有这么一段，goto指令都指向最后一句return(38)。最后还会有未被catch的其他异常，字节码结构为astore存储异常(33)，finally的指令(34-35)，aload取出异常，然后是抛出异常的athrow指令，最后一句是return(38条).也就是所有catch之后goto的位置。接下来是异常表Exception Table决定在抛异常后跳转到的位置，格式如下：</p>
-<table>
-<thead>
-<tr>
-<th align="center">from指令开始行</th>
-<th align="center">to指令最后行</th>
-<th align="center">target跳转到目标指令行号</th>
-<th align="center">type异常类型</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">12</td>
-<td align="center">Exception1–异常1</td>
-<td align="center">在try中抛出了异常Exception1</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">18</td>
-<td align="center">Exception2–异常2</td>
-<td align="center">在try中抛出了异常Exception2</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在try中抛出了未被catch的异常</td>
-</tr>
-<tr>
-<td align="center">12</td>
-<td align="center">17</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理Exception1时抛出了其他异常</td>
-</tr>
-<tr>
-<td align="center">18</td>
-<td align="center">23</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理Exception2时抛出了其他异常</td>
-</tr>
-<tr>
-<td align="center">33</td>
-<td align="center">37</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理其他异常的时候抛出了异常，准确来说是处理其他异常时finally抛出的异常</td>
-</tr>
-</tbody></table>
-</li>
-</ol>
-<h3 id="throw和throws"><a href="#throw和throws" class="headerlink" title="throw和throws"></a>throw和throws</h3><ol>
-<li>throw：用在方法体内，抛出异常，在运行时是一定会抛出的，由上层调用者处理抛出的异常</li>
-<li>throws：用在方法声明中，表示在运行时可能抛出异常，由上层调用者处理</li>
-</ol>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题09. 用两个栈实现队列</title>
-    <url>/posts/eaced0a1.html</url>
-    <content><![CDATA[<blockquote>
-<p>用两个栈来实现一个队列，完成队列的Push和Pop操作。 </p>
-</blockquote>
-<a id="more"></a>
-
-<p>分析题目，提炼关键信息：队列的特点是<strong>先进先出</strong>，栈的特点是<strong>后进先出</strong>。</p>
-<p>我们应当关心的是-：<strong>如何保证出的顺序是先进先出？</strong>注意到-假如栈1入栈顺序为1,2,3,则出栈顺序为3,2,1，那么按栈1出栈顺序将元素放入栈2，则栈2入栈顺序为3,2,1,则出栈顺序为1,2,3。 两个栈一个为进一个为出，这样栈1负责入队，栈2负责出队，就满足队列先进先出的要求。</p>
-<p>算法执行过程：</p>
-<p>当栈2为空时，将栈1中元素弹出压入到栈2。</p>
-<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004551.jpg" alt="图片"></p>
-<p>当栈2不为空时，直接返回栈2栈顶元素即可。</p>
-<p>代码如下：</p>
-<pre><code>import java.util.Stack;
-
-public class Solution {
-    Stack&lt;Integer&gt; stack1 = new Stack&lt;Integer&gt;();
-    Stack&lt;Integer&gt; stack2 = new Stack&lt;Integer&gt;();
-
-    public void push(int node) {
-        stack1.push(node);
-    }
-
-    public int pop() {
-        if(stack2.isEmpty()){
-            while(!stack1.isEmpty())stack2.push(stack1.pop());
-        }
-        return stack2.isEmpty() ? -1 : stack2.pop();
-    }
-}</code></pre>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-        <tag>队列</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二叉树的遍历</title>
-    <url>/posts/ea4681d0.html</url>
-    <content><![CDATA[<p/>
-
-<a id="more"></a>
-
-<h2 id="递归版"><a href="#递归版" class="headerlink" title="递归版"></a>递归版</h2><p>递归借用系统栈，在遍历时每个节点都会访问三次，因此只要在不同的时机打印出节点的值，即可完成三种遍历。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">recurTraversal</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        System.out.print(node.val);<span class="comment">//前序</span></span><br><span class="line">        recurTraversal(node.left);</span><br><span class="line">        System.out.print(node.val);<span class="comment">//中序</span></span><br><span class="line">        recurTraversal(node.right);</span><br><span class="line">        System.out.print(node.val);<span class="comment">//后序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="非递归版"><a href="#非递归版" class="headerlink" title="非递归版"></a>非递归版</h2><ol>
-<li><p>前序遍历：前序遍历的顺序是根-左-右，借助栈后进先出的特点，在压栈时先压右再压左，则出栈时先出左再出右。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        stack.push(node); <span class="comment">//根节点</span></span><br><span class="line">        <span class="keyword">while</span>(!stack,isEmpty())&#123;</span><br><span class="line">            node = stack.pop();</span><br><span class="line">            System.out.print(node.val);</span><br><span class="line">            <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">                stack.push(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">                stack.push(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>中序遍历：中序遍历的顺序是左-根-右。对于整个二叉树，最左的节点第一个被打印，因此我们从根节点开始，不断入栈左节点（第一次访问），当左节点为空时，说明走到了最左节点，出栈（第二次访问），将其右节点入栈。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty() || node != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;<span class="comment">//还有左节点</span></span><br><span class="line">                stack.push(node);</span><br><span class="line">                node = node.left; <span class="comment">//向左走</span></span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//没有左节点</span></span><br><span class="line">                node = stack.pop();</span><br><span class="line">                System.out.print(node.val);</span><br><span class="line">                node = node.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>后序遍历：后序遍历的顺序是左-右-根。前序遍历是根左右，我们将前序遍历中压栈顺序改为先压左再压右，则出栈顺序变为根右左，其逆序就是左右根。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Stack&lt;Node&gt; in = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        Stack&lt;Node&gt; out = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        stack.push(node);</span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">            node = in.pop();</span><br><span class="line">            out.push(node);</span><br><span class="line">            <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">                in.push(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">                in.push(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!out.isEmpty())&#123;</span><br><span class="line">            System.out.print(out.pop().val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>层序遍历：逐层打印节点，借助队列实现。每个节点出队时将左右子节点入队，由于队列先进先出，将按入队顺序出队。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        queue.offer(node);</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">            node = queue.poll();</span><br><span class="line">            System.out.print(node.val);</span><br><span class="line">            <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">                queue.offer(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">                queue.offer(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>二叉树遍历</tag>
       </tags>
   </entry>
   <entry>
@@ -1422,6 +1091,34 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <tag>Java后端面试</tag>
         <tag>Redis</tag>
         <tag>分布式锁</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer-03. 数组中重复的数字</title>
+    <url>/posts/2f50b40c.html</url>
+    <content><![CDATA[<blockquote>
+<p>找出数组中的重复数字</p>
+<p>在一个长度为 n 的数组 nums 里的所有数字都在 0~n-1 的范围内，其中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中的任意一个重复的数字。</p>
+</blockquote>
+<a id="more"></a>
+
+<p>示例 1：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">3</span>]</span><br><span class="line">输出：<span class="number">2</span> 或 <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>重复的数字在数组中出现次数会大于1。在遍历数组的过程中，使用HashSet来记录出现过的数字，当HashSet中存在该元素时，说明重复，返回该元素即可。由于数字范围在 0~n-1 范围内，因此可以使用一个数组来记录某个元素出现的次数达到优化的目的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] freq = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        <span class="keyword">if</span>(freq[i] == <span class="number">0</span>)&#123;</span><br><span class="line">            freq[i] ++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="✍️-优化"><a href="#✍️-优化" class="headerlink" title="✍️ 优化"></a>✍️ 优化</h3><p>暴力解法的实践和空间复杂度均达到了O(N)，本题由于数组数字范围和长度相同，因此可以将原数组作为哈希表，达到优化空间的目的，但是会<strong>修改输入</strong>。</p>
+<p>由于数字范围和数组长度一致，如果没有重复数字，那么每个位置上在排序后的状态下数字和位置是一一对应的，但是我们并不做排序这个工作，因为这样时间复杂度是O(nlogn)级别的。我们只是利用这一特征，遍历数组时，如果当前数字和位置不对应，则将当前数字交换到它应该在的位置上。如果应该在的位置上已经有了正确的数字，那么说明当前数字就是重复的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++)&#123;</span><br><span class="line">        <span class="keyword">while</span>(nums[i] != i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[nums[i]] == nums[i])&#123;</span><br><span class="line">                <span class="keyword">return</span> nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> a = nums[nums[i]];</span><br><span class="line">            nums[nums[i]] = nums[i];</span><br><span class="line">            nums[i] = a;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <tags>
+        <tag>数组</tag>
+        <tag>哈希</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -1946,6 +1643,155 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </tags>
   </entry>
   <entry>
+    <title>二叉树的遍历</title>
+    <url>/posts/ea4681d0.html</url>
+    <content><![CDATA[<p/>
+
+<a id="more"></a>
+
+<h2 id="递归版"><a href="#递归版" class="headerlink" title="递归版"></a>递归版</h2><p>递归借用系统栈，在遍历时每个节点都会访问三次，因此只要在不同的时机打印出节点的值，即可完成三种遍历。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">recurTraversal</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        System.out.print(node.val);<span class="comment">//前序</span></span><br><span class="line">        recurTraversal(node.left);</span><br><span class="line">        System.out.print(node.val);<span class="comment">//中序</span></span><br><span class="line">        recurTraversal(node.right);</span><br><span class="line">        System.out.print(node.val);<span class="comment">//后序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="非递归版"><a href="#非递归版" class="headerlink" title="非递归版"></a>非递归版</h2><ol>
+<li><p>前序遍历：前序遍历的顺序是根-左-右，借助栈后进先出的特点，在压栈时先压右再压左，则出栈时先出左再出右。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        stack.push(node); <span class="comment">//根节点</span></span><br><span class="line">        <span class="keyword">while</span>(!stack,isEmpty())&#123;</span><br><span class="line">            node = stack.pop();</span><br><span class="line">            System.out.print(node.val);</span><br><span class="line">            <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">                stack.push(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">                stack.push(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>中序遍历：中序遍历的顺序是左-根-右。对于整个二叉树，最左的节点第一个被打印，因此我们从根节点开始，不断入栈左节点（第一次访问），当左节点为空时，说明走到了最左节点，出栈（第二次访问），将其右节点入栈。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty() || node != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;<span class="comment">//还有左节点</span></span><br><span class="line">                stack.push(node);</span><br><span class="line">                node = node.left; <span class="comment">//向左走</span></span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//没有左节点</span></span><br><span class="line">                node = stack.pop();</span><br><span class="line">                System.out.print(node.val);</span><br><span class="line">                node = node.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后序遍历：后序遍历的顺序是左-右-根。前序遍历是根左右，我们将前序遍历中压栈顺序改为先压左再压右，则出栈顺序变为根右左，其逆序就是左右根。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Stack&lt;Node&gt; in = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        Stack&lt;Node&gt; out = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        stack.push(node);</span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">            node = in.pop();</span><br><span class="line">            out.push(node);</span><br><span class="line">            <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">                in.push(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">                in.push(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!out.isEmpty())&#123;</span><br><span class="line">            System.out.print(out.pop().val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>层序遍历：逐层打印节点，借助队列实现。每个节点出队时将左右子节点入队，由于队列先进先出，将按入队顺序出队。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        queue.offer(node);</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">            node = queue.poll();</span><br><span class="line">            System.out.print(node.val);</span><br><span class="line">            <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">                queue.offer(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">                queue.offer(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>二叉树遍历</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题04. 二维数组中的查找</title>
+    <url>/posts/dda4a850.html</url>
+    <content><![CDATA[<blockquote>
+<p>在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的二维数组和一个整数，判断数组中是否含有该整数。</p>
+</blockquote>
+<a id="more"></a>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">matrix: </span><br><span class="line">[</span><br><span class="line">  [<span class="number">1</span>,   <span class="number">4</span>,  <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>],</span><br><span class="line">  [<span class="number">2</span>,   <span class="number">5</span>,  <span class="number">8</span>, <span class="number">12</span>, <span class="number">19</span>],</span><br><span class="line">  [<span class="number">3</span>,   <span class="number">6</span>,  <span class="number">9</span>, <span class="number">16</span>, <span class="number">22</span>],</span><br><span class="line">  [<span class="number">10</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">17</span>, <span class="number">24</span>],</span><br><span class="line">  [<span class="number">18</span>, <span class="number">21</span>, <span class="number">23</span>, <span class="number">26</span>, <span class="number">30</span>]</span><br><span class="line">]</span><br><span class="line">给定 target = <span class="number">5</span>，返回 <span class="keyword">true</span>。</span><br><span class="line">给定 target = <span class="number">20</span>，返回 <span class="keyword">false</span>。</span><br></pre></td></tr></table></figure>
+
+<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历二维数组的每一个位置，判断是否和 <code>target</code> 相等。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//代码的鲁棒性</span></span><br><span class="line">    <span class="keyword">if</span>(matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; matrix.length; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; matrix[<span class="number">0</span>].length ; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j] == target)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>😂<del>就这都能双一百你敢信？</del></p>
+<p><img src="http://119.3.165.25/img/%E5%89%91%E6%8C%87Offer/04/1.png" alt="图片"></p>
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>暴力解法没有利用题目提供的每行有序和每列有序的特性。查找的过程无非是判断数字之间的大小关系，并且最好通过大小关系可以帮我们减小查找的范围，就像二分查找，每次可以排除一般的查找范围。</p>
+<p>这个二维数组拥有以下特征：对于每一个元素，它所在的行，左侧的元素都比它小，右侧的元素都比它大；它所在的列，上方的元素比它小，下方的元素比它大。要确保所有位置都被考虑到，因此需要确定从四个顶点的哪一个开始。如果从左上角开始，根据target和左上角元素的大小关系，我们无法缩小范围，因为对于左上角来说，只有右侧和下侧，都是比它大的。右小角同理。而对于右上角来说，比它小的在左侧，比它大的在下方，因此如果target比它大，则会出现在下方，我们可以不再考虑当前行；如果比它小，则会出现在左侧，我们可以不必考虑当前列。达到缩小查找范围的目的。左下角同理。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//代码的鲁棒性</span></span><br><span class="line">    <span class="keyword">if</span>(matrix == <span class="keyword">null</span> || matrix.length == <span class="number">0</span> || matrix[<span class="number">0</span>].length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> row = matrix.length, col = matrix[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">int</span> curRow = <span class="number">0</span>, curCol = col-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>( curRow &lt; row &amp;&amp; curCol &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(matrix[curRow][curCol] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(matrix[curRow][curCol] &lt; target)&#123;</span><br><span class="line">            curRow ++;<span class="comment">//下一行</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            curCol --;<span class="comment">//前一列</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>二维数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题05. 替换空格</title>
+    <url>/posts/48c165ca.html</url>
+    <content><![CDATA[<blockquote>
+<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
+<p>示例1：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
+]]></content>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题06. 从尾到头打印链表</title>
+    <url>/posts/9649f58.html</url>
+    <content><![CDATA[<blockquote>
+<p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
+<p>示例1：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：head = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>]</span><br><span class="line">输出：[<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>对于链表的操作，无法方便地使用下标来获取元素，因此，必然需要从头节点开始通过next指针操作。但是需要从尾到头打印，也就是头节点最后被打印，尾节点第一个被打印。因此我们可以利用栈的后进先出的特点，帮助我们完成这道题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;<span class="comment">//不修改输入</span></span><br><span class="line">    Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        stack.push(cur.val);</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[stack.size()];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; stack.size(); i++)&#123;</span><br><span class="line">        res[i] = stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>使用栈需要额外的空间复杂度，我们注意到返回结果是一个数组，而数组可以方便地使用下标来存取元素。因此我们先遍历链表获得链表的长度，初始化数组，再次遍历链表，将第一个节点值放在数组的最后一个位置，第二个节点放在倒数第二个位置，…以此类推。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;</span><br><span class="line">    <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        size ++;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[size];</span><br><span class="line">    cur = head;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        res[--size] = cur.val;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题09. 用两个栈实现队列</title>
+    <url>/posts/eaced0a1.html</url>
+    <content><![CDATA[<blockquote>
+<p>用两个栈来实现一个队列，完成队列的Push和Pop操作。 </p>
+</blockquote>
+<a id="more"></a>
+
+<p>分析题目，提炼关键信息：队列的特点是<strong>先进先出</strong>，栈的特点是<strong>后进先出</strong>。</p>
+<p>我们应当关心的是-：<strong>如何保证出的顺序是先进先出？</strong>注意到-假如栈1入栈顺序为1,2,3,则出栈顺序为3,2,1，那么按栈1出栈顺序将元素放入栈2，则栈2入栈顺序为3,2,1,则出栈顺序为1,2,3。 两个栈一个为进一个为出，这样栈1负责入队，栈2负责出队，就满足队列先进先出的要求。</p>
+<p>算法执行过程：</p>
+<p>当栈2为空时，将栈1中元素弹出压入到栈2。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004551.jpg" alt="图片"></p>
+<p>当栈2不为空时，直接返回栈2栈顶元素即可。</p>
+<p>代码如下：</p>
+<pre><code>import java.util.Stack;
+
+public class Solution {
+    Stack&lt;Integer&gt; stack1 = new Stack&lt;Integer&gt;();
+    Stack&lt;Integer&gt; stack2 = new Stack&lt;Integer&gt;();
+
+    public void push(int node) {
+        stack1.push(node);
+    }
+
+    public int pop() {
+        if(stack2.isEmpty()){
+            while(!stack1.isEmpty())stack2.push(stack1.pop());
+        }
+        return stack2.isEmpty() ? -1 : stack2.pop();
+    }
+}</code></pre>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
+        <tag>队列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面试题10- I. 斐波那契数列</title>
     <url>/posts/18deca0d.html</url>
     <content><![CDATA[<blockquote>
@@ -1967,10 +1813,131 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>递归</tag>
-        <tag>剑指Offer</tag>
+        <tag>动态规划</tag>
         <tag>记忆化搜索</tag>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题46. 把数字翻译成字符串</title>
+    <url>/posts/13cdcb1b.html</url>
+    <content><![CDATA[<blockquote>
+<p>给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 12258</span><br><span class="line">输出: 5</span><br><span class="line">解释: 12258有5种不同的翻译，分别是&quot;bccfi&quot;, &quot;bwfi&quot;, &quot;bczi&quot;, &quot;mcfi&quot;和&quot;mzi&quot;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>因为只有<code>26</code> 个小写字母，即数字范围为<code>[0-25]</code>可以翻译为一个字母，因此一个数字的翻译方式最多有两种，一种是单独翻译成一个字母，第二种是和前一个数字组合翻译。而两个数字能够组合翻译的条件是其组成的数字范围在<code>[10-25]</code>之间，因为<code>01</code>、<code>02</code>是不合法的。举个例子：</p>
+<ul>
+<li>如果只有一位数<code>1</code>，那么他只能有<strong>壹</strong>种翻译结果<code>b</code>；</li>
+<li>如果有两位数<code>12</code>，除了各自单独翻译这一种方法之外，由于组合的数字<code>12</code>在<code>[10-25]</code>之间满足要求，可以组合翻译，翻译种数为<code>1+1=2</code>；</li>
+<li>如果有三位数，如<code>121</code>，在两位数<code>12</code>的基础上，如果对第三位单独翻译，那么剩下的两位数<code>12</code>有<strong>两</strong>种不同的翻译；因为第二位<code>2</code>和第三位<code>1</code>组合得到<code>21∈{10, 25}</code>，因此他们可以组合翻译，那么剩下第一位<code>1</code>，它只有<strong>壹</strong>种翻译，所以三位数<code>121</code>总共有<code>2+1=3</code>种翻译；</li>
+<li>如果有四位数<code>1212</code>，在三位数的基础上，如果对第四位单独翻译，那么剩下的三位数<code>121</code>有<strong>叁</strong>种翻译；因为第三位<code>1</code>和第四位<code>2</code>组合的数字<code>12∈{10, 25}</code>，可以组合翻译，那么剩下两位数<code>12</code>，它有<strong>两</strong>种翻译；于是对于四位数<code>1212</code>，共有<code>3+2=5</code>种翻译。</li>
+</ul>
+<p>于是我们可以这样求解，从数字<code>num</code>的第一位（最高位）开始，遍历每一位，当前位的翻译种数至少和它前一位的种数相同（当前位单独翻译）；除此之外，如果当前位和前一位组成的数字在<code>[10-25]</code>之间，那么翻译种数需要再加上前两位的种数（当前位和前一位组合翻译）。</p>
+<p>这样的过程不断在使用之前的结果来推导出新的结果，也就是<strong>动态规划</strong>的思想。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><p>为了方便地从数字的高位遍历到低位，我们先将数字转换成字符串。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">translateNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    String s = String.valueOf(num);</span><br><span class="line">    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[s.length()];</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//动态规划，设dp[i]为前i个数字的翻译种数。对于i,两种情况：</span></span><br><span class="line">    <span class="comment">//1.自己翻译成一个字母,这样和上一位的种数是相同的;</span></span><br><span class="line">    <span class="comment">//2.如果和上一位组合的数字在10和25之间,可以组合翻译,这样种数就是前一位种数+前两位种数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; s.length(); i++)&#123;</span><br><span class="line">        dp[i] = dp[i-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i-<span class="number">1</span>) == <span class="string">'1'</span> || (s.charAt(i)&lt;<span class="string">'6'</span> &amp;&amp; s.charAt(i-<span class="number">1</span>)==<span class="string">'2'</span>))&#123;</span><br><span class="line">            dp[i] += i-<span class="number">2</span> &lt; <span class="number">0</span> ? <span class="number">1</span> : dp[i-<span class="number">2</span>]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[s.length()-<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>由于我们每次都只用到前一位和前两位的结果，因此可以对空间复杂度进行优化，这种优化方式称为滚动数组。仅仅使用两个变量保存结果。</p>
+<p>这里还有一个优化是我们将当前位<code>i</code>的结果记录在<code>i+1</code>的位置上，这样就不需要每次都进行 <code>i-2 &lt; 0</code>的检查。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">translateNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    String s = String.valueOf(num);</span><br><span class="line">    <span class="keyword">int</span> one = <span class="number">1</span>;<span class="comment">//前一位种数</span></span><br><span class="line">    <span class="keyword">int</span> two = <span class="number">1</span>;<span class="comment">//前两位种数</span></span><br><span class="line">    <span class="keyword">int</span> temp = <span class="number">0</span>;<span class="comment">//中间变量-备份</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= s.length(); i ++)&#123;</span><br><span class="line">        temp = one;<span class="comment">//暂存前一位种数</span></span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i-<span class="number">2</span>) == <span class="string">'1'</span> || (s.charAt(i-<span class="number">2</span>) == <span class="string">'2'</span> &amp;&amp; s.charAt(i-<span class="number">1</span>) &lt; <span class="string">'6'</span>))&#123;</span><br><span class="line">            one += two;</span><br><span class="line">        &#125;</span><br><span class="line">        two = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> one;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer-数组中数字出现的次数 I</title>
+    <url>/posts/1f1789a9.html</url>
+    <content><![CDATA[<blockquote>
+<p>一个整型数组 <code>nums</code> 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。</p>
+</blockquote>
+<a id="more"></a>
+
+<h4 id="⛔不符合要求的两种思路"><a href="#⛔不符合要求的两种思路" class="headerlink" title="⛔不符合要求的两种思路"></a>⛔不符合要求的两种思路</h4><ol>
+<li><p>数组中的次数问题，我们很容易联想到使用额外的数组记录次数来解决，但这里数组中的元素没有范围，并且由于空间复杂度的要求是O(1)，因此需要考虑其他思路。</p>
+</li>
+<li><p>首先从数组的特征出发，除两个数字之外，其他每个数字都出现了两次，那么我们可以先排序，然后遍历数组找到只出现一次的两个数字。由于排序的时间复杂度为O(NlogN)，因此也无法满足要求。</p>
+</li>
+</ol>
+<div class="note primary"><p>那么这道题考察什么呢？</p></div>
+
+<p>这是一道非常经典的题目，通过位运算<strong>异或</strong>来解决</p>
+<h4 id="☑️正确操作"><a href="#☑️正确操作" class="headerlink" title="☑️正确操作"></a>☑️正确操作</h4><p>先来看看异或的性质</p>
+<div class="note default no-icon"><ol>
+<li>交换律：p⊕q=q⊕p </li>
+<li>结合律：(p⊕q)⊕r = p⊕(q⊕r)</li>
+<li>恒等率：p⊕0 = p</li>
+<li>归零率：p⊕p = 0</li>
+</ol></div>
+
+<p>假设数组中不相同的两个数字是p，q。对数组中的数字进行异或操作，根据交换律，我们让每两个相同的数字异或得到0，最后剩下p，q，因为两个数不同，至少存在一个位不同。异或之后得到的结果肯定存在<strong>某个二进制位为1</strong>。根据这个位，将数组分为两份，由于相同的数字会分到同一组，分别为p和其他相同的数字、q和其他相同的数字。再进行异或，则可以得到p，q。</p>
+<div class="note info"><p>举个例子：nums=[1,2,10,4,1,4,3,3]</p>
+<ul>
+<li>异或和sum = 1⊕2⊕10⊕4⊕1⊕4⊕3⊕3 = 1⊕1⊕3⊕3⊕4⊕4⊕2⊕10 = 2⊕10 = 0010 ⊕ 1010 = 1000</li>
+<li>得到二进制为1的位index，sum每次右移一位，当最低位为1<code>sum &amp; 1 == 1</code>，index则为右移次数也即该位在sum中的位置。1000中右移三位0001&amp;1=1，index = 3。<u>此处理论上上使用任何一个为1的位都可以正确得到结果，但是在代码实现上求最右的1是最方便的。</u></li>
+<li>根据index划分两组，在划分过程中同时执行异或和计算。对于数组中的所有数字，要么index位为1，要么index位为0 <code>( i &gt;&gt; index ) &amp; 1</code>，如数字1在第三位为0，数字2在第三位为0，数字10在第三位为1，以此划分。</li>
+</ul></div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] singleNumbers(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">	<span class="comment">//1.得到异或和</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        sum ^= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2.找到二进制位为1的位</span></span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(sum &amp; <span class="number">1</span> == <span class="number">0</span>)&#123;</span><br><span class="line">        index+=<span class="number">1</span>;</span><br><span class="line">        sum &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//3.分组</span></span><br><span class="line">    <span class="keyword">int</span> p, q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        <span class="keyword">if</span>( (i &gt;&gt; index) &amp; <span class="number">1</span> == <span class="number">0</span> )&#123;</span><br><span class="line">            p ^= i;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            q ^= i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;p,q&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><p>当你理解了上述的算法过程之后，如果你知道负数在机器中采用数值的<strong>补码</strong>来表示，那么第二步中的求异或和sum中为1的二进制位就可以使用<code>sum &amp; -sum</code>来得到，补码是原码按位取反+1，-8 使用 8 的补码表示为 1000，那么结果将是1000，接下来第三步操作也相应的有一些小小的改动。</p></div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] singleNumbers(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">    <span class="comment">//1.得到异或和</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        sum ^= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2.找到二进制位为1的位</span></span><br><span class="line">    sum &amp;= -sum;</span><br><span class="line">	<span class="comment">//3.分组并求和</span></span><br><span class="line">    <span class="keyword">int</span> p, q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i : nums)&#123;</span><br><span class="line">        <span class="keyword">if</span>((sum&amp;i) == <span class="number">0</span>)&#123;</span><br><span class="line">            p^=i;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            q^=i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;p,q&#125;;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+        <tag>剑指Offer</tag>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题11. 旋转数组的最小数字</title>
+    <url>/posts/639f1318.html</url>
+    <content><![CDATA[<blockquote>
+<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序数组的一个旋转，输出旋转数组的最小元素。例如，数组<code>[3,4,5,1,2]</code> 为 <code>[1,2,3,4,5]</code> 的一个旋转，该数组的最小值为1.</p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p><strong>示例 1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：[3,4,5,1,2]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,0,1]</span><br><span class="line">输出：0</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>暴力解法就不详述了，遍历可以得到降序的元素。</p>
+<p>这题和 Leetcode第 <a href="/posts/e3f3cf8a.html" title="153. 寻找旋转排序数组中的最小值">153. 寻找旋转排序数组中的最小值</a> 题类似，建议先阅读这一篇，解法类似，区别在于这里数组的元素可能出现<strong>重复</strong>，因此缩小区间的时候需要考虑重复元素的情况。</p>
+<p>本题中，中间位置元素和最右边的元素有大于小于等于三种关系：</p>
+<ol>
+<li>当 <code>nums[mid] &lt; nums[right]</code>，区间 <code>[mid...right]</code>保持<strong>升序</strong>，因此最小值在左侧，<code>right = mid</code></li>
+<li>当 <code>nums[mid] &gt; nums[right]</code> ，区间 <code>[mid...right]</code> 出现<strong>降序</strong>，因此最小值在右侧，<code>left  = mid + 1</code> </li>
+<li>当 <code>nums[mid] == nums[right]</code>，无法确认最小值出现在哪一侧，但是我们希望可以缩小区间。由于中间元素和右边相等，因此可以将右边界左移，就算当前右边界是最小值，但是我们保留了中间元素，所以不会出现问题。</li>
+</ol>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minArray</span><span class="params">(<span class="keyword">int</span>[] numbers)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span> , r = numbers.length-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>( l &lt; r)&#123;<span class="comment">//跳出循环时 l = r，区间剩下的元素就是最小值</span></span><br><span class="line">        <span class="keyword">int</span> mid = l + (r - l)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(numbers[r] &gt; numbers[mid])&#123;</span><br><span class="line">            r = mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (numbers[r] &lt; numbers[mid])&#123;</span><br><span class="line">            l = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> r--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> numbers[l];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>二分查找</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -2224,6 +2191,39 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题 04.04. 检查平衡性</title>
+    <url>/posts/4ad52213.html</url>
+    <content><![CDATA[<blockquote>
+<p>实现一个函数，检查二叉树是否平衡。在这个问题中，平衡树的定义如下：任意一个节点，其两棵子树的高度差不超过 1。</p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p>示例 1:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">给定二叉树 [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">15</span>,<span class="number">7</span>]</span><br><span class="line">    <span class="number">3</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">9</span>  <span class="number">20</span></span><br><span class="line">    /  \</span><br><span class="line">   <span class="number">15</span>   <span class="number">7</span></span><br><span class="line">返回 <span class="keyword">true</span> 。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line">给定二叉树 [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">      <span class="number">1</span></span><br><span class="line">     / \</span><br><span class="line">    <span class="number">2</span>   <span class="number">2</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">3</span>   <span class="number">3</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">4</span>   <span class="number">4</span></span><br><span class="line">返回 <span class="keyword">false</span> 。</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树递归问题，在递归过程中我们将到达一个节点三次，在这三次过程中，我们需要收集树的信息并判断是否符合要求的条件，具体地说，在这个问题中，判断以当前节点为根节点的树是否是平衡的，需要知道左子树是否平衡、右子树是否平衡，当左右都平衡的时候，需要知道当前节点是否平衡——左子树和右子树的高度差。因此我们需要的信息是，左子树的高度以及是否平衡、右子树的高度是否平衡。</p>
+<p>于是我们确定了递归需要返回的信息是<strong>树的高度和是否平衡</strong>。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root).isBalanced;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> Data <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>(!left.isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>,<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>(!right .isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right.h - left.h) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Data(Math.max(left.h, right.h)+<span class="number">1</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">boolean</span> isBalanced;</span><br><span class="line">    Data(<span class="keyword">int</span> h , <span class="keyword">boolean</span> isBalanced)&#123;</span><br><span class="line">        <span class="keyword">this</span>.h = h;</span><br><span class="line">        <span class="keyword">this</span>.isBalanced = isBalanced;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>在把思路理清并写出了上面的代码之后，可以再简化代码，具体的是简化返回的内容。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root) != -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>( left == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>( right == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right - left) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Math.max(left, right)+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>程序员面试经典</category>
+        <category>Leetcode</category>
+        <category>二叉树</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+        <tag>程序员面试经典</tag>
       </tags>
   </entry>
   <entry>
