@@ -2,8 +2,14 @@
 title: '个人Java开发环境搭建（日常更新）'
 categories:
 - 笔记
+image: 'https://gitee.com/jingshanccc/image/raw/master/image/20200803104632.jpg'
 ---
+<p/>
+
+<!-- more -->
+
 ## 前言
+
 {% note info %}
 本文主要用于个人记录开发环境的搭建，便于环境迁移时的重建工作，文中提及相关文件可在[曲奇云盘](https://quqi.com/)中获取
 {% endnote %}
