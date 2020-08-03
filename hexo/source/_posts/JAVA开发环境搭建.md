@@ -1,8 +1,9 @@
 ---
-title: '个人Java开发环境搭建（日常更新）'
+title: 个人Java开发环境搭建（日常更新）
 categories:
-- 笔记
+  - 笔记
 image: 'https://gitee.com/jingshanccc/image/raw/master/image/20200803104632.jpg'
+abbrlink: 27c7c088
 ---
 <p/>
 
@@ -18,6 +19,7 @@ image: 'https://gitee.com/jingshanccc/image/raw/master/image/20200803104632.jpg'
    运行jdk-8u181-windows-x64.exe以安装JDK
 2. Linux
    解压`tar -zxvf jdk-xxx.tar.gz `，配置环境变量
+
 ## Maven
 解压apache-maven-3.6.3-bin.zip，配置环境变量
 ## Git
@@ -35,7 +37,8 @@ ssh-keygen -t rsa -C "xx@xx.com"
 # 测试是否配置成功
 ssh -T git@github.com
 ```
-多用户Git配置请参考{% post_link 本地配置Git多账户}
+多用户Git配置请参考{% post_link 本地配置Git多账户 %}
+
 ## Mysql
 1. 解压mysql-8.0.20-winx64.zip，进入bin目录
 2. 创建my.ini
@@ -94,6 +97,7 @@ ssh -T git@github.com
     # 修改密码即可
     ALTER USER 'root'@'localhost' IDENTIFIED BY '新密码';
    ```
+
 ## NPM
 1. nvm：用于npm版本控制，运行nvm-setup.exe
 2. 设置nvm镜像：
@@ -113,14 +117,17 @@ npm config set registry https://registry.npm.taobao.org
 ```bash
 npm install -g cnpm
 ```
+
 ## 博客迁移
 有以下三种方法
 1. Cloud Studio线上开发
 2. 从Coding仓库下载后安装hexo和其他依赖即可
 3. 复制scaffolds、source、themes、_config.yml、package.json，在新文件夹下安装hexo和其他依赖
+   
 ## 虚拟机相关
 ### Vmware
 1. 解压vmware-pro15.zip，安装
 2. 使用镜像CentOS-7-x86_64-Minimal-1908.iso，创建虚拟机
+   
 ### 远程连接工具
 访问[XShell官网](https://www.netsarang.com/zh/xshell/)，获取家庭/学校版，填写邮箱和名字，收到邮件下载即可
