@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-xiefeiji.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-xiefeiji.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java后端面试,Spring Cloud," />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring家族面试问题">
+<meta property="og:url" content="https://www.realmicah.xyz/posts/caab1d3c.html">
+<meta property="og:site_name" content="Micah">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722143755.png">
+<meta property="article:published_time" content="2020-07-26T14:14:00.000Z">
+<meta property="article:modified_time" content="2020-07-26T10:45:57.599Z">
+<meta property="article:author" content="Micah">
+<meta property="article:tag" content="Java后端面试">
+<meta property="article:tag" content="Spring Cloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722143755.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.realmicah.xyz/posts/caab1d3c.html"/>
+
+
+
+
+
+  <title>Spring家族面试问题 | Micah</title>
+  
+
+
+
+
+
+
+
+
+	<link rel="stylesheet" href="/share/css/share.min.css">
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+	
+	<script src="/share/js/social-share.min.js"></script>
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+    
+    <meta name="baidu-site-verification" content="VxETXdoWpf" />
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Micah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+      <li class="menu-item">
+      <a href="https://travellings.now.sh/" target="blank">
+        
+          <i class="menu-item-icon fa fa-fw fa-paper-plane"></i><br/>
+        
+        开往
+      </a>
+      </li>
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+  
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="https://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/caab1d3c.html">
+
+    <span hidden itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <meta itemprop="name" content="Micah">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiefeiji.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+      <meta itemprop="name" content="Micah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring家族面试问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-26T22:14:00+08:00">
+                2020-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java%E5%90%8E%E7%AB%AF%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index">
+                    <span itemprop="name">Java后端面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/caab1d3c.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/posts/caab1d3c.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p></p>
+
+<a id="more"></a>
+
+<h2 id="Spring-IOC"><a href="#Spring-IOC" class="headerlink" title="Spring IOC"></a>Spring IOC</h2><h3 id="IOC是什么？"><a href="#IOC是什么？" class="headerlink" title="IOC是什么？"></a>IOC是什么？</h3><p>IOC即控制反转，将对象的创建工作交给容器来实现，所以需要创建一个容器并且它需要知道创建对象间的关系，在Spring中管理对象及其依赖关系就是通过IOC容器实现的。IOC的实现方式有<strong>依赖注入</strong>和<strong>依赖查找</strong>，依赖查找通过容器和API来主动查找，例如<code>applicationContext.getBean(&quot;name&quot;);</code>，依赖注入是对象被动地接受依赖类，在容器实例化时将依赖注入给对象，Spring中除了初始化的Bean查找，组件及其依赖项都是用注入方式。</p>
+<h3 id="IOC容器的初始化过程是怎么样的"><a href="#IOC容器的初始化过程是怎么样的" class="headerlink" title="IOC容器的初始化过程是怎么样的"></a>IOC容器的初始化过程是怎么样的</h3><p>Spring在启动时，其refresh方法完成了对容器的初始化以及Bean的创建</p>
+<ol>
+<li>prepareRefresh完成了设置上下文状态和时间，以及属性的验证</li>
+<li>obtainFreshBeanFactory初始化Bean工厂，销毁存在的并重新创建</li>
+<li>loadBeanDefinitions加载Bean定义，通过读取配置文件CONFIG_LOCATION_PARAM，解析xml文件，通过beanDefinitionRegistry将BeanDefinition存放到HashMap中</li>
+<li>prepareBeanFactory中为BeanFactory添加类加载器、表达式解析器、自动装配等配置</li>
+<li>postProcessBeanFactory中将BeanFactory的后置处理器注册到BeanFacotry上，之后在invokeBranFactoryPostProcessor中按优先级调用所有后置处理方法</li>
+<li>registerBeanPostProcessor注册Bean的后置处理器</li>
+<li>initMessageSource和initApplicationEventMulticaster负责初始化国际化组件和事件多播器</li>
+<li>onRefresh是为子类提供的由子类实现的逻辑，在这里调用</li>
+<li>registerListeners方法查找所有的监听器并注册到7中的广播器</li>
+<li>finishBeanFactoryInitialization初始化剩余的其他单例bean：先调用applyBeanPostProcessorsBeforeInitialization方法，执行每个BeanPostProcessor的postProcessBeforeInitialization，然后调用invokeInitMethods方法，执行bean的初始化方法，使用set设置属性，最后调用applyBeanPostProcessorsAfterInitialization方法，执行每个BeanPostProcessor的postProcessAfterInitialization方法。</li>
+<li>finishRefresh完成其他工作如清除缓存、发布事件等，IOC容器初始化结束</li>
+</ol>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722143755.png" alt="img"></p>
+<h3 id="简述Bean的生命周期和作用范围"><a href="#简述Bean的生命周期和作用范围" class="headerlink" title="简述Bean的生命周期和作用范围"></a>简述Bean的生命周期和作用范围</h3><p>首先是Spring对Bean进行实例化，将值和Bean的引用注入到其对应的属性中，如果实现了BeanNameAware接口，调用setBeanName方法，让</p>
+<p>Bean可以获取自己的ID/name，如果实现了BeanFactoryAware接口，调用setBeanFactory，让Bean可以获取配置自己的BeanFactory，将Bean实例传递给Bean的前置处理器的postProcessBeforeInitialization，调用Bean的初始化方法，如果是InitializingBean则先调用afterPropertiesSet方法，再调用设置的init-method，然后调用后置处理器的postProcessAfterInitialization，之后在工程中使用Bean，在容器关闭之前，调用DisposableBean的destroy方法，如果Bean有自定义销毁方法也会被调用</p>
+<h4 id="什么是InitializingBean？"><a href="#什么是InitializingBean？" class="headerlink" title="什么是InitializingBean？"></a>什么是InitializingBean？</h4><p>Spring提供了两种初始化Bean的方法，一是实现InitializingBean接口，实现afterPropertiesSet方法；二是在配置文件中指定init-method；两种方法可以同时使用。</p>
+<div><div class="fold_hider"><div class="close hider_title">两种有什么区别？</div></div><div class="fold">
+<p>实现InitializingBean接口是直接调用afterPropertiesSet方法，比通过反射调用init-method方法效率更高，但后者消除了对spring的依赖</p>
+
+</div></div>
+
+<p>可以通过scope指定Bean的作用范围，有以下5种类型：</p>
+<ol>
+<li>Singleton：单例的，每次容器返回的对象是同一个，在初始化IOC容器时完成创建</li>
+<li>Prototype：多例的，每次返回的是新创建的实例</li>
+<li>Request：仅作用于HttpRequest，每次Http请求创建一个实例</li>
+<li>Session：仅作用于HttpSession，不同的session使用不同的实例</li>
+<li>Global Session：所有的HttpSession使用同一个实例，仅用于Protlet容器</li>
+</ol>
+<h3 id="BeanFactory和FactoryBean、ApplicationContext的区别"><a href="#BeanFactory和FactoryBean、ApplicationContext的区别" class="headerlink" title="BeanFactory和FactoryBean、ApplicationContext的区别"></a>BeanFactory和FactoryBean、ApplicationContext的区别</h3><p>BeanFactory是一个Factory接口，用来管理Bean的IOC容器，对象工厂，BeanFactory 实例化后并不会自动实例化 Bean，只有当 Bean 被使用时才实例化与装配依赖关系，使用了<strong>延迟加载</strong>，适合多例模式；FactoryBean是一个通过写代码的方式用来自定义实例化bean的接口，传统方式xml/property注解方式可能需要大量的配置 通过实现FactoryBean来简化这个操作，在getObject方法中实现自定义的实例化逻辑；ApplicationContext是BeanFactory的子接口，做了扩展，使用<strong>立即加载</strong>，适合单例模式</p>
+<h3 id="依赖注入的实现方式有哪些？在Spring中有哪些相关的注解？"><a href="#依赖注入的实现方式有哪些？在Spring中有哪些相关的注解？" class="headerlink" title="依赖注入的实现方式有哪些？在Spring中有哪些相关的注解？"></a>依赖注入的实现方式有哪些？在Spring中有哪些相关的注解？</h3><p>有构造方法注入、Setter注入、接口注入三种方式，由于构造方法无法被继承，因此Setter方法注入会更灵活一些，但是无法在对象构造完成后马上进入就绪状态。接口方式通过接口提供方法来注入依赖对象，要求实现接口，侵入性强。</p>
+<p>在Spring中，通过getBean方法获取Bean实例，该方法会调用doGetBean从IOC容器中获取Bean，在创建Bean的过程中会完成依赖注入，在populateBean方法中，注入过程通过setPropertyValues实现，将Bean对象实例设置到它所依赖的Bean对象属性上，BeanWrapperImpl以<strong>JDK反射形式</strong>，通过属性的<strong>setter方法</strong>为属性设置注入后的值。</p>
+<ol>
+<li>@Autowired：自动按类型注入，如果有多个匹配则按照指定Bean的id查找；可与@Qualifier匹配上下文的Bean</li>
+<li>@Resource：直接按照Bean的id注入，只能注入Bean类型</li>
+<li>@Value：用于注入基本数据类型和String类型</li>
+</ol>
+<h2 id="AOP是什么？"><a href="#AOP是什么？" class="headerlink" title="AOP是什么？"></a>AOP是什么？</h2><p>AOP即面向切面编程，某个业务与具体对象无关，是一种通用的功能代码，在具体的时间点(Pointcut)需要被执行，业务功能代码和切面代码分开，合并成完整的业务(称为织入Weave)。常用场景包括权限认证、自动缓存、错误处理、日志、调试和事务等。</p>
+<p>有三种织入方式：</p>
+<ol>
+<li>编译时织入：需要特殊的Java编译器，如AspectJ</li>
+<li>类加载时织入：需要特殊的编译器，如AspectJ和AspectWerkz</li>
+<li>运行时织入：通过动态代理的方式</li>
+</ol>
+<p>在Spring中使用AOP：导入依赖，创建切面<code>@Aspect</code>，定义切入点<code>@PointCut(execution(xxx))</code>方法，定义时机Advice<code>@Before,AfterReturning/Throwing等</code>，在方法内实现需要的逻辑。</p>
+<p>SpringAOP通过Bean的后置处理器将Bean包装成Proxy，调用时通过Proxy来调用，有两种实现方式，如果类实现了接口，则使用JDK动态代理，否则使用CGLib动态代理。</p>
+<h3 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h3><p>被代理类需要实现含有业务方法的接口，代理类需要实现InvocationHandler invoke方法来调用具体的业务方法，最终通过Proxy.newInstance生成代理类，会调用ProxyGenerator的generate方法生成字节码，再用类加载器来装载生成的代理类。</p>
+<p>在Spring AOP中，生成的Proxy类拥有真实类实现的接口的所有方法，其实就是通过<strong>实现相同的接口</strong>，然后在对应的方法周围加入切面逻辑。从Proxy的字节码可以看到，声明了私有静态成员变量Method 01234…通过静态代码块<strong>利用反射</strong>来初始化各个方法。通过Proxy类的成员变量invocationHandler的invoke方法调用具体方法。invoke中在调用具体方法前后会有<strong>切入</strong>的逻辑。</p>
+<div><div class="fold_hider"><div class="close hider_title">展开代码</div></div><div class="fold">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Source code recreated from a .class file by IntelliJ IDEA</span></span><br><span class="line"><span class="comment">// (powered by Fernflower decompiler)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> aop.UserService;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.UndeclaredThrowableException;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> $<span class="title">Proxy11</span> <span class="keyword">extends</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Method m1;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Method m4;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Method m3;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Method m2;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Method m0;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> $Proxy11(InvocationHandler var1) <span class="keyword">throws</span>  &#123;</span><br><span class="line">        <span class="keyword">super</span>(var1);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object var1)</span> <span class="keyword">throws</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (Boolean)<span class="keyword">super</span>.h.invoke(<span class="keyword">this</span>, m1, <span class="keyword">new</span> Object[]&#123;var1&#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException | Error var3) &#123;</span><br><span class="line">            <span class="keyword">throw</span> var3;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable var4) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UndeclaredThrowableException(var4);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">A</span><span class="params">()</span> <span class="keyword">throws</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">super</span>.h.invoke(<span class="keyword">this</span>, m4, (Object[])<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException | Error var2) &#123;</span><br><span class="line">            <span class="keyword">throw</span> var2;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable var3) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UndeclaredThrowableException(var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">B</span><span class="params">()</span> <span class="keyword">throws</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">super</span>.h.invoke(<span class="keyword">this</span>, m3, (Object[])<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException | Error var2) &#123;</span><br><span class="line">            <span class="keyword">throw</span> var2;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable var3) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UndeclaredThrowableException(var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">toString</span><span class="params">()</span> <span class="keyword">throws</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (String)<span class="keyword">super</span>.h.invoke(<span class="keyword">this</span>, m2, (Object[])<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException | Error var2) &#123;</span><br><span class="line">            <span class="keyword">throw</span> var2;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable var3) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UndeclaredThrowableException(var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> <span class="keyword">throws</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (Integer)<span class="keyword">super</span>.h.invoke(<span class="keyword">this</span>, m0, (Object[])<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException | Error var2) &#123;</span><br><span class="line">            <span class="keyword">throw</span> var2;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable var3) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UndeclaredThrowableException(var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            m1 = Class.forName(<span class="string">"java.lang.Object"</span>).getMethod(<span class="string">"equals"</span>, Class.forName(<span class="string">"java.lang.Object"</span>));</span><br><span class="line">            m4 = Class.forName(<span class="string">"aop.UserService"</span>).getMethod(<span class="string">"A"</span>);</span><br><span class="line">            m3 = Class.forName(<span class="string">"aop.UserService"</span>).getMethod(<span class="string">"B"</span>);</span><br><span class="line">            m2 = Class.forName(<span class="string">"java.lang.Object"</span>).getMethod(<span class="string">"toString"</span>);</span><br><span class="line">            m0 = Class.forName(<span class="string">"java.lang.Object"</span>).getMethod(<span class="string">"hashCode"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException var2) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchMethodError(var2.getMessage());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException var3) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NoClassDefFoundError(var3.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div></div>
+
+<h3 id="CGLIB动态代理"><a href="#CGLIB动态代理" class="headerlink" title="CGLIB动态代理"></a>CGLIB动态代理</h3><p>以继承的方式动态生成目标类的代理，通过修改字节码(asm框架)的方式织入，<strong>不需要接口</strong>，因为cglib是利用<strong>继承真实类通过super来调用真实类方法</strong>，并加入新逻辑的方式来实现的。</p>
+<h2 id="Spring-MVC有哪些核心组件？"><a href="#Spring-MVC有哪些核心组件？" class="headerlink" title="Spring MVC有哪些核心组件？"></a>Spring MVC有哪些核心组件？</h2><p>SpringMVC是一个基于MVC设计模型的请求驱动的轻量级WEB框架，将WEB应用架构划分为视图层View、处理器层Controller、持久层Model。</p>
+<ol>
+<li>DispatcherServlet：前端控制器，负责接受请求并转发到对应的处理组件</li>
+<li>Handler：处理器，完成具体业务逻辑，类似Servlet或Action</li>
+<li>HandlerInterceptor：拦截器，通过实现这个接口完成拦截处理</li>
+<li>HandlerExecutionChain：处理链，包含Handler和HandlerInterceptor。应用了<a href="https://realmicah.xyz/posts/503970b4.html#讲讲责任链模式" target="_blank" rel="noopener">责任链模式</a></li>
+<li>HandlerAdapter：适配器，Handler执行处理业务方法之前，需要完成表单数据验证、数据类型转换、封装到JavaBean等操作，由Adapter完成，通过Adapter执行不同的Handler。应用了<a href="https://realmicah.xyz/posts/503970b4.html#适配器模式了解吗？有什么应用？" target="_blank" rel="noopener">适配器模式</a></li>
+<li>ModelAndView：装在模型数据和视图信息，作为Handler处理结果返回给DispatcherServlet</li>
+<li>ViewResolver：视图解析器，DispatcherServlet通过解析器将逻辑视图转换为物理视图，最终将渲染的结果返回给客户端</li>
+</ol>
+<h2 id="Spring-Data-JPA和My-Batis的区别？"><a href="#Spring-Data-JPA和My-Batis的区别？" class="headerlink" title="Spring Data JPA和My Batis的区别？"></a>Spring Data JPA和My Batis的区别？</h2><p>两者都是ORM对象关系映射框架，将JavaBean对象映射到关系型数据库，通过操作实体类来操作数据库表。Spring Data JPA在运行时通过JDK动态代理创建了Proxy对象SimpleJpaRepository，通过hibernate完成数据库操作。My Batis是一种半自动的ORM框架，使用时通过XML与JavaBean对象产生映射关系连接起来，同时需要书写sql语句，查询的结果通过ResultMap映射到Java对象。从表关联上看，My Batis更加灵活，JPA并不提供多表关联查询</p>
+<h2 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h2><h3 id="什么是SpringBoot？有什么优点？"><a href="#什么是SpringBoot？有什么优点？" class="headerlink" title="什么是SpringBoot？有什么优点？"></a>什么是SpringBoot？有什么优点？</h3><p>SpringBoot是Spring组件一站式解决方案，主要是简化了使用Spring的难度，基于约定大于配置原则，通过AutoConfigure自动配置，当有特殊需求时才需要自行配置，提供了各种starter更加方便地将其他框架集成到项目中。</p>
+<ol>
+<li>容易上手，开发效率更高，远离繁琐的配置</li>
+<li>提供了一系列大型项目通用的非业务性功能，如内嵌服务器、安全管理、运行数据监控、运行状况检查、外部化配置等</li>
+<li>避免了大量的Maven导入和各种版本冲突</li>
+</ol>
+<h3 id="SpringBoot的核心注解？"><a href="#SpringBoot的核心注解？" class="headerlink" title="SpringBoot的核心注解？"></a>SpringBoot的核心注解？</h3><p>@SpringBootApplication：包含了@Configuration实现配置文件功能、@EnableAutoConfiguration打开自动配置功能，如关闭某个自动配置选项、@ComponentScan实现组件扫描</p>
+<h3 id="SpringBoot的starter了解吗？"><a href="#SpringBoot的starter了解吗？" class="headerlink" title="SpringBoot的starter了解吗？"></a>SpringBoot的starter了解吗？</h3><p>starter是在我们的项目需要集成其他组件框架时一种快速集成的方式，starter为我们省去了麻烦的配置信息。在没有starter/SpringBoot之前，每一个项目在需要集成其他的框架像redis等之前都需要手动的配置许多信息，SpringBoot推崇约定大于配置，starter里将组件的配置封装在properities中，并通过AutoConfiguration来装配默认配置。SpringBoot启动时将扫描所有AutoConfiguration类，完成自动配置。</p>
+<h3 id="SpringBoot如何进行自动配置？"><a href="#SpringBoot如何进行自动配置？" class="headerlink" title="SpringBoot如何进行自动配置？"></a>SpringBoot如何进行自动配置？</h3><p>通过@EnableAutoConfiguration开启自动配置，这个注解引入了AutoConfigurationImportSelector，它的selectImports方法从META-INF/spring.factories文件中读取了自动配置类路径，将自动配置类加入到容器中，自动配置类中通过@EnableConfigurationPeoperties引入了对应的配置类xxxProperties.class，类中的属性可以通过yml文件自定义配置，否则使用默认配置，从而实现了自动配置功能。</p>
+<h2 id="SpringCloud"><a href="#SpringCloud" class="headerlink" title="SpringCloud"></a>SpringCloud</h2><h3 id="什么是服务治理？"><a href="#什么是服务治理？" class="headerlink" title="什么是服务治理？"></a>什么是服务治理？</h3><p>微服务的服务注册发现、监控、下线、续期等自动化的管理，</p>
+<h3 id="讲一讲注册中心原理？"><a href="#讲一讲注册中心原理？" class="headerlink" title="讲一讲注册中心原理？"></a>讲一讲注册中心原理？</h3><p>eureka主要通过定时任务和rest调用来实现服务注册和发现，服务实例会把自己的信息发送到注册中心，之后注册中心通过定时任务（心跳）来检查服务状态和进行信息更新。</p>
+<h3 id="注册中心存放了什么内容？用什么数据结构？"><a href="#注册中心存放了什么内容？用什么数据结构？" class="headerlink" title="注册中心存放了什么内容？用什么数据结构？"></a>注册中心存放了什么内容？用什么数据结构？</h3><p>存放了服务实例的信息，如名称、实例id、ip等，使用了Map来存储，第一层Map，key是服务名，值是所有实例，第二层key是实例id，值是实例的信息。</p>
+<h3 id="什么是客户端负载均衡？和服务端负载均衡的区别？"><a href="#什么是客户端负载均衡？和服务端负载均衡的区别？" class="headerlink" title="什么是客户端负载均衡？和服务端负载均衡的区别？"></a>什么是客户端负载均衡？和服务端负载均衡的区别？</h3><p>我们在使用spring-cloud分布式框架时，同一个服务会有多个实例，当一个请求传递过来时，对于这多个实例，Ribbon通过策略决定本次请求使用哪个实例的方式就是客户端负载均衡。在spring-cloud分布式框架中客户端负载均衡对开发者是透明的，添加@LoadBalanced注解就可以了。服务端负载均衡则是在服务器上游做分发，如常见的nginx和lvs，分别是七层和四层的负载均衡，可以通过url、ip、端口来做负载均衡策略的选择。客户端负载均衡和服务器负载均衡的核心差异在<strong>服务列表</strong>本身，客户端负载均衡服务列表通过客户端维护，服务器负载均衡服务列表由中间服务单独维护。</p>
+<h4 id="为什么Ribbon要使用客户端负载均衡？"><a href="#为什么Ribbon要使用客户端负载均衡？" class="headerlink" title="为什么Ribbon要使用客户端负载均衡？"></a>为什么Ribbon要使用客户端负载均衡？</h4><p>客户端负载均衡的服务列表由客户端维护，因此可以直接在自身内存中获取可用的服务实例，效率更高，不需要每个请求都从注册中心获取可用的服务实例，也可以减轻注册中心的压力</p>
+<h3 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h3><ol>
+<li>随机选择RandomRule：通过<code>ThreadLocalRandom.current().nextInt(serverCount)</code>获取随机索引，在<code>upServerList</code>中获取</li>
+<li>轮询RoundRibbonRule：通过递增实现轮询，默认最多选择十次</li>
+<li>重试RetryRule：基于轮询策略，反复重试直到获取到实例</li>
+<li>响应时间加权WeightedResponseTimeRule：先遍历所有服务 得到平均响应时间总和 然后用这个总和减去服务的平均响应时间，作为权重</li>
+</ol>
+<h3 id="服务熔断有什么用？"><a href="#服务熔断有什么用？" class="headerlink" title="服务熔断有什么用？"></a>服务熔断有什么用？</h3><p>熔断机制是应对雪崩效应的一种微服务链路保护机制。当某个微服务不可用或者响应时间太长时，会进行服务降级，进而熔断该节点微服务的调用，快速返回“错误”的响应信息。当检测到该节点微服务调用响应正常后恢复调用链路。在SpringCloud框架里熔断机制通过Hystrix实现，Hystrix会监控微服务间调用的状况，当失败的调用到一定阈值，缺省是5秒内调用20次，如果失败，就会启动熔断机制。</p>
+<p>服务降级，一般是从整体负荷考虑。就是当某个服务熔断之后，服务器将不再被调用，此时客户端可以自己准备一个本地的fallback回调，返回一个缺省值。这样做，虽然水平下降，但好歹可用，比直接挂掉强。</p>
+<h3 id="如何理解分布式框架-分布式服务？"><a href="#如何理解分布式框架-分布式服务？" class="headerlink" title="如何理解分布式框架/分布式服务？"></a>如何理解分布式框架/分布式服务？</h3><p>分布式服务即是将传统的单体应用，从业务角度或其他角度切分为多个应用，独立运行，对外提供服务。部署在不同的服务器节点，称为分布式服务。框架用来具体实施时告诉你如何搭建出一套分布式系统。分布式框架中，最重要的两个组件就是注册中心和RPC框架，注册中心负责维护服务状态，RPC实现服务间的通信。</p>
+
+      
+    </div>
+    
+    
+    
+		
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果这篇文章对您很有帮助，不妨</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Micah 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Micah 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+		<div>
+			
+				<div id="end-thanks">
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+			
+		</div>
+		
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java%E5%90%8E%E7%AB%AF%E9%9D%A2%E8%AF%95/" rel="tag"># Java后端面试</a>
+          
+            <a href="/tags/Spring-Cloud/" rel="tag"># Spring Cloud</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/a49c4b2e.html" rel="next" title="Spring Cloud入门">
+                <i class="fa fa-chevron-left"></i> Spring Cloud入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/27c7c088.html" rel="prev" title="个人Java开发环境搭建（闲时更新）">
+                个人Java开发环境搭建（闲时更新） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+      	<div data-weibo-title="分享到微博" data-qq-title="分享到QQ" data-douban-title="分享到豆瓣" class="social-share" class="share-component" data-disabled="twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣">分享到：</div>
+			
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xiefeiji.gif"
+                alt="Micah" />
+            
+              <p class="site-author-name" itemprop="name">Micah</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jingshanccc" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jingshanccc@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-IOC"><span class="nav-number">1.</span> <span class="nav-text">Spring IOC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">IOC是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC容器的初始化过程是怎么样的"><span class="nav-number">1.2.</span> <span class="nav-text">IOC容器的初始化过程是怎么样的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简述Bean的生命周期和作用范围"><span class="nav-number">1.3.</span> <span class="nav-text">简述Bean的生命周期和作用范围</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是InitializingBean？"><span class="nav-number">1.3.1.</span> <span class="nav-text">什么是InitializingBean？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BeanFactory和FactoryBean、ApplicationContext的区别"><span class="nav-number">1.4.</span> <span class="nav-text">BeanFactory和FactoryBean、ApplicationContext的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖注入的实现方式有哪些？在Spring中有哪些相关的注解？"><span class="nav-number">1.5.</span> <span class="nav-text">依赖注入的实现方式有哪些？在Spring中有哪些相关的注解？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP是什么？"><span class="nav-number">2.</span> <span class="nav-text">AOP是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK动态代理"><span class="nav-number">2.1.</span> <span class="nav-text">JDK动态代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGLIB动态代理"><span class="nav-number">2.2.</span> <span class="nav-text">CGLIB动态代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-MVC有哪些核心组件？"><span class="nav-number">3.</span> <span class="nav-text">Spring MVC有哪些核心组件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Data-JPA和My-Batis的区别？"><span class="nav-number">4.</span> <span class="nav-text">Spring Data JPA和My Batis的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot"><span class="nav-number">5.</span> <span class="nav-text">SpringBoot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是SpringBoot？有什么优点？"><span class="nav-number">5.1.</span> <span class="nav-text">什么是SpringBoot？有什么优点？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot的核心注解？"><span class="nav-number">5.2.</span> <span class="nav-text">SpringBoot的核心注解？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot的starter了解吗？"><span class="nav-number">5.3.</span> <span class="nav-text">SpringBoot的starter了解吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot如何进行自动配置？"><span class="nav-number">5.4.</span> <span class="nav-text">SpringBoot如何进行自动配置？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringCloud"><span class="nav-number">6.</span> <span class="nav-text">SpringCloud</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是服务治理？"><span class="nav-number">6.1.</span> <span class="nav-text">什么是服务治理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讲一讲注册中心原理？"><span class="nav-number">6.2.</span> <span class="nav-text">讲一讲注册中心原理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册中心存放了什么内容？用什么数据结构？"><span class="nav-number">6.3.</span> <span class="nav-text">注册中心存放了什么内容？用什么数据结构？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是客户端负载均衡？和服务端负载均衡的区别？"><span class="nav-number">6.4.</span> <span class="nav-text">什么是客户端负载均衡？和服务端负载均衡的区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么Ribbon要使用客户端负载均衡？"><span class="nav-number">6.4.1.</span> <span class="nav-text">为什么Ribbon要使用客户端负载均衡？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">6.5.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务熔断有什么用？"><span class="nav-number">6.6.</span> <span class="nav-text">服务熔断有什么用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何理解分布式框架-分布式服务？"><span class="nav-number">6.7.</span> <span class="nav-text">如何理解分布式框架&#x2F;分布式服务？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-meetup"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Micah</span>
+
+
+  粤ICP备 -
+  <a target="_blank" style="color: #fff;" href="http://www.beian.miit.gov.cn/">20042597</a>号
+  </a>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" style="color: #fff;" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine-1.3.4.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+				admin_email: 'jingshanccc@qq.com',
+        verify: false,
+        notify: false,
+        appId: 'R0UO5alWKm8fusrJzNpSbokA-9Nh9j0Va',
+        appKey: 'jr0nCd5y6QtnHqbdQT7sF6ur',
+        placeholder: '留下邮箱，有回复时你将收到提醒，邮箱不会被公开。',
+        emoticon_url: 'https://cloud.panjunwen.com/alu',
+        emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+	<script type="text/javascript">
+		 var alltags=document.getElementById("tags");
+     if(alltags !== null){
+       var tags=alltags.getElementsByTagName("a");
+       	
+       for (var i = tags.length - 1; i >= 0; i--) {
+       			 var r=Math.floor(Math.random()*75+130);
+       			 var g=Math.floor(Math.random()*75+100);
+       			 var b=Math.floor(Math.random()*75+80);
+       			 tags[i].style.background = "rgb("+r+","+g+","+b+")";
+       }
+     }
+	</script>
+</body>
+</html>
