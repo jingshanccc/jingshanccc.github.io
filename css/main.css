@@ -1961,7 +1961,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #8fffff;
+  background: #d7abd9;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3329,7 +3329,7 @@ a.my-post-title-link {
   top: 10px;
   width: 18px;
   height: 18px;
-  content: "🌈";
+  content: "🚩";
   font-size: 18px;
   line-height: 18px;
   margin-right: 16px;
@@ -3346,23 +3346,23 @@ a.my-post-title-link {
 }
 .posts-expand .post-body h3:before {
   top: 10px;
-  width: 18px;
-  height: 18px;
-  content: "💧";
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: 18px;
-  line-height: 18px;
-  margin-right: 16px;
-}
-.posts-expand .post-body h3:before {
-  top: 10px;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   content: "🎯";
   font: normal normal normal 14px/1 FontAwesome;
   font-size: 18px;
-  line-height: 18px;
-  margin-right: 16px;
+  line-height: 16px;
+  margin-right: 10px;
+}
+.posts-expand .post-body h4:before {
+  top: 10px;
+  width: 14px;
+  height: 14px;
+  content: "🌈";
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 14px;
+  line-height: 14px;
+  margin-right: 10px;
 }
 h1,
 h2,
