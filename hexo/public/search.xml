@@ -1184,6 +1184,25 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </tags>
   </entry>
   <entry>
+    <title>个人Java开发环境搭建（日常更新）</title>
+    <url>/posts/27c7c088.html</url>
+    <content><![CDATA[<p/>
+
+<a id="more"></a>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><div class="note info"><p>本文主要用于个人记录开发环境的搭建，便于环境迁移时的重建工作，文中提及相关文件可在<a href="https://quqi.com/" target="_blank" rel="noopener">曲奇云盘</a>中获取</p></div>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><ol>
+<li>Windows<br>运行jdk-8u181-windows-x64.exe以安装JDK</li>
+<li>Linux<br>解压<code>tar -zxvf jdk-xxx.tar.gz</code>，配置环境变量<h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h2>解压apache-maven-3.6.3-bin.zip，配置环境变量<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2></li>
+<li>安装Git-2.27.0-64-bit.exe</li>
+<li>配置ssh key<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#配置身份信息</span></span><br><span class="line">git config --global user.name <span class="string">"xx"</span></span><br><span class="line">git config --global user.email <span class="string">"xx@xx.com"</span></span><br><span class="line"><span class="comment">#生成密钥</span></span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"xx@xx.com"</span></span><br></pre></td></tr></table></figure>
+进入.ssh文件夹下复制公钥id_rsa_pub文本内容，在<code>Github-&gt;settings-&gt;ssh and gpg keys-&gt;new ssh key</code><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 测试是否配置成功</span></span><br><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+多用户Git配置请参考]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Java异常体系</title>
     <url>/posts/f885a170.html</url>
     <content><![CDATA[<p></p>
