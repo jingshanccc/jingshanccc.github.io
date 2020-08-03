@@ -108,7 +108,6 @@ deploy:
 	repo: 
 		github: root@realmicah.xyz:/home/git/blog.git
 		git: git@github.com:jingshanccc/jingshanccc.github.io.git
-    cloudstudio: git@e.coding.net:realmicah/blog/blog.git
 	branch: master
 -	type: baidu_url_submitter
 search:

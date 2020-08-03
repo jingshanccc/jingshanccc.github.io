@@ -1,5 +1,5 @@
 cd C:\blog
 
-git pull --allow-unrelated-histories
+git pull
 
 pause
