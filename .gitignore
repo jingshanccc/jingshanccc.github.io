@@ -1,3 +1,6 @@
+#file
+update.bat
+
 # Numerous always-ignore extensions
 *.bak
 *.patch
