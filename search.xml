@@ -2762,8 +2762,8 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>递归</tag>
+        <tag>动态规划</tag>
         <tag>记忆化搜索</tag>
         <tag>剑指Offer</tag>
       </tags>
