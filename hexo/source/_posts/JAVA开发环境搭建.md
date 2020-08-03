@@ -1,7 +1,7 @@
 ---
-title: 个人Java开发环境搭建（日常更新）
+title: 个人Java开发环境搭建（闲时更新）
 categories:
-  - 笔记
+- 笔记
 image: 'https://gitee.com/jingshanccc/image/raw/master/image/20200803104632.jpg'
 abbrlink: 27c7c088
 ---
@@ -120,8 +120,8 @@ npm install -g cnpm
 
 ## 博客迁移
 有以下三种方法
-1. Cloud Studio线上开发
-2. 从Coding仓库下载后安装hexo和其他依赖即可
+1. [Cloud Studio](https://realmicah.cloudstudio.net/dashboard/workspace)线上开发
+2. 从[Coding仓库](https://realmicah.coding.net/)克隆到本地后安装hexo和其他依赖即可
 3. 复制scaffolds、source、themes、_config.yml、package.json，在新文件夹下安装hexo和其他依赖
    
 ## 虚拟机相关

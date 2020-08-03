@@ -614,8 +614,8 @@
         <category>Java后端面试</category>
       </categories>
       <tags>
-        <tag>Spring Cloud</tag>
         <tag>Java后端面试</tag>
+        <tag>Spring Cloud</tag>
       </tags>
   </entry>
   <entry>
@@ -1184,7 +1184,7 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </tags>
   </entry>
   <entry>
-    <title>个人Java开发环境搭建（日常更新）</title>
+    <title>个人Java开发环境搭建（闲时更新）</title>
     <url>/posts/27c7c088.html</url>
     <content><![CDATA[<p/>
 
@@ -1193,96 +1193,49 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><div class="note info"><p>本文主要用于个人记录开发环境的搭建，便于环境迁移时的重建工作，文中提及相关文件可在<a href="https://quqi.com/" target="_blank" rel="noopener">曲奇云盘</a>中获取</p></div>
 <h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><ol>
 <li>Windows<br>运行jdk-8u181-windows-x64.exe以安装JDK</li>
-<li>Linux<br>解压<code>tar -zxvf jdk-xxx.tar.gz</code>，配置环境变量<h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h2>解压apache-maven-3.6.3-bin.zip，配置环境变量<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2></li>
+<li>Linux<br>解压<code>tar -zxvf jdk-xxx.tar.gz</code>，配置环境变量</li>
+</ol>
+<h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h2><p>解压apache-maven-3.6.3-bin.zip，配置环境变量</p>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><ol>
 <li>安装Git-2.27.0-64-bit.exe</li>
 <li>配置ssh key<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#配置身份信息</span></span><br><span class="line">git config --global user.name <span class="string">"xx"</span></span><br><span class="line">git config --global user.email <span class="string">"xx@xx.com"</span></span><br><span class="line"><span class="comment">#生成密钥</span></span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"xx@xx.com"</span></span><br></pre></td></tr></table></figure>
 进入.ssh文件夹下复制公钥id_rsa_pub文本内容，在<code>Github-&gt;settings-&gt;ssh and gpg keys-&gt;new ssh key</code><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 测试是否配置成功</span></span><br><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-多用户Git配置请参考]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Java异常体系</title>
-    <url>/posts/f885a170.html</url>
-    <content><![CDATA[<p></p>
+多用户Git配置请参考<a href="/posts/372eebb7.html" title="本地配置Git多账户">本地配置Git多账户</a></li>
+</ol>
+<h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h2><ol>
+<li>解压mysql-8.0.20-winx64.zip，进入bin目录</li>
+<li>创建my.ini<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"> <span class="comment"># 设置3306端口</span></span><br><span class="line"> port=3306</span><br><span class="line"> <span class="comment"># 设置mysql的安装目录</span></span><br><span class="line"> basedir=C:\\Program Files\\mysql-8.0.20</span><br><span class="line"> <span class="comment"># 设置mysql数据库的数据的存放目录</span></span><br><span class="line"> datadir=C:\\Program Files\\mysql-8.0.20\\Data</span><br><span class="line"> <span class="comment"># 允许最大连接数</span></span><br><span class="line"> max_connections=200</span><br><span class="line"> <span class="comment"># 允许连接失败的次数。</span></span><br><span class="line"> max_connect_errors=10</span><br><span class="line"> <span class="comment"># 服务端使用的字符集默认为utf8mb4</span></span><br><span class="line"> character-set-server=utf8mb4</span><br><span class="line"> <span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line"> default-storage-engine=INNODB</span><br><span class="line"> <span class="comment"># 默认使用“mysql_native_password”插件认证</span></span><br><span class="line"> <span class="comment">#mysql_native_password</span></span><br><span class="line"> default_authentication_plugin=mysql_native_password</span><br><span class="line"> [mysql]</span><br><span class="line"> <span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line"> default-character-set=utf8mb4</span><br><span class="line"> [client]</span><br><span class="line"> <span class="comment"># 设置mysql客户端连接服务端时默认使用的端口</span></span><br><span class="line"> port=3306</span><br><span class="line"> default-character-set=utf8mb4</span><br></pre></td></tr></table></figure></li>
+<li>初始化Mysql<br>在命令行窗口进入bin目录，执行<code>mysqld --initialize --console</code>，记录随机生成的密码</li>
+<li>安装并启动<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql --install</span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">net start mysql</span><br></pre></td></tr></table></figure></li>
+<li>设置密码<br><code>mysql -u root -p</code>输入密码进入mysql控制台，通过<code>set password = password(&#39;xxx&#39;);</code>修改默认密码</li>
+<li>忘记默认密码？<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 关闭服务 </span></span><br><span class="line">net stop mysql</span><br><span class="line"><span class="comment"># 跳过验证</span></span><br><span class="line">mysqld --console --skip-grant-tables --shared-memory </span><br><span class="line"><span class="comment"># 新开一个cmd窗口，启动mysql服务，使用空密码进入 </span></span><br><span class="line">mysql -u root -p</span><br><span class="line"><span class="comment"># 使用mysql数据表</span></span><br><span class="line">use mysql;</span><br><span class="line">update user <span class="built_in">set</span> authentication_string=<span class="string">''</span> <span class="built_in">where</span> user=<span class="string">'root'</span>;（将密码置为空）</span><br><span class="line">quit;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭第二步的cmd窗口，新开一个cmd窗口，先关闭服务，重新打开。</span></span><br><span class="line">mysql -u -root -p进入，此时使用空密码进入</span><br><span class="line"><span class="comment"># 修改密码即可</span></span><br><span class="line">ALTER USER <span class="string">'root'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'新密码'</span>;</span><br></pre></td></tr></table></figure>
 
-<a id="more"></a>
-
-<h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。</p>
-<p>运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：</p>
-<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004826.png" alt="图片"></p>
-<p>Error下有OutOfMemoryError和StackOverflowError，Exception下有RuntimeException和IOException。常见的Runtime有NumberFormatException，ClassNotFoundException，ClassCastException，CloneNotSpportException，IndexOutOfBoundException，常见的IOException有FileNotFoundException，FileExistsException，EncodeException，DecodeException，SocketException等。</p>
-<h2 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h2><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><ol>
-<li><p>逻辑：如果有finally，执行完try会执行finally，如果有finally有return或者让程序结束的语句，则直接结束，否则会回到try中执行。</p>
-</li>
-<li><p>字节码：先是try中的翻译成机器指令(比如4-8条)，然后是finally块的指令(比如9-10条)，然后是return(11条)。接下来的字节码是catch中的指令(12-14)，然后是final的指令(15-16跟第一个finally一样的)，最后是goto指令(17)。每个catch有这么一段，goto指令都指向最后一句return(38)。最后还会有未被catch的其他异常，字节码结构为astore存储异常(33)，finally的指令(34-35)，aload取出异常，然后是抛出异常的athrow指令，最后一句是return(38条).也就是所有catch之后goto的位置。接下来是异常表Exception Table决定在抛异常后跳转到的位置，格式如下：</p>
-<table>
-<thead>
-<tr>
-<th align="center">from指令开始行</th>
-<th align="center">to指令最后行</th>
-<th align="center">target跳转到目标指令行号</th>
-<th align="center">type异常类型</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">12</td>
-<td align="center">Exception1–异常1</td>
-<td align="center">在try中抛出了异常Exception1</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">18</td>
-<td align="center">Exception2–异常2</td>
-<td align="center">在try中抛出了异常Exception2</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">8</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在try中抛出了未被catch的异常</td>
-</tr>
-<tr>
-<td align="center">12</td>
-<td align="center">17</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理Exception1时抛出了其他异常</td>
-</tr>
-<tr>
-<td align="center">18</td>
-<td align="center">23</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理Exception2时抛出了其他异常</td>
-</tr>
-<tr>
-<td align="center">33</td>
-<td align="center">37</td>
-<td align="center">33</td>
-<td align="center">any–其他异常</td>
-<td align="center">在处理其他异常的时候抛出了异常，准确来说是处理其他异常时finally抛出的异常</td>
-</tr>
-</tbody></table>
 </li>
 </ol>
-<h3 id="throw和throws"><a href="#throw和throws" class="headerlink" title="throw和throws"></a>throw和throws</h3><ol>
-<li>throw：用在方法体内，抛出异常，在运行时是一定会抛出的，由上层调用者处理抛出的异常</li>
-<li>throws：用在方法声明中，表示在运行时可能抛出异常，由上层调用者处理</li>
+<h2 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h2><ol>
+<li>nvm：用于npm版本控制，运行nvm-setup.exe</li>
+<li>设置nvm镜像：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nvm npm_mirror https://npm.taobao.org/mirrors/npm/</span><br><span class="line">nvm node_mirror https://npm.taobao.org/mirrors/node/</span><br></pre></td></tr></table></figure></li>
+<li>安装指定版本nodejs<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nvm install x.x.x</span><br></pre></td></tr></table></figure></li>
+<li>设置npm镜像<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></li>
+<li>使用cnpm<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm</span><br></pre></td></tr></table></figure>
+
+</li>
 </ol>
+<h2 id="博客迁移"><a href="#博客迁移" class="headerlink" title="博客迁移"></a>博客迁移</h2><p>有以下三种方法</p>
+<ol>
+<li><a href="https://realmicah.cloudstudio.net/dashboard/workspace" target="_blank" rel="noopener">Cloud Studio</a>线上开发</li>
+<li>从<a href="https://realmicah.coding.net/" target="_blank" rel="noopener">Coding仓库</a>克隆到本地后安装hexo和其他依赖即可</li>
+<li>复制scaffolds、source、themes、_config.yml、package.json，在新文件夹下安装hexo和其他依赖</li>
+</ol>
+<h2 id="虚拟机相关"><a href="#虚拟机相关" class="headerlink" title="虚拟机相关"></a>虚拟机相关</h2><h3 id="Vmware"><a href="#Vmware" class="headerlink" title="Vmware"></a>Vmware</h3><ol>
+<li>解压vmware-pro15.zip，安装</li>
+<li>使用镜像CentOS-7-x86_64-Minimal-1908.iso，创建虚拟机</li>
+</ol>
+<h3 id="远程连接工具"><a href="#远程连接工具" class="headerlink" title="远程连接工具"></a>远程连接工具</h3><p>访问<a href="https://www.netsarang.com/zh/xshell/" target="_blank" rel="noopener">XShell官网</a>，获取家庭/学校版，填写邮箱和名字，收到邮件下载即可</p>
 ]]></content>
       <categories>
         <category>笔记</category>
       </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
   </entry>
   <entry>
     <title>Spring Cloud入门</title>
@@ -2207,6 +2160,88 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </categories>
   </entry>
   <entry>
+    <title>Java异常体系</title>
+    <url>/posts/f885a170.html</url>
+    <content><![CDATA[<p></p>
+
+<a id="more"></a>
+
+<h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Java中的异常都是Throwable的子类，分为Error和Exception，Error用来表示JVM无法处理的错误，Exception分为受检异常和不受检异常，又叫编译期异常和运行时异常，其区别是编译期异常如果不处理会编译失败，运行时异常可以通过编译。</p>
+<p>运行时异常时RuntimeException及其所有子类，除此之外都是编译期异常。其体系结构如下图：</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004826.png" alt="图片"></p>
+<p>Error下有OutOfMemoryError和StackOverflowError，Exception下有RuntimeException和IOException。常见的Runtime有NumberFormatException，ClassNotFoundException，ClassCastException，CloneNotSpportException，IndexOutOfBoundException，常见的IOException有FileNotFoundException，FileExistsException，EncodeException，DecodeException，SocketException等。</p>
+<h2 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h2><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><ol>
+<li><p>逻辑：如果有finally，执行完try会执行finally，如果有finally有return或者让程序结束的语句，则直接结束，否则会回到try中执行。</p>
+</li>
+<li><p>字节码：先是try中的翻译成机器指令(比如4-8条)，然后是finally块的指令(比如9-10条)，然后是return(11条)。接下来的字节码是catch中的指令(12-14)，然后是final的指令(15-16跟第一个finally一样的)，最后是goto指令(17)。每个catch有这么一段，goto指令都指向最后一句return(38)。最后还会有未被catch的其他异常，字节码结构为astore存储异常(33)，finally的指令(34-35)，aload取出异常，然后是抛出异常的athrow指令，最后一句是return(38条).也就是所有catch之后goto的位置。接下来是异常表Exception Table决定在抛异常后跳转到的位置，格式如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">from指令开始行</th>
+<th align="center">to指令最后行</th>
+<th align="center">target跳转到目标指令行号</th>
+<th align="center">type异常类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">12</td>
+<td align="center">Exception1–异常1</td>
+<td align="center">在try中抛出了异常Exception1</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">18</td>
+<td align="center">Exception2–异常2</td>
+<td align="center">在try中抛出了异常Exception2</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">8</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在try中抛出了未被catch的异常</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">17</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理Exception1时抛出了其他异常</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="center">23</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理Exception2时抛出了其他异常</td>
+</tr>
+<tr>
+<td align="center">33</td>
+<td align="center">37</td>
+<td align="center">33</td>
+<td align="center">any–其他异常</td>
+<td align="center">在处理其他异常的时候抛出了异常，准确来说是处理其他异常时finally抛出的异常</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h3 id="throw和throws"><a href="#throw和throws" class="headerlink" title="throw和throws"></a>throw和throws</h3><ol>
+<li>throw：用在方法体内，抛出异常，在运行时是一定会抛出的，由上层调用者处理抛出的异常</li>
+<li>throws：用在方法声明中，表示在运行时可能抛出异常，由上层调用者处理</li>
+</ol>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>本地配置Git多账户</title>
     <url>/posts/372eebb7.html</url>
     <content><![CDATA[<p>
@@ -2727,8 +2762,8 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>递归</tag>
         <tag>动态规划</tag>
+        <tag>递归</tag>
         <tag>记忆化搜索</tag>
         <tag>剑指Offer</tag>
       </tags>
