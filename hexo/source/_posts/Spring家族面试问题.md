@@ -7,8 +7,7 @@ categories:
   - Java后端面试
 image: 'https://gitee.com/jingshanccc/image/raw/master/image/20200722151317.png'
 abbrlink: caab1d3c
-top: 3
-date: '2020-07-26 22:14'
+date: '2020-07-16 22:14'
 ---
 
 <p></p>
@@ -43,9 +42,7 @@ Spring在启动时，其refresh方法完成了对容器的初始化以及Bean的
 
 ### 简述Bean的生命周期和作用范围
 
-首先是Spring对Bean进行实例化，将值和Bean的引用注入到其对应的属性中，如果实现了BeanNameAware接口，调用setBeanName方法，让
-
-Bean可以获取自己的ID/name，如果实现了BeanFactoryAware接口，调用setBeanFactory，让Bean可以获取配置自己的BeanFactory，将Bean实例传递给Bean的前置处理器的postProcessBeforeInitialization，调用Bean的初始化方法，如果是InitializingBean则先调用afterPropertiesSet方法，再调用设置的init-method，然后调用后置处理器的postProcessAfterInitialization，之后在工程中使用Bean，在容器关闭之前，调用DisposableBean的destroy方法，如果Bean有自定义销毁方法也会被调用
+首先是Spring对Bean进行实例化，将值和Bean的引用注入到其对应的属性中，如果实现了BeanNameAware接口，调用setBeanName方法，让Bean可以获取自己的ID/name，如果实现了BeanFactoryAware接口，调用setBeanFactory，让Bean可以获取配置自己的BeanFactory，拥有Spring容器的功能；将Bean实例传递给Bean的前置处理器的postProcessBeforeInitialization，调用Bean的初始化方法，如果是InitializingBean则先调用afterPropertiesSet方法（可以做一些属性验证和设置），再调用设置的init-method，然后调用后置处理器的postProcessAfterInitialization，之后在工程中使用Bean，在容器关闭之前，调用DisposableBean的destroy方法，如果Bean有自定义销毁方法也会被调用
 
 #### 什么是InitializingBean？
 

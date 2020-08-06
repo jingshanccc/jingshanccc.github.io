@@ -1,5 +1,5 @@
 ---
-title: 个人Java开发环境搭建（闲时更新）
+title: Java开发环境搭建（闲时更新）
 categories:
 - 笔记
 image: 'https://gitee.com/jingshanccc/image/raw/master/image/20200803104632.jpg'
