@@ -209,13 +209,96 @@ SpringMVC是一个基于MVC设计模型的请求驱动的轻量级WEB框架，�
 6. ModelAndView：装在模型数据和视图信息，作为Handler处理结果返回给DispatcherServlet
 7. ViewResolver：视图解析器，DispatcherServlet通过解析器将逻辑视图转换为物理视图，最终将渲染的结果返回给客户端
 
+### Spring MVC中的Request是怎么获取的？
 
+使用上，可以直接通过接口中以入参的方式获取Request和Response，也可以通过@Autowired注入，因此可以发现，它是作为Bean被Spring容器管理的。
+
+#### 线程安全吗？
+
+通过注入获取到的Bean是一个代理对象，其根源是从RequestContextHolder中的requestAttributesHolder获取的，而requestAttributesHolder是ThreadLocal类型，因此是线程隔离的，因此我们得到的request和response是线程安全的。
+
+#### 注入**时机**
+
+在dispatcherServlet的processRequest方法中，调用了initContextHolders方法，会将本次请求的request以及localContext、requestAttributes传入并设置到上述的ThrealLocal类型requestAttributesHolder中。
+
+## Spring事务
+
+Spring支持编程式事务管理和声明式事务管理两种方式。编程式倾入性高，使用TransactionTemplate。声明式事务管理基于AOP，对方法前后进行拦截，因此不会影响业务逻辑的实现。
+
+### 声明式事务的实现
+
+基于aop代理实现，在调用目标方法时，由动态生成的代理类来调用，transactional注解的配置将决定是否由transactionInterceptor拦截，此时加入事务，根据处理结果是否抛出异常决定事务的提交和回滚(事务管理器-不同的管理器管理不同的数据源)。
+
+### 注解@Transactional有哪些参数？
+
+1. 传播行为propagation：有六种类型，REQUIRED-如果有就加入，没有就新建、REQUIRED_NEW-如果有就挂起，没有就新建、SUPPORT-如果有就加入，没有就以非事务运行、MANDATORY-如果有就加入，没有就报错、NOT_SUPPORTS-如果有挂起，没有就以非事务运行、NEVER-如果有报错，没有就以非事务运行、NESTED-如果有就嵌套，没有就新建
+
+   |                        |                   REQUIRED_NEW两个独立事务                   | REQUIRED<br />B支持A的事务 | NESTED<br />B嵌套在A里 |
+   | :--------------------: | :----------------------------------------------------------: | :------------------------: | :--------------------: |
+   | methodA异常methodB正常 |                       A回滚，B正常提交                       |          一起回滚          |        一起回滚        |
+   | methodA正常methodB异常 | 如果A处理了B的异常则B先回滚A正常提交；如果没处理则B先回滚A再回滚 |          一起回滚          |   B先回滚，A正常提交   |
+   | methodA异常methodB异常 |                       B先回滚，A再回滚                       |          一起回滚          |        一起回滚        |
+   | methodA正常methodB正常 |                       B先提交，A再提交                       |          一起提交          |        一起提交        |
+
+   
+
+2. 隔离级别isolation：四种，分别是读未提交、读已提交、可重复读、串行化
+
+3. 超时时间timeout：默认30，单位是s
+
+4. 只读readOnly：默认是false，true为只读
+
+5. 异常回滚rollbackFor：值为单个异常类或数组
+
+6. 异常回滚rollbackForClassName：值为单个异常类名称或数组
+
+7. 不回滚noRollbackFor[ClassName]：不回滚的异常类
+
+### 什么情况下会失效？
+
+1. 错误的事务传播机制导致非事务的方式执行：SUPPORTS-有则用无则不用，NEVER-有则异常，NOT_SUPPORTS-有则挂起。
+
+2. rollbackfor：默认只在ERROR/RuntimeException回滚，其他情况事务也不回滚。可以增加自定义的异常。
+
+3. 非public的方法：上述的transactionInterceptor执行前，动态代理的intercept方法(cglib)或invoke方法(jdk动态代理)会间接调用transactionAttributeSource的方法来获取tansactional的配置信息，此时如果方法不是public修饰，则不会读取配置信息。也将导致不会使用transactionInterceptor来拦截，事务也不会生效
+
+4. 自调用问题：如果一个类中未被transactional修饰的方法调用了本类transactional修饰的方法，由于动态代理下，只有外部调用才会使用代理对象来调用目标方法所以内部调用事务将失效。
+
+   {% fold 为什么无法自调用 %}
+
+   生成的代理类通过反射得到真实类的所有方法，通过invoke调用具体的某个方法A，如果A内部又调用了类的B方法，那么此时通过invoke调用时是调用了A，B的调用由真实类来完成，因此只有A是代理调用，也就只有A的切入逻辑。
+
+   {% endfold %}
+
+   
 
 ## Spring Data JPA和My Batis的区别？
 
 两者都是ORM对象关系映射框架，将JavaBean对象映射到关系型数据库，通过操作实体类来操作数据库表。Spring Data JPA在运行时通过JDK动态代理创建了Proxy对象SimpleJpaRepository，通过hibernate完成数据库操作。My Batis是一种半自动的ORM框架，使用时通过XML与JavaBean对象产生映射关系连接起来，同时需要书写sql语句，查询的结果通过ResultMap映射到Java对象。从表关联上看，My Batis更加灵活，JPA并不提供多表关联查询
 
+### Mybatis如何防止SQL注入？
 
+sql注入是指恶意的sql语句被插入到执行的实体字段中，例如在sql语句中添加`or '1'='1'`，有可能入侵参数校验不足的应用程序。在安全性要求很高的应用（如银行），经常使用将SQL转为存储过程这样的方式来防止sql注入
+
+Mybatis在使用#{}来传参时是经过预编译的，即编译时使用占位符代替入参，在运行时会通过替换占位符的方式提高安全性防止sql注入。底层是通过PreparedStatement来实现。
+
+{% fold PreparedStatement示例 %}
+
+```java
+Connection conn = getConn();//获得连接
+String sql = "select id, username, password, role from user where id=?"; //执行sql前会预编译号该条语句
+PreparedStatement pstmt = conn.prepareStatement(sql); 
+pstmt.setString(1, id); 
+String sql = "select id,username,password,role from user where id=" + id;
+//当id参数为"3;drop table user;"时，执行的sql语句如下:
+//select id,username,password,role from user where id=3; drop table user;  
+PreparedStatement pstmt = conn.prepareStatement(sql);
+ResultSet rs=pstmt.executeUpdate(); 
+```
+
+
+
+{% endfold %}
 
 ## SpringBoot
 
