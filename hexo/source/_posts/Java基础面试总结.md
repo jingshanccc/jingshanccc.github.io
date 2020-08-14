@@ -100,13 +100,25 @@ Throwable下有Error和Exception，Error用来标识JVM无法处理的错误，E
 
 {% endnote %}
 
+### 对两个值相同的Integer，使用==判断是true还是false？
+
+如果使用`Integer a = 1`这种方式声明，在缓存池范围内是true，范围外是false，因为在缓存范围外是在堆中创建一个新对象。
+
+如果使用`Integer a = new Integer(1)`，则都是false。
+
 ### String为什么是不可变对象？但是又可以修改它的值？
 
 在Java中String被**final**关键字修饰，因此是不可被继承的。存储字符串内容的char数组也通过**final**修饰，并且不提供修改数组的方法，因此String是不可变的。Java9中改用byte数组存放，并用coder指定编码类型（0-单字节Latin-1，1-双字节UTF-16）。主要是为了节省空间。
 
 对一个String对象的修改实际上都是创建了一个新String对象，再引用该对象。
 
-### String和StringBuidler和StringBuffer的区别
+#### String为什么设计成不可变的?
+
+1. 字符串常量池的需要：如果允许改变，那会造成改变了一个对象同时改变了来自相同字符串常量池引用的其他对象
+2. 字符串HashCode可缓存：因为字符串的HashCode常被使用，如HashMap所以通过缓存提高效率不用每次重复计算，不可变保证了hashCode不变。
+3. 安全：通过使其不可变来避免线程不安全问题。
+
+### String和StringBuilder和StringBuffer的区别
 
 String字符串相加时底层通过StringBuilder实现，但每次都会新生成一个StringBuidler对象且最终通过toString方法返回拼接后的字符串。StringBuilder可解决在字符串相加时创建多个字符串占用空间多效率低下的问题，底层是未被final修饰的初始容量为16的byte数组，可自动扩容。StringBuffer使用synchronized修饰，线程安全。
 
@@ -150,7 +162,7 @@ String字符串相加时底层通过StringBuilder实现，但每次都会新生�
 
 > 接口和抽象类对实体类进行更高层次的抽象，仅定义公共行为和特征。
 
-|   维度   |                       接口                       |                            抽象类                            |
+|   维度   |                      抽象类                      |                             接口                             |
 | :------: | :----------------------------------------------: | :----------------------------------------------------------: |
 | 成员变量 |                      无要求                      |                 默认public static final常量                  |
 | 构造方法 |              有构造方法，不能实例化              |                   没有构造方法，不能实例化                   |
@@ -162,6 +174,21 @@ String字符串相加时底层通过StringBuilder实现，但每次都会新生�
 ### 子类初始化顺序？
 
 父类静态代码块和静态变量->子类静态代码块和静态变量->父类普通代码块和普通变量->父类构造方法->子类普通代码块和普通变量->子类构造方法
+
+## 关键字
+
+1. 访问控制：private、protected、public
+2. 修饰符：abstract、class、extends、implements、interface、final、synchronized、volatile、transient、static
+3. 程序控制：switch-case、if-else、for、while、break、continue、default
+4. 错误处理：try-catch-finally、throw、throws
+5. 基本数据类型
+6. 变量引用：super、this、void
+
+### default关键字的作用
+
+1. 在switch-case语句中，如果case没有和开关值相匹配，则可用default匹配，如果没有default，则跳出到switch外
+2. 在注解中，使用default为属性设置默认值
+3. 接口方法使用default修饰就可以有方法体
 
 ## 集合
 
@@ -210,6 +237,18 @@ TreeMap基于红黑树实现，增删改查的平均和最差时间复杂度均�
 在JDK8之前：对于字符串类型，调用stringHash32计算；对于其他类型，使用一个不变的随机值hashSeed和key的hashCode异或之后，再通过移位和异或，最终和表的长度与运算获得最终的地址。这样既减少了哈希冲突又比取模效率更高
 
 在JDK8：当key为null时，返回0；否则通过key的hashCode与高16位做异或运算得到在数组中的位置，这种hash计算将高位的变化扩展到低位，避免因表范围的限制，高位不会在索引计算中使用，可以减少哈希冲突。
+
+#### HashMap产生hash冲突时如何解决
+
+采用了链地址法：每个节点都有一个next指针，构成一个单向链表
+
+- 哈希冲突的其他解决方式
+
+  开放定址法：迁到下一个地址
+
+  再哈希法：使用多个Hash函数，当产生冲突时使用第二个、第三个直到不冲突
+
+  溢出区：冲突的放到溢出区
 
 #### get函数的实现？
 
@@ -451,6 +490,12 @@ JUC的核心是AQS队列同步器，内部维护一个双向等待队列，内�
 2. yield方法会让出CPU时间片，回到RUNNABLE状态，与其他线程一起竞争时间片
 3. join方法用于等待其他线程运行终止，如果当前线程调用了其他线程的join方法，则当前线程进入BLOCKED状态，当另一个线程结束时，当前线程转为RUNNABLE，等待CPU时间片，底层使用的是wait，会释放锁
 
+### A、B、C三个线程，分别打印A、B、C，循环打印ABCABC如何实现
+
+1. AtomicInteger实现：一个实现了Runable接口的ThreadDemo类，设置一个AtomicInteger类型静态变量count为0，一个char数组存放A,B,C，一个char类型的name属性标识是A/B/C线程，在ThreadDemo的run方法中，通过name和count%3得到在char数组下标对应元素是否相等，相等则打印该元素并让count+1
+2. synchronized实现：类似的方式，count使用自定义的类MyInteger，因为改变Integer的值会导致对象引用变化，在进入while循环时使用synchronized锁住静态变量MyInteger，这样就可以保证三个线程同时只有一个能进入，然后再打印时采用相同的方式判断是否相等，相等则进入打印和加1环节，打印完需要通过notifyAll唤醒其他等待锁的线程，不相等则用wait等待被唤醒
+3. Lock实现：lock()和unlock()方法保证同时只有一个线程进入，用相同的方式判断是否打印，在finally中释放锁unlock()
+
 ### 线程有哪些状态？
 
 1. NEW：新建状态，尚未调用start启动
@@ -483,7 +528,7 @@ wait/notify：等待通知机制，线程A调用了对象的wait方法进入等�
 3. keepAliveTime：线程没有任务执行时最大存活时间
 4. unit：时间单位
 5. threadFactory：线程工厂，用来创建线程
-6. rejectHandler：拒绝策略，默认抛异常，可设为丢弃任务，丢弃最老任务，让当前线程转为执行该任务
+6. rejectHandler：拒绝策略，默认抛异常，可设为丢弃任务，丢弃最老任务，让提交线程执行该任务（造成提交线程无法继续提交其他任务的问题）
 
 {% note warning %}
 

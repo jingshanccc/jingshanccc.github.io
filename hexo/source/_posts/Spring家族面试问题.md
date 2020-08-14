@@ -76,7 +76,11 @@ BeanFactory是一个Factory接口，用来管理Bean的IOC容器，对象工厂�
 2. @Resource：直接按照Bean的id注入，只能注入Bean类型
 3. @Value：用于注入基本数据类型和String类型
 
+### Spring如何处理循环引用问题？
 
+构造方法注入：resolveReference中，最终通过getBean获取Bean示例并完成注入。对于单例Bean，在实例化时会将其添加到singletonsCurrentlyInCreation中，在beforeSingletonCreation方法中会进行判断，采用构造方法的方式，在实例化Bean1时会将其添加到singletonsCurrentlyInCreation，然后发现需要实例化Bean2，同样将其添加到singletonsCurrentlyInCreation中，此时Bean2的构造方法含有Bean1，因此需要实例化Bean1，此时在beforeSingletonCreation方法中就会发现singletonsCurrentlyInCreation中已经存在Bean1了，就会抛出循环引用异常BeanCurrentlyInCreationException。
+
+setter注入：populateBean，允许提前引用属性注入还未完成的Bean（earlySingletonObjects），在注入时，如果在缓存earlySingletonObjects集合中获取到了Bean，就会直接返回
 
 ## AOP是什么？
 
@@ -272,9 +276,14 @@ Spring支持编程式事务管理和声明式事务管理两种方式。编程�
 
    
 
-## Spring Data JPA和My Batis的区别？
+## Hibernate、Spring Data JPA和My Batis的区别？
 
 两者都是ORM对象关系映射框架，将JavaBean对象映射到关系型数据库，通过操作实体类来操作数据库表。Spring Data JPA在运行时通过JDK动态代理创建了Proxy对象SimpleJpaRepository，通过hibernate完成数据库操作。My Batis是一种半自动的ORM框架，使用时通过XML与JavaBean对象产生映射关系连接起来，同时需要书写sql语句，查询的结果通过ResultMap映射到Java对象。从表关联上看，My Batis更加灵活，JPA并不提供多表关联查询
+
+### Mybatis如何管理事务？
+
+1. JDBC：其实现类JdbcTransaction利用java.sql.Connection对象完成对事务的提交、回滚等
+2. MANAGED：交由程序的容器进行事务管理，其实现类ManagedTransaction对事务的提交和回滚不做任何操作
 
 ### Mybatis如何防止SQL注入？
 

@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Micah">
 <meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722003811.jpg">
 <meta property="article:published_time" content="2020-05-01T12:14:44.096Z">
-<meta property="article:modified_time" content="2020-08-06T01:23:06.692Z">
+<meta property="article:modified_time" content="2020-08-13T02:31:23.304Z">
 <meta property="article:author" content="Micah">
 <meta property="article:tag" content="Java后端面试">
 <meta property="article:tag" content="计算机网络">
@@ -428,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4.2k
+                  4.4k
                 </span>
               
 
@@ -468,10 +468,13 @@
 
 <h3 id="什么是RIP协议？"><a href="#什么是RIP协议？" class="headerlink" title="什么是RIP协议？"></a>什么是RIP协议？</h3><p>RIP是距离矢量路由协议，每个路由器维护一张表，记录自己和其他路由器之间的距离，在进行路由的时候优先选择距离短的。通过和相邻路由器交换信息更新表。</p>
 <h3 id="IP地址的分类"><a href="#IP地址的分类" class="headerlink" title="IP地址的分类"></a>IP地址的分类</h3><p>IP地址由网络号和主机号组成，共四个字节。根据网络号所占的字节数划分为ABCDE五类网。A类网网络号占一个字节，B类占两个字节，以此类推。</p>
-<details>
-    <summary>子网划分</summary>
-    从主机号借用若干位成为子网号，数据报仍根据网络号找到目的网络，由路由器根据网络号和子网号找到目的子网，通过子网掩码和目的地址逐位与操作，得到子网地址。
-</details>
+<div><div class="fold_hider"><div class="close hider_title">子网划分</div></div><div class="fold">
+<p>从主机号借用若干位成为子网号，数据报仍根据网络号找到目的网络，由路由器根据网络号和子网号找到目的子网，通过子网掩码和目的地址逐位与操作，得到子网地址。</p>
+<p><strong>意义</strong>：我们知道在交换机工作时会向当前局域网广播来寻找目的地址的MAC地址，也就是ARP协议，而如果没有子网划分，需要广播的范围就越广，然而最终只有一个目的地址的广播包起了作用，其他的都造成了资源的浪费，划分子网之后广播数据包只在同一网段传输，网络规模小，占用资源也更少。同时不同子网间无法直接通信，也提高了网络的安全性。</p>
+<p><strong>缺点：</strong>每个子网会有一个网络地址和广播地址不能作为主机地址，因此子网越多，浪费的IP也越多。同时不同子网通信需要用到路由器和网关等设备来通信。</p>
+
+</div></div>
+
 
 
 <h3 id="什么是ARP协议"><a href="#什么是ARP协议" class="headerlink" title="什么是ARP协议"></a>什么是ARP协议</h3><p>ARP是地址解析协议，完成了IP地址到物理地址的映射。每一个主机都有一张高速缓存映射表，里面记录了所在局域网内的其他主机和路由器的IP地址和物理地址。当主机需要发送数据包时，将查找自己的ARP缓存，如果能找到目的主机的记录，则直接发送，否则将向所在局域网广播一个ARP请求包，包含自己和目的主机的IP和MAC地址。收到请求的主机将检查自己是不是目的主机，如果是则保存源主机的IP和MAC地址，然后向源主机发送ARP响应，包含自己的IP和MAC地址。如果源主机请求的目的地址不在当前网络，将通过路由器转发到其他局域网进行查找。</p>
@@ -531,7 +534,7 @@
 </div></div>
 
 <h3 id="出现大量TIME-WAIT状态？"><a href="#出现大量TIME-WAIT状态？" class="headerlink" title="出现大量TIME_WAIT状态？"></a>出现大量TIME_WAIT状态？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
-<p>在高并发短连接的TCP服务器上，由于业务处理和数据传输的时间<strong>远小于</strong>TIME_WAIT超时时间，因此当服务器处理完请求后立刻主动正常关闭连接，就会出现大量TIME_WAIT状态。这是会占用这服务器的资源，因为端口是<strong>有限</strong>的，所以并发高时会有部分客户端无法连接到服务器</p>
+<p>在高并发短连接的TCP服务器上，由于业务处理和数据传输的时间<strong>远小于</strong>TIME_WAIT超时时间，因此当服务器处理完请求后立刻主动正常关闭连接，就会出现大量TIME_WAIT状态。这是会占用着服务器的资源，因为端口是<strong>有限</strong>的，所以并发高时会有部分客户端无法连接到服务器</p>
 
 </div></div>
 
