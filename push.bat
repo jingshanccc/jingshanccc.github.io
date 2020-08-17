@@ -1,3 +1,5 @@
+F:
+
 cd F:\blog
 
 git status

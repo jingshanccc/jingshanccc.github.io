@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>面试题 04.04. 检查平衡性</title>
+    <url>/posts/4ad52213.html</url>
+    <content><![CDATA[<blockquote>
+<p>实现一个函数，检查二叉树是否平衡。在这个问题中，平衡树的定义如下：任意一个节点，其两棵子树的高度差不超过 1。</p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p>示例 1:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">给定二叉树 [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">15</span>,<span class="number">7</span>]</span><br><span class="line">    <span class="number">3</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">9</span>  <span class="number">20</span></span><br><span class="line">    /  \</span><br><span class="line">   <span class="number">15</span>   <span class="number">7</span></span><br><span class="line">返回 <span class="keyword">true</span> 。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line">给定二叉树 [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">      <span class="number">1</span></span><br><span class="line">     / \</span><br><span class="line">    <span class="number">2</span>   <span class="number">2</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">3</span>   <span class="number">3</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">4</span>   <span class="number">4</span></span><br><span class="line">返回 <span class="keyword">false</span> 。</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树递归问题，在递归过程中我们将到达一个节点三次，在这三次过程中，我们需要收集树的信息并判断是否符合要求的条件，具体地说，在这个问题中，判断以当前节点为根节点的树是否是平衡的，需要知道左子树是否平衡、右子树是否平衡，当左右都平衡的时候，需要知道当前节点是否平衡——左子树和右子树的高度差。因此我们需要的信息是，左子树的高度以及是否平衡、右子树的高度是否平衡。</p>
+<p>于是我们确定了递归需要返回的信息是<strong>树的高度和是否平衡</strong>。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root).isBalanced;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> Data <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>(!left.isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>,<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>(!right .isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right.h - left.h) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Data(Math.max(left.h, right.h)+<span class="number">1</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">boolean</span> isBalanced;</span><br><span class="line">    Data(<span class="keyword">int</span> h , <span class="keyword">boolean</span> isBalanced)&#123;</span><br><span class="line">        <span class="keyword">this</span>.h = h;</span><br><span class="line">        <span class="keyword">this</span>.isBalanced = isBalanced;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>在把思路理清并写出了上面的代码之后，可以再简化代码，具体的是简化返回的内容。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root) != -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>( left == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>( right == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right - left) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Math.max(left, right)+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>程序员面试经典</category>
+        <category>Leetcode</category>
+        <category>二叉树</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+        <tag>程序员面试经典</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面试题11. 旋转数组的最小数字</title>
     <url>/posts/639f1318.html</url>
     <content><![CDATA[<blockquote>
@@ -75,39 +108,6 @@
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题 04.04. 检查平衡性</title>
-    <url>/posts/4ad52213.html</url>
-    <content><![CDATA[<blockquote>
-<p>实现一个函数，检查二叉树是否平衡。在这个问题中，平衡树的定义如下：任意一个节点，其两棵子树的高度差不超过 1。</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p>示例 1:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">给定二叉树 [<span class="number">3</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">15</span>,<span class="number">7</span>]</span><br><span class="line">    <span class="number">3</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">9</span>  <span class="number">20</span></span><br><span class="line">    /  \</span><br><span class="line">   <span class="number">15</span>   <span class="number">7</span></span><br><span class="line">返回 <span class="keyword">true</span> 。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line">给定二叉树 [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">      <span class="number">1</span></span><br><span class="line">     / \</span><br><span class="line">    <span class="number">2</span>   <span class="number">2</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">3</span>   <span class="number">3</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">4</span>   <span class="number">4</span></span><br><span class="line">返回 <span class="keyword">false</span> 。</span><br></pre></td></tr></table></figure></div>
-
-
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树递归问题，在递归过程中我们将到达一个节点三次，在这三次过程中，我们需要收集树的信息并判断是否符合要求的条件，具体地说，在这个问题中，判断以当前节点为根节点的树是否是平衡的，需要知道左子树是否平衡、右子树是否平衡，当左右都平衡的时候，需要知道当前节点是否平衡——左子树和右子树的高度差。因此我们需要的信息是，左子树的高度以及是否平衡、右子树的高度是否平衡。</p>
-<p>于是我们确定了递归需要返回的信息是<strong>树的高度和是否平衡</strong>。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root).isBalanced;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> Data <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>(!left.isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>,<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Data right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>(!right .isBalanced)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right.h - left.h) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Data(<span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Data(Math.max(left.h, right.h)+<span class="number">1</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">boolean</span> isBalanced;</span><br><span class="line">    Data(<span class="keyword">int</span> h , <span class="keyword">boolean</span> isBalanced)&#123;</span><br><span class="line">        <span class="keyword">this</span>.h = h;</span><br><span class="line">        <span class="keyword">this</span>.isBalanced = isBalanced;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>在把思路理清并写出了上面的代码之后，可以再简化代码，具体的是简化返回的内容。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBalanced</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//高度差小于1 -- 需要的值有 当前树的高度,是否平衡</span></span><br><span class="line">    <span class="keyword">return</span> process(root) != -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span> )&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = process(node.left);</span><br><span class="line">    <span class="keyword">if</span>( left == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> right = process(node.right);</span><br><span class="line">    <span class="keyword">if</span>( right == -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(Math.abs(right - left) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Math.max(left, right)+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>程序员面试经典</category>
-        <category>Leetcode</category>
-        <category>二叉树</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-        <tag>程序员面试经典</tag>
       </tags>
   </entry>
   <entry>
@@ -663,6 +663,26 @@
       </tags>
   </entry>
   <entry>
+    <title>面试题05. 替换空格</title>
+    <url>/posts/48c165ca.html</url>
+    <content><![CDATA[<blockquote>
+<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
+<p>示例1：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
+]]></content>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面试题04. 二维数组中的查找</title>
     <url>/posts/dda4a850.html</url>
     <content><![CDATA[<blockquote>
@@ -687,80 +707,6 @@
       <tags>
         <tag>剑指Offer</tag>
         <tag>二维数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题05. 替换空格</title>
-    <url>/posts/48c165ca.html</url>
-    <content><![CDATA[<blockquote>
-<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
-<p>示例1：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
-]]></content>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题06. 从尾到头打印链表</title>
-    <url>/posts/9649f58.html</url>
-    <content><![CDATA[<blockquote>
-<p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
-<p>示例1：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：head = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>]</span><br><span class="line">输出：[<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>对于链表的操作，无法方便地使用下标来获取元素，因此，必然需要从头节点开始通过next指针操作。但是需要从尾到头打印，也就是头节点最后被打印，尾节点第一个被打印。因此我们可以利用栈的后进先出的特点，帮助我们完成这道题。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;<span class="comment">//不修改输入</span></span><br><span class="line">    Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        stack.push(cur.val);</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[stack.size()];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; stack.size(); i++)&#123;</span><br><span class="line">        res[i] = stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>使用栈需要额外的空间复杂度，我们注意到返回结果是一个数组，而数组可以方便地使用下标来存取元素。因此我们先遍历链表获得链表的长度，初始化数组，再次遍历链表，将第一个节点值放在数组的最后一个位置，第二个节点放在倒数第二个位置，…以此类推。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;</span><br><span class="line">    <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        size ++;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[size];</span><br><span class="line">    cur = head;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        res[--size] = cur.val;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-        <tag>剑指Offer</tag>
-        <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题10- I. 斐波那契数列</title>
-    <url>/posts/18deca0d.html</url>
-    <content><![CDATA[<blockquote>
-<p>写一个函数，输入 n ，求斐波那契数列的第 n 项。斐波那契数列定义如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">F(<span class="number">0</span>) = <span class="number">0</span>, F(<span class="number">1</span>) = <span class="number">1</span>, F(N) = F(N-<span class="number">1</span>)+F(N-<span class="number">2</span>),N&gt;<span class="number">1</span>.</span><br></pre></td></tr></table></figure>
-
-<p>答案需要取模 1e9+7(1000000007)，如计算结果为1000000008，则返回1.</p>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>这道题最直接的思路就是通过递归来求解，它的递归过程和终止条件都已经给出。因此我们可以直接写出这样的代码。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt; <span class="number">2</span>)&#123;<span class="comment">//递归终止条件</span></span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fib(n-<span class="number">1</span>)%<span class="number">1000000007</span> + fib(n - <span class="number">2</span>)%<span class="number">1000000007</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>但是简单的这样递归时间复杂度是O(ф^n)，ф是黄金分割比，是一个指数级别的时间复杂度。原因是这样的求解过程中出现了大量的重复计算。</p>
-<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004614.jpg" alt="重复计算"></p>
-<p>对数字n，求解fib(n-1)、<strong>fib(n-2)</strong>，之后对n-1，求解<strong>f(n-2)</strong>、<strong>f(n-3)</strong>，对n-2，求解<strong>f(n-3)</strong>、f(n-4)……因此我们可以通过先解决小问题，再求解大问题，先求解 1,2,3….直到n。这样就可以避免重复求解。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">0</span>; <span class="comment">//记录中间结果</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        sum = (a + b) % <span class="number">1000000007</span>;</span><br><span class="line">        b = a;<span class="comment">//往后移动</span></span><br><span class="line">        a = sum;<span class="comment">//往后移动</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>剑指Offer</category>
-      </categories>
-      <tags>
-        <tag>递归</tag>
-        <tag>动态规划</tag>
-        <tag>记忆化搜索</tag>
-        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -796,6 +742,60 @@
       <tags>
         <tag>动态规划</tag>
         <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题10- I. 斐波那契数列</title>
+    <url>/posts/18deca0d.html</url>
+    <content><![CDATA[<blockquote>
+<p>写一个函数，输入 n ，求斐波那契数列的第 n 项。斐波那契数列定义如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">F(<span class="number">0</span>) = <span class="number">0</span>, F(<span class="number">1</span>) = <span class="number">1</span>, F(N) = F(N-<span class="number">1</span>)+F(N-<span class="number">2</span>),N&gt;<span class="number">1</span>.</span><br></pre></td></tr></table></figure>
+
+<p>答案需要取模 1e9+7(1000000007)，如计算结果为1000000008，则返回1.</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>这道题最直接的思路就是通过递归来求解，它的递归过程和终止条件都已经给出。因此我们可以直接写出这样的代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt; <span class="number">2</span>)&#123;<span class="comment">//递归终止条件</span></span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fib(n-<span class="number">1</span>)%<span class="number">1000000007</span> + fib(n - <span class="number">2</span>)%<span class="number">1000000007</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>但是简单的这样递归时间复杂度是O(ф^n)，ф是黄金分割比，是一个指数级别的时间复杂度。原因是这样的求解过程中出现了大量的重复计算。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004614.jpg" alt="重复计算"></p>
+<p>对数字n，求解fib(n-1)、<strong>fib(n-2)</strong>，之后对n-1，求解<strong>f(n-2)</strong>、<strong>f(n-3)</strong>，对n-2，求解<strong>f(n-3)</strong>、f(n-4)……因此我们可以通过先解决小问题，再求解大问题，先求解 1,2,3….直到n。这样就可以避免重复求解。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">0</span>; <span class="comment">//记录中间结果</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        sum = (a + b) % <span class="number">1000000007</span>;</span><br><span class="line">        b = a;<span class="comment">//往后移动</span></span><br><span class="line">        a = sum;<span class="comment">//往后移动</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>递归</tag>
+        <tag>记忆化搜索</tag>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试题06. 从尾到头打印链表</title>
+    <url>/posts/9649f58.html</url>
+    <content><![CDATA[<blockquote>
+<p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
+<p>示例1：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：head = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>]</span><br><span class="line">输出：[<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>对于链表的操作，无法方便地使用下标来获取元素，因此，必然需要从头节点开始通过next指针操作。但是需要从尾到头打印，也就是头节点最后被打印，尾节点第一个被打印。因此我们可以利用栈的后进先出的特点，帮助我们完成这道题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;<span class="comment">//不修改输入</span></span><br><span class="line">    Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        stack.push(cur.val);</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[stack.size()];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; stack.size(); i++)&#123;</span><br><span class="line">        res[i] = stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>使用栈需要额外的空间复杂度，我们注意到返回结果是一个数组，而数组可以方便地使用下标来存取元素。因此我们先遍历链表获得链表的长度，初始化数组，再次遍历链表，将第一个节点值放在数组的最后一个位置，第二个节点放在倒数第二个位置，…以此类推。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">    ListNode cur = head;</span><br><span class="line">    <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        size ++;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[size];</span><br><span class="line">    cur = head;</span><br><span class="line">    <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">        res[--size] = cur.val;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+        <tag>剑指Offer</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -992,6 +992,71 @@
       </categories>
   </entry>
   <entry>
+    <title>Leetcode周赛-187</title>
+    <url>/posts/2b34ab19.html</url>
+    <content><![CDATA[<p/>
+
+<a id="more"></a>
+
+<h3 id="旅行终点站"><a href="#旅行终点站" class="headerlink" title="旅行终点站"></a>旅行终点站</h3><blockquote>
+<p>给你一份旅游线路图，该线路图中的旅行线路用数组 <code>paths</code> 表示，其中 <code>paths[i] = [cityAi, cityBi]</code> 表示该线路将会从 <code>cityAi</code> 直接前往 <code>cityBi</code> 。请你找出这次旅行的终点站，即没有任何可以通往其他城市的线路的城市<em>。</em></p>
+<p>题目数据保证线路图会形成一条不存在循环的线路，因此只会有一个旅行终点站。</p>
+</blockquote>
+<div class="note info"><p><strong>示例 1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：paths &#x3D; [[&quot;London&quot;,&quot;New York&quot;],[&quot;New York&quot;,&quot;Lima&quot;],[&quot;Lima&quot;,&quot;Sao Paulo&quot;]]</span><br><span class="line">输出：&quot;Sao Paulo&quot; </span><br><span class="line">解释：从 &quot;London&quot; 出发，最后抵达终点站 &quot;Sao Paulo&quot; 。本次旅行的路线是 &quot;London&quot; -&gt; &quot;New York&quot; -&gt; &quot;Lima&quot; -&gt; &quot;Sao Paulo&quot; 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：paths &#x3D; [[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;,&quot;B&quot;],[&quot;C&quot;,&quot;A&quot;]]</span><br><span class="line">输出：&quot;A&quot;</span><br><span class="line">解释：所有可能的线路是：</span><br><span class="line">&quot;D&quot; -&gt; &quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;A&quot;. </span><br><span class="line">显然，旅行终点站是 &quot;A&quot; 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：paths &#x3D; [[&quot;A&quot;,&quot;Z&quot;]]</span><br><span class="line">输出：&quot;Z&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="💡-解法"><a href="#💡-解法" class="headerlink" title="💡 解法"></a>💡 解法</h3><p>终点站不会出现在任何线路的起点，因此将所有终点存入一个set，然后将出现在起点的站点从set中删除，最终剩下的就是终点站。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">destCity</span><span class="params">(List&lt;List&lt;String&gt;&gt; paths)</span> </span>&#123;</span><br><span class="line">    Set&lt;String&gt; city = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(List&lt;String&gt; cs : paths)&#123;</span><br><span class="line">        city.add(cs.get(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(List&lt;String&gt; cd : paths)&#123;</span><br><span class="line">        <span class="keyword">if</span>(city.contains(cd.get(<span class="number">0</span>)))&#123;</span><br><span class="line">            city.remove(cd.get(<span class="number">0</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> city.iterator().next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="是否所有-1-都至少相隔-k-个元素"><a href="#是否所有-1-都至少相隔-k-个元素" class="headerlink" title="是否所有 1 都至少相隔 k 个元素"></a>是否所有 1 都至少相隔 k 个元素</h2><blockquote>
+<p>给你一个由若干 <code>0</code> 和 <code>1</code> 组成的数组 <code>nums</code> 以及整数 <code>k</code>。如果所有 <code>1</code> 都至少相隔 <code>k</code> 个元素，则返回 <code>True</code> ；否则，返回 <code>False</code> 。</p>
+</blockquote>
+<div class="note info"><p><strong>示例 1：</strong></p>
+<p><strong><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004857.png" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [1,0,0,0,1,0,0,1], k &#x3D; 2</span><br><span class="line">输出：true</span><br><span class="line">解释：每个 1 都至少相隔 2 个元素。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<p><strong><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004907.png" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [1,0,0,1,0,1], k &#x3D; 2</span><br><span class="line">输出：false</span><br><span class="line">解释：第二个 1 和第三个 1 之间只隔了 1 个元素。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [1,1,1,1,1], k &#x3D; 0</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 4：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [0,1,0,1], k &#x3D; 1</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="💡-解法-1"><a href="#💡-解法-1" class="headerlink" title="💡 解法"></a>💡 解法</h3><p>只要所有1之间最小的间隔等于k即可。换句话说，如果还没出现k个0就再次出现1，返回false。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">kLengthApart</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> distance = k;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; nums.length; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i] == <span class="number">1</span> &amp;&amp; distance &lt; k)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        distance = nums[i]==<span class="number">0</span> ? distance + <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="绝对差不超过限制的最长连续子数组"><a href="#绝对差不超过限制的最长连续子数组" class="headerlink" title="绝对差不超过限制的最长连续子数组"></a>绝对差不超过限制的最长连续子数组</h2><blockquote>
+<p>给你一个整数数组 <code>nums</code> ，和一个表示限制的整数 <code>limit</code>，请你返回最长连续子数组的长度，该子数组中的任意两个元素之间的绝对差必须小于或者等于 <code>limit</code> <em>。</em></p>
+<p>如果不存在满足条件的子数组，则返回 <code>0</code> 。</p>
+</blockquote>
+<div class="note info"><p><strong>示例 1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [10,1,2,4,7,2], limit &#x3D; 5</span><br><span class="line">输出：4 </span><br><span class="line">解释：满足题意的最长子数组是 [2,4,7,2]，其最大绝对差 |2-7| &#x3D; 5 &lt;&#x3D; 5 。</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="💡-解法-2"><a href="#💡-解法-2" class="headerlink" title="💡 解法"></a>💡 解法</h3><p>最长连续子数组问题，都可以通过暴力枚举以每一个位置开头的最长连续子数组来求解。要求子数组任意两个元素之间绝对差小于等于<code>limit</code>，而最大的绝对差来自最大值和最小值的差，因此需要动态维护子数组中的最大值和最小值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestSubarray</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = nums.length;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> min = nums[i];</span><br><span class="line">        <span class="keyword">int</span> max = nums[i];</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; n; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(Math.abs(nums[j]-min) &gt; limit || Math.abs(max-nums[j]) &gt; limit)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                count ++;</span><br><span class="line">                max = Math.max(max, nums[j]);</span><br><span class="line">                min = Math.min(min, nums[j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res = Math.max(count, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>提交之后会获得一个<strong>超时</strong>的结果😂。</p>
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上述过程中，由于没有利用到上一次求取过程中的信息，每一个位置的求解都需要遍历该位置元素之后的整个数组，因此是O(N²)的复杂度。解题和优化的思路和Leetcode第 <a href="/posts/4bff4329.html" title="3. 无重复字符的最长子串">3. 无重复字符的最长子串</a> 题类似，既然开头行不通，那么我们可以反过来求解以每一个位置为结尾的满足要求的最长连续子数组。遍历每一个位置，从右向左查找满足条件的。<code>[left...i-1]</code>一定是满足条件的，通过 <code>i</code> 和其左边的数字，更新left，表示包含 <code>i</code> 之后，符合条件的最左下标。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestSubarray</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;<span class="comment">//满足条件的最小下标数组值。</span></span><br><span class="line">    <span class="keyword">int</span> res= <span class="number">0</span> ;</span><br><span class="line">    <span class="keyword">if</span>(nums.length == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt; nums.length; ++ i)&#123;</span><br><span class="line">        <span class="comment">//队列维护</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i - <span class="number">1</span>; j &gt;= left; j --)&#123;</span><br><span class="line">            <span class="comment">//如果存在相同的值，直接跳过，不处理left</span></span><br><span class="line">            <span class="keyword">if</span>(nums[i] == nums[j])&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 从右往左处理，如果有不满足，直接更新left.</span></span><br><span class="line">            <span class="keyword">if</span>(Math.abs(nums[j] - nums[i])&gt; limit)&#123;</span><br><span class="line">                left = j + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res = Math.max(res, i - left + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>文中题目以及图片来自 <a href="https://leetcode-cn.com/contest/weekly-contest-187/" target="_blank" rel="noopener">Leetcode 第 187 场周赛</a> .</p></div>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode周赛</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java异常体系</title>
     <url>/posts/f885a170.html</url>
     <content><![CDATA[<p></p>
@@ -1071,71 +1136,6 @@
       </categories>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Leetcode周赛-187</title>
-    <url>/posts/2b34ab19.html</url>
-    <content><![CDATA[<p/>
-
-<a id="more"></a>
-
-<h3 id="旅行终点站"><a href="#旅行终点站" class="headerlink" title="旅行终点站"></a>旅行终点站</h3><blockquote>
-<p>给你一份旅游线路图，该线路图中的旅行线路用数组 <code>paths</code> 表示，其中 <code>paths[i] = [cityAi, cityBi]</code> 表示该线路将会从 <code>cityAi</code> 直接前往 <code>cityBi</code> 。请你找出这次旅行的终点站，即没有任何可以通往其他城市的线路的城市<em>。</em></p>
-<p>题目数据保证线路图会形成一条不存在循环的线路，因此只会有一个旅行终点站。</p>
-</blockquote>
-<div class="note info"><p><strong>示例 1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：paths &#x3D; [[&quot;London&quot;,&quot;New York&quot;],[&quot;New York&quot;,&quot;Lima&quot;],[&quot;Lima&quot;,&quot;Sao Paulo&quot;]]</span><br><span class="line">输出：&quot;Sao Paulo&quot; </span><br><span class="line">解释：从 &quot;London&quot; 出发，最后抵达终点站 &quot;Sao Paulo&quot; 。本次旅行的路线是 &quot;London&quot; -&gt; &quot;New York&quot; -&gt; &quot;Lima&quot; -&gt; &quot;Sao Paulo&quot; 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：paths &#x3D; [[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;,&quot;B&quot;],[&quot;C&quot;,&quot;A&quot;]]</span><br><span class="line">输出：&quot;A&quot;</span><br><span class="line">解释：所有可能的线路是：</span><br><span class="line">&quot;D&quot; -&gt; &quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;A&quot;. </span><br><span class="line">显然，旅行终点站是 &quot;A&quot; 。</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：paths &#x3D; [[&quot;A&quot;,&quot;Z&quot;]]</span><br><span class="line">输出：&quot;Z&quot;</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-解法"><a href="#💡-解法" class="headerlink" title="💡 解法"></a>💡 解法</h3><p>终点站不会出现在任何线路的起点，因此将所有终点存入一个set，然后将出现在起点的站点从set中删除，最终剩下的就是终点站。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">destCity</span><span class="params">(List&lt;List&lt;String&gt;&gt; paths)</span> </span>&#123;</span><br><span class="line">    Set&lt;String&gt; city = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(List&lt;String&gt; cs : paths)&#123;</span><br><span class="line">        city.add(cs.get(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(List&lt;String&gt; cd : paths)&#123;</span><br><span class="line">        <span class="keyword">if</span>(city.contains(cd.get(<span class="number">0</span>)))&#123;</span><br><span class="line">            city.remove(cd.get(<span class="number">0</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> city.iterator().next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="是否所有-1-都至少相隔-k-个元素"><a href="#是否所有-1-都至少相隔-k-个元素" class="headerlink" title="是否所有 1 都至少相隔 k 个元素"></a>是否所有 1 都至少相隔 k 个元素</h2><blockquote>
-<p>给你一个由若干 <code>0</code> 和 <code>1</code> 组成的数组 <code>nums</code> 以及整数 <code>k</code>。如果所有 <code>1</code> 都至少相隔 <code>k</code> 个元素，则返回 <code>True</code> ；否则，返回 <code>False</code> 。</p>
-</blockquote>
-<div class="note info"><p><strong>示例 1：</strong></p>
-<p><strong><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004857.png" alt="img"></strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [1,0,0,0,1,0,0,1], k &#x3D; 2</span><br><span class="line">输出：true</span><br><span class="line">解释：每个 1 都至少相隔 2 个元素。</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<p><strong><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722004907.png" alt="img"></strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [1,0,0,1,0,1], k &#x3D; 2</span><br><span class="line">输出：false</span><br><span class="line">解释：第二个 1 和第三个 1 之间只隔了 1 个元素。</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [1,1,1,1,1], k &#x3D; 0</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 4：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [0,1,0,1], k &#x3D; 1</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-解法-1"><a href="#💡-解法-1" class="headerlink" title="💡 解法"></a>💡 解法</h3><p>只要所有1之间最小的间隔等于k即可。换句话说，如果还没出现k个0就再次出现1，返回false。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">kLengthApart</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> distance = k;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; nums.length; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i] == <span class="number">1</span> &amp;&amp; distance &lt; k)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        distance = nums[i]==<span class="number">0</span> ? distance + <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="绝对差不超过限制的最长连续子数组"><a href="#绝对差不超过限制的最长连续子数组" class="headerlink" title="绝对差不超过限制的最长连续子数组"></a>绝对差不超过限制的最长连续子数组</h2><blockquote>
-<p>给你一个整数数组 <code>nums</code> ，和一个表示限制的整数 <code>limit</code>，请你返回最长连续子数组的长度，该子数组中的任意两个元素之间的绝对差必须小于或者等于 <code>limit</code> <em>。</em></p>
-<p>如果不存在满足条件的子数组，则返回 <code>0</code> 。</p>
-</blockquote>
-<div class="note info"><p><strong>示例 1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [10,1,2,4,7,2], limit &#x3D; 5</span><br><span class="line">输出：4 </span><br><span class="line">解释：满足题意的最长子数组是 [2,4,7,2]，其最大绝对差 |2-7| &#x3D; 5 &lt;&#x3D; 5 。</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-解法-2"><a href="#💡-解法-2" class="headerlink" title="💡 解法"></a>💡 解法</h3><p>最长连续子数组问题，都可以通过暴力枚举以每一个位置开头的最长连续子数组来求解。要求子数组任意两个元素之间绝对差小于等于<code>limit</code>，而最大的绝对差来自最大值和最小值的差，因此需要动态维护子数组中的最大值和最小值。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestSubarray</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = nums.length;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> min = nums[i];</span><br><span class="line">        <span class="keyword">int</span> max = nums[i];</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; n; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(Math.abs(nums[j]-min) &gt; limit || Math.abs(max-nums[j]) &gt; limit)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                count ++;</span><br><span class="line">                max = Math.max(max, nums[j]);</span><br><span class="line">                min = Math.min(min, nums[j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res = Math.max(count, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>提交之后会获得一个<strong>超时</strong>的结果😂。</p>
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上述过程中，由于没有利用到上一次求取过程中的信息，每一个位置的求解都需要遍历该位置元素之后的整个数组，因此是O(N²)的复杂度。解题和优化的思路和Leetcode第 <a href="/posts/4bff4329.html" title="3. 无重复字符的最长子串">3. 无重复字符的最长子串</a> 题类似，既然开头行不通，那么我们可以反过来求解以每一个位置为结尾的满足要求的最长连续子数组。遍历每一个位置，从右向左查找满足条件的。<code>[left...i-1]</code>一定是满足条件的，通过 <code>i</code> 和其左边的数字，更新left，表示包含 <code>i</code> 之后，符合条件的最左下标。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestSubarray</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;<span class="comment">//满足条件的最小下标数组值。</span></span><br><span class="line">    <span class="keyword">int</span> res= <span class="number">0</span> ;</span><br><span class="line">    <span class="keyword">if</span>(nums.length == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> ; i &lt; nums.length; ++ i)&#123;</span><br><span class="line">        <span class="comment">//队列维护</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i - <span class="number">1</span>; j &gt;= left; j --)&#123;</span><br><span class="line">            <span class="comment">//如果存在相同的值，直接跳过，不处理left</span></span><br><span class="line">            <span class="keyword">if</span>(nums[i] == nums[j])&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 从右往左处理，如果有不满足，直接更新left.</span></span><br><span class="line">            <span class="keyword">if</span>(Math.abs(nums[j] - nums[i])&gt; limit)&#123;</span><br><span class="line">                left = j + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res = Math.max(res, i - left + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note warning"><p>文中题目以及图片来自 <a href="https://leetcode-cn.com/contest/weekly-contest-187/" target="_blank" rel="noopener">Leetcode 第 187 场周赛</a> .</p></div>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Leetcode周赛</tag>
       </tags>
   </entry>
   <entry>
@@ -1820,39 +1820,6 @@
       </tags>
   </entry>
   <entry>
-    <title>45. 跳跃游戏 II</title>
-    <url>/posts/f579176b.html</url>
-    <content><![CDATA[<blockquote>
-<p>给定一个非负整数数组，你最初位于数组的第一个位置。</p>
-<p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p>
-<p>你的目标是使用最少的跳跃次数到达数组的最后一个位置。</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,1,1,4]</span><br><span class="line">输出: 2</span><br><span class="line">解释: 跳到最后一个位置的最小跳跃数是 2。</span><br><span class="line">     从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>采用广度优先遍历的方式，记录从当前位置可以到达的所有位置，当可以到达最后一个位置时，返回结果。同时需要使用记录下一位置是否已经使用过用于<strong>剪枝</strong>，查找可以到达的下一个位置时，使用从大到小查找的<strong>贪心</strong>策略。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">jump</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length &lt; <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = nums.length;</span><br><span class="line">    <span class="comment">//bfs找到最快到达n-1的</span></span><br><span class="line">    Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    queue.add(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">boolean</span>[] used = <span class="keyword">new</span> <span class="keyword">boolean</span>[n];<span class="comment">//记录是否使用过</span></span><br><span class="line">    used[<span class="number">0</span>] = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">int</span> size = queue.size();</span><br><span class="line">        res ++;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span> ; i &lt; size; i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> index = queue.poll();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = nums[index]; j &gt; <span class="number">0</span>; j--)&#123;<span class="comment">//从大到小,一种贪心,一定程度提高效率,没有这个策略会超时</span></span><br><span class="line">                <span class="keyword">if</span>(j + index &gt;= n-<span class="number">1</span>)&#123;</span><br><span class="line">                    <span class="keyword">return</span> res;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(!used[j + index])&#123;</span><br><span class="line">                    queue.add(j + index);</span><br><span class="line">                    used[j+index] = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上述过程中，每一次都把接下来可以到达的、未使用过的<strong>所有</strong>位置放入队列，因此我们可以考虑如何在所有位置中选出最优的位置，最优的依据是：当前位置的能够到达的所有位置中，能够到达最远的位置。听起来有点绕，看个例子：</p>
-<blockquote>
-<p>对于示例 <code>[2,3,1,1,4]</code>，从下标 0 开始，可以到达的所有位置是：下标 1 ，2。在1和2中，最优的位置是 1，原因是：<code>nums[1] = 3</code>，即从下标 1 可以到达最远位置是 <code>1 + 3 = 4</code> ，而从下标 2 可以到达的最远位置是 <code>2 + 1 = 3</code>。</p>
-</blockquote>
-<p>根据这样的思路，其实很容易写成复杂度更高的，如果把找出最优位置的过程写成内层循环那就得不偿失了。那么还能通过什么方式来知道最优位置呢？答案是需要换个思路。我们的终止条件是到达数组<strong>最后一个位置</strong>，因此在查找过程中维护当前所能到达的最右边界，而最右边界的选取则采用上述的贪心策略。</p>
-<p><code>maxRight</code> 记录位置 <code>cur</code> 能到达的最远位置,  <code>[cur...end]</code>是所有能到达的下一位置，在这个区间内表示的是同一次跳跃，而当 <code>cur</code> 超过 <code>end</code>时，表示这次跳跃能够到达的所有位置已经查找结束，因此 <code>step + 1</code> ，同时将 <code>end</code> 更新为 <code>[cur...end]</code> 所能到达的最远位置。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">jump</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length &lt; <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = nums.length-<span class="number">1</span>;<span class="comment">//遍历到最后一个位置的前一个位置</span></span><br><span class="line">    <span class="comment">//贪心 </span></span><br><span class="line">    <span class="keyword">int</span> end = <span class="number">0</span>, maxRight = <span class="number">0</span>, step = <span class="number">0</span> , cur = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>( end &lt; n)&#123;</span><br><span class="line">        maxRight = Math.max(maxRight, cur + nums[cur]);</span><br><span class="line">        <span class="keyword">if</span>(cur == end)&#123;</span><br><span class="line">            end = maxRight;</span><br><span class="line">            step++;</span><br><span class="line">        &#125;</span><br><span class="line">        cur ++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> step;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>贪心算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>53. 最大子序和</title>
     <url>/posts/a42162e0.html</url>
     <content><![CDATA[<blockquote>
@@ -1894,35 +1861,36 @@
       </tags>
   </entry>
   <entry>
-    <title>530. 二叉搜索树的最小绝对差</title>
-    <url>/posts/56aa34eb.html</url>
+    <title>45. 跳跃游戏 II</title>
+    <url>/posts/f579176b.html</url>
     <content><![CDATA[<blockquote>
-<p>给你一棵所有节点非负值的二叉搜索树，请你计算树中任意两节点的差的绝对值的最小值。</p>
+<p>给定一个非负整数数组，你最初位于数组的第一个位置。</p>
+<p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p>
+<p>你的目标是使用最少的跳跃次数到达数组的最后一个位置。</p>
 </blockquote>
-<div class="note info"><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">   <span class="number">1</span></span><br><span class="line">    \</span><br><span class="line">     <span class="number">3</span></span><br><span class="line">    /</span><br><span class="line">   <span class="number">2</span></span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line"><span class="number">1</span></span><br><span class="line">解释：</span><br><span class="line">最小绝对差为 <span class="number">1</span>，其中 <span class="number">2</span> 和 <span class="number">1</span> 的差的绝对值为 <span class="number">1</span>（或者 <span class="number">2</span> 和 <span class="number">3</span>）。</span><br></pre></td></tr></table></figure></div>
-
 <a id="more"></a>
 
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树的问题通常使用递归来解决，需要考虑的是在递归过程中需要收集什么信息，足以判断是否符合题意条件。</p>
-<p>对于以某一个节点为根的树，它任意两个节点差值的最小值在其左子树求得的最小值、右子树求得的最小值、其<strong>前驱</strong>和<strong>后继</strong>节点与根节点的差值中产生（因为这是一棵二分搜索树）。</p>
-<p><strong>前驱节点</strong>：位于左子树的最右位置。数值上是左子树的最大值。</p>
-<p><strong>后继节点</strong>：位于右子树的最左位置。数值上是右子树的最小值。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><p>当节点为空/没有前驱后继节点时，返回整型最大值以避免影响判断。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinimumDifference</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//二分搜索数, 前驱和后继是和根差值最小的</span></span><br><span class="line">    <span class="comment">//左子树上的和右子树上的和当前的求最小的</span></span><br><span class="line">    <span class="keyword">return</span> process(root);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = process(node.left);</span><br><span class="line">    <span class="keyword">int</span> right = process(node.right);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cur = Integer.MAX_VALUE;</span><br><span class="line">    TreeNode precursor = pre(node.left);</span><br><span class="line">    <span class="keyword">if</span>(precursor != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur = Math.min( cur, Math.abs(node.val - precursor.val));</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode successor = suc(node.right);</span><br><span class="line">    <span class="keyword">if</span>( successor != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur = Math.min( cur, Math.abs(node.val - successor.val));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Math.min(left, Math.min(right, cur));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//求前驱</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> TreeNode <span class="title">pre</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">        node = node.right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//求后继</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> TreeNode <span class="title">suc</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">        node = node.left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [2,3,1,1,4]</span><br><span class="line">输出: 2</span><br><span class="line">解释: 跳到最后一个位置的最小跳跃数是 2。</span><br><span class="line">     从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>二分搜索树还有一个重要性质是其中序遍历序列是递增的。于是这道题可以通过在中序遍历时计算当前和前一个节点的差值与上一次的差值比较更新结果。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> min = Integer.MAX_VALUE;</span><br><span class="line">TreeNode pre = <span class="keyword">null</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinimumDifference</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    inOrder(root);</span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        inOrder(node.left);</span><br><span class="line">        <span class="keyword">if</span>(pre != <span class="keyword">null</span>)&#123;</span><br><span class="line">            min = Math.min(min, Math.abs(node.val- pre.val));</span><br><span class="line">        &#125;</span><br><span class="line">        pre = node;</span><br><span class="line">        inOrder(node.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>采用广度优先遍历的方式，记录从当前位置可以到达的所有位置，当可以到达最后一个位置时，返回结果。同时需要使用记录下一位置是否已经使用过用于<strong>剪枝</strong>，查找可以到达的下一个位置时，使用从大到小查找的<strong>贪心</strong>策略。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">jump</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length &lt; <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = nums.length;</span><br><span class="line">    <span class="comment">//bfs找到最快到达n-1的</span></span><br><span class="line">    Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    queue.add(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">boolean</span>[] used = <span class="keyword">new</span> <span class="keyword">boolean</span>[n];<span class="comment">//记录是否使用过</span></span><br><span class="line">    used[<span class="number">0</span>] = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">int</span> size = queue.size();</span><br><span class="line">        res ++;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span> ; i &lt; size; i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> index = queue.poll();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = nums[index]; j &gt; <span class="number">0</span>; j--)&#123;<span class="comment">//从大到小,一种贪心,一定程度提高效率,没有这个策略会超时</span></span><br><span class="line">                <span class="keyword">if</span>(j + index &gt;= n-<span class="number">1</span>)&#123;</span><br><span class="line">                    <span class="keyword">return</span> res;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(!used[j + index])&#123;</span><br><span class="line">                    queue.add(j + index);</span><br><span class="line">                    used[j+index] = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上述过程中，每一次都把接下来可以到达的、未使用过的<strong>所有</strong>位置放入队列，因此我们可以考虑如何在所有位置中选出最优的位置，最优的依据是：当前位置的能够到达的所有位置中，能够到达最远的位置。听起来有点绕，看个例子：</p>
+<blockquote>
+<p>对于示例 <code>[2,3,1,1,4]</code>，从下标 0 开始，可以到达的所有位置是：下标 1 ，2。在1和2中，最优的位置是 1，原因是：<code>nums[1] = 3</code>，即从下标 1 可以到达最远位置是 <code>1 + 3 = 4</code> ，而从下标 2 可以到达的最远位置是 <code>2 + 1 = 3</code>。</p>
+</blockquote>
+<p>根据这样的思路，其实很容易写成复杂度更高的，如果把找出最优位置的过程写成内层循环那就得不偿失了。那么还能通过什么方式来知道最优位置呢？答案是需要换个思路。我们的终止条件是到达数组<strong>最后一个位置</strong>，因此在查找过程中维护当前所能到达的最右边界，而最右边界的选取则采用上述的贪心策略。</p>
+<p><code>maxRight</code> 记录位置 <code>cur</code> 能到达的最远位置,  <code>[cur...end]</code>是所有能到达的下一位置，在这个区间内表示的是同一次跳跃，而当 <code>cur</code> 超过 <code>end</code>时，表示这次跳跃能够到达的所有位置已经查找结束，因此 <code>step + 1</code> ，同时将 <code>end</code> 更新为 <code>[cur...end]</code> 所能到达的最远位置。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">jump</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums == <span class="keyword">null</span> || nums.length &lt; <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n = nums.length-<span class="number">1</span>;<span class="comment">//遍历到最后一个位置的前一个位置</span></span><br><span class="line">    <span class="comment">//贪心 </span></span><br><span class="line">    <span class="keyword">int</span> end = <span class="number">0</span>, maxRight = <span class="number">0</span>, step = <span class="number">0</span> , cur = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>( end &lt; n)&#123;</span><br><span class="line">        maxRight = Math.max(maxRight, cur + nums[cur]);</span><br><span class="line">        <span class="keyword">if</span>(cur == end)&#123;</span><br><span class="line">            end = maxRight;</span><br><span class="line">            step++;</span><br><span class="line">        &#125;</span><br><span class="line">        cur ++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> step;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
         <category>Leetcode</category>
-        <category>二叉树</category>
       </categories>
       <tags>
         <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
+        <tag>贪心算法</tag>
       </tags>
   </entry>
   <entry>
@@ -2000,6 +1968,60 @@
         <tag>Leetcode</tag>
         <tag>二叉树</tag>
         <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>530. 二叉搜索树的最小绝对差</title>
+    <url>/posts/56aa34eb.html</url>
+    <content><![CDATA[<blockquote>
+<p>给你一棵所有节点非负值的二叉搜索树，请你计算树中任意两节点的差的绝对值的最小值。</p>
+</blockquote>
+<div class="note info"><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">   <span class="number">1</span></span><br><span class="line">    \</span><br><span class="line">     <span class="number">3</span></span><br><span class="line">    /</span><br><span class="line">   <span class="number">2</span></span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line"><span class="number">1</span></span><br><span class="line">解释：</span><br><span class="line">最小绝对差为 <span class="number">1</span>，其中 <span class="number">2</span> 和 <span class="number">1</span> 的差的绝对值为 <span class="number">1</span>（或者 <span class="number">2</span> 和 <span class="number">3</span>）。</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>二叉树的问题通常使用递归来解决，需要考虑的是在递归过程中需要收集什么信息，足以判断是否符合题意条件。</p>
+<p>对于以某一个节点为根的树，它任意两个节点差值的最小值在其左子树求得的最小值、右子树求得的最小值、其<strong>前驱</strong>和<strong>后继</strong>节点与根节点的差值中产生（因为这是一棵二分搜索树）。</p>
+<p><strong>前驱节点</strong>：位于左子树的最右位置。数值上是左子树的最大值。</p>
+<p><strong>后继节点</strong>：位于右子树的最左位置。数值上是右子树的最小值。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><p>当节点为空/没有前驱后继节点时，返回整型最大值以避免影响判断。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinimumDifference</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//二分搜索数, 前驱和后继是和根差值最小的</span></span><br><span class="line">    <span class="comment">//左子树上的和右子树上的和当前的求最小的</span></span><br><span class="line">    <span class="keyword">return</span> process(root);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">process</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left = process(node.left);</span><br><span class="line">    <span class="keyword">int</span> right = process(node.right);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cur = Integer.MAX_VALUE;</span><br><span class="line">    TreeNode precursor = pre(node.left);</span><br><span class="line">    <span class="keyword">if</span>(precursor != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur = Math.min( cur, Math.abs(node.val - precursor.val));</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode successor = suc(node.right);</span><br><span class="line">    <span class="keyword">if</span>( successor != <span class="keyword">null</span>)&#123;</span><br><span class="line">        cur = Math.min( cur, Math.abs(node.val - successor.val));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Math.min(left, Math.min(right, cur));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//求前驱</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> TreeNode <span class="title">pre</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">        node = node.right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//求后继</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> TreeNode <span class="title">suc</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">        node = node.left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>二分搜索树还有一个重要性质是其中序遍历序列是递增的。于是这道题可以通过在中序遍历时计算当前和前一个节点的差值与上一次的差值比较更新结果。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> min = Integer.MAX_VALUE;</span><br><span class="line">TreeNode pre = <span class="keyword">null</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinimumDifference</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    inOrder(root);</span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node != <span class="keyword">null</span>)&#123;</span><br><span class="line">        inOrder(node.left);</span><br><span class="line">        <span class="keyword">if</span>(pre != <span class="keyword">null</span>)&#123;</span><br><span class="line">            min = Math.min(min, Math.abs(node.val- pre.val));</span><br><span class="line">        &#125;</span><br><span class="line">        pre = node;</span><br><span class="line">        inOrder(node.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+        <category>二叉树</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>152. 乘积最大子数组</title>
+    <url>/posts/27e1a968.html</url>
+    <content><![CDATA[<blockquote>
+<p>给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>
+</blockquote>
+<a id="more"></a>
+
+<p>示例 1:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入: [<span class="number">2</span>,<span class="number">3</span>,-<span class="number">2</span>,<span class="number">4</span>]</span><br><span class="line">输出: <span class="number">6</span></span><br><span class="line">解释: 子数组 [<span class="number">2</span>,<span class="number">3</span>] 有最大乘积 <span class="number">6</span>。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line"></span><br><span class="line">输入: [-<span class="number">2</span>,<span class="number">0</span>,-<span class="number">1</span>]</span><br><span class="line">输出: <span class="number">0</span></span><br><span class="line">解释: 结果不能为 <span class="number">2</span>, 因为 [-<span class="number">2</span>,-<span class="number">1</span>] 不是子数组。</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+        <category>动态规划</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>数组</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -2094,28 +2116,6 @@
       </categories>
       <tags>
         <tag>广度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>152. 乘积最大子数组</title>
-    <url>/posts/27e1a968.html</url>
-    <content><![CDATA[<blockquote>
-<p>给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>
-</blockquote>
-<a id="more"></a>
-
-<p>示例 1:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入: [<span class="number">2</span>,<span class="number">3</span>,-<span class="number">2</span>,<span class="number">4</span>]</span><br><span class="line">输出: <span class="number">6</span></span><br><span class="line">解释: 子数组 [<span class="number">2</span>,<span class="number">3</span>] 有最大乘积 <span class="number">6</span>。</span><br><span class="line">示例 <span class="number">2</span>:</span><br><span class="line"></span><br><span class="line">输入: [-<span class="number">2</span>,<span class="number">0</span>,-<span class="number">1</span>]</span><br><span class="line">输出: <span class="number">0</span></span><br><span class="line">解释: 结果不能为 <span class="number">2</span>, 因为 [-<span class="number">2</span>,-<span class="number">1</span>] 不是子数组。</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Leetcode</category>
-        <category>动态规划</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>数组</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
