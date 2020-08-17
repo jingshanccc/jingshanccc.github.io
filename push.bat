@@ -1,4 +1,4 @@
-cd C:\blog
+cd F:\blog
 
 git status
 git add .

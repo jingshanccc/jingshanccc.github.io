@@ -1,4 +1,4 @@
-cd C:\blog\hexo
+cd F:\blog\hexo
 
 hexo clean && hexo g && hexo d
 
