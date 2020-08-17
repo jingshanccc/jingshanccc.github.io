@@ -879,6 +879,11 @@
 
 <a id="more"></a>
 
+<h2 id="Spring框架有哪些核心组件？"><a href="#Spring框架有哪些核心组件？" class="headerlink" title="Spring框架有哪些核心组件？"></a>Spring框架有哪些核心组件？</h2><ol>
+<li>Bean组件：在Spring的beans包下，主要完成Bean的创建、定义和解析工作，顶级接口是BeanFactory，实现类有ListableBeanFactory、HierarchicalBeanFactory、AutowireCapabaleBeanFactory，最终实现类是DefaultListableBeanFactory</li>
+<li>Context组件：即Spring的IOC容器，在Spring的context包下，为Spring提供运行环境，保存各个对象的状态。顶级父类是ApplicationContext，子类有WebApplicationContext</li>
+<li>Core组件：Spring的核心依赖，包含了很多关键的类，如在annotation包下的相关注解Order，env包下和环境相关的Environment、ConfigurablePropertyResolver等，io包下是和资源访问相关的类，加载资源的统一接口ResourceLoader，task包下的任务执行器</li>
+</ol>
 <h2 id="Spring-IOC"><a href="#Spring-IOC" class="headerlink" title="Spring IOC"></a>Spring IOC</h2><h3 id="IOC是什么？"><a href="#IOC是什么？" class="headerlink" title="IOC是什么？"></a>IOC是什么？</h3><p>IOC即控制反转，将对象的创建工作交给容器来实现，所以需要创建一个容器并且它需要知道创建对象间的关系，在Spring中管理对象及其依赖关系就是通过IOC容器实现的。IOC的实现方式有<strong>依赖注入</strong>和<strong>依赖查找</strong>，依赖查找通过容器和API来主动查找，例如<code>applicationContext.getBean(&quot;name&quot;);</code>，依赖注入是对象被动地接受依赖类，在容器实例化时将依赖注入给对象，Spring中除了初始化的Bean查找，组件及其依赖项都是用注入方式。</p>
 <h3 id="IOC容器的初始化过程是怎么样的"><a href="#IOC容器的初始化过程是怎么样的" class="headerlink" title="IOC容器的初始化过程是怎么样的"></a>IOC容器的初始化过程是怎么样的</h3><p>Spring在启动时，其refresh方法完成了对容器的初始化以及Bean的创建</p>
 <ol>
@@ -2252,8 +2257,8 @@
 ]]></content>
       <tags>
         <tag>数组</tag>
-        <tag>剑指Offer</tag>
         <tag>哈希</tag>
+        <tag>剑指Offer</tag>
       </tags>
   </entry>
   <entry>
@@ -2366,36 +2371,6 @@
       </tags>
   </entry>
   <entry>
-    <title>1022. 从根到叶的二进制数之和</title>
-    <url>/posts/39280e8c.html</url>
-    <content><![CDATA[<blockquote>
-<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
-<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
-<p>以 10^9 + 7 为模，返回这些数字之和。</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
-<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Leetcode</category>
-        <category>二叉树</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-        <tag>深度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1014. 最佳观光组合</title>
     <url>/posts/6cc1ef4f.html</url>
     <content><![CDATA[<blockquote>
@@ -2424,6 +2399,36 @@
       </categories>
       <tags>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1022. 从根到叶的二进制数之和</title>
+    <url>/posts/39280e8c.html</url>
+    <content><![CDATA[<blockquote>
+<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
+<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
+<p>以 10^9 + 7 为模，返回这些数字之和。</p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
+<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Leetcode</category>
+        <category>二叉树</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+        <tag>深度优先搜索</tag>
       </tags>
   </entry>
   <entry>
