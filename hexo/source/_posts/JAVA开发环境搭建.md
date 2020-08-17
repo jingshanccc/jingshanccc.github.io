@@ -131,3 +131,9 @@ npm install -g cnpm
    
 ### 远程连接工具
 访问[XShell官网](https://www.netsarang.com/zh/xshell/)，获取家庭/学校版，填写邮箱和名字，收到邮件下载即可
+
+## Wechat记录迁移
+
+1. 新电脑登录微信，获取WechatFiles/AllUsers/config/config.data
+2. 复制旧电脑WechatFiles到新电脑相同文件夹下，选择覆盖
+3. 打开复制过来的旧电脑的config.data，将路径替换为新电脑config.data的路径

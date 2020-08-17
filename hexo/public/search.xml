@@ -49,6 +49,11 @@
 <li>使用镜像CentOS-7-x86_64-Minimal-1908.iso，创建虚拟机</li>
 </ol>
 <h3 id="远程连接工具"><a href="#远程连接工具" class="headerlink" title="远程连接工具"></a>远程连接工具</h3><p>访问<a href="https://www.netsarang.com/zh/xshell/" target="_blank" rel="noopener">XShell官网</a>，获取家庭/学校版，填写邮箱和名字，收到邮件下载即可</p>
+<h2 id="Wechat记录迁移"><a href="#Wechat记录迁移" class="headerlink" title="Wechat记录迁移"></a>Wechat记录迁移</h2><ol>
+<li>新电脑登录微信，获取WechatFiles/AllUsers/config/config.data</li>
+<li>复制旧电脑WechatFiles到新电脑相同文件夹下，选择覆盖</li>
+<li>打开复制过来的旧电脑的config.data，将路径替换为新电脑config.data的路径</li>
+</ol>
 ]]></content>
       <categories>
         <category>笔记</category>
