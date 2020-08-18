@@ -1705,6 +1705,8 @@
 <li>Selector：多路复用器，轮询检查多个Channel的状态，判断注册事件是否发生，即判断Channel是否处于可读/可写状态</li>
 </ol>
 <p>其工作流程是通过Selector的静态方法open实例化一个选择器，通过Channel的register方法将通道的某个事件和Selector绑定起来，事件有CONNECT、ACCEPT、READ、WRITE。Selector的select方法返回目前就绪的通道数，通过selectKeys得到对应的集合，处理其中的事件</p>
+<h3 id="零拷贝是什么？Java中如何实现？"><a href="#零拷贝是什么？Java中如何实现？" class="headerlink" title="零拷贝是什么？Java中如何实现？"></a>零拷贝是什么？Java中如何实现？</h3><p>传统的IO在进行数据传输时，需要经历四次COPY，内核与I/O设备之间的两次COPY通过DMA直接内存拷贝，用户程序和内核之间的两次COPY需要经历用户态和内核态的切换。零拷贝避免了用户态和内核态的copy，减少了两次用户态和内核态的切换。</p>
+<p>Java中nio包下的FileChannel的transferTo写出和transferFrom读取可以实现零拷贝，直接将bytes数组从调用它的channel传输到另一个channel，不需要将源数据从内核态拷贝到用户态，再从用户态拷贝到目标channel的内核态，提高了效率。底层是通过系统的sendfile实现。</p>
 <h3 id="IO包下有哪些流？"><a href="#IO包下有哪些流？" class="headerlink" title="IO包下有哪些流？"></a>IO包下有哪些流？</h3><p>主要分为字符流和字节流，字符流一般用于处理文本文件，其他类型用字节流处理</p>
 <ul>
 <li>字节流：使用了<strong>装饰器模式</strong>，InputStream和OutputStream是抽象组件，FileInputStream、ByteArrayInputStream是基础实现类，FilterInputStream是抽象装饰器，其实现类BufferInputStream、PushBackInputStream等为基础实现类提供了额外的功能，使用BufferInputStream装饰FileInputStream（在FileInputStream外套上BufferInputStream）可以实现具有缓存的输入流；使用PushBackInputStream装饰ByteArrayInputStream可以实现具有回退读取unread的功能的输入流；<strong>DataInputStream</strong>提供了读取Java基本数据类型的方法，实现上并未改变基本的读写方法，只是动态的处理成需要的类型。</li>
@@ -3123,6 +3125,26 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </tags>
   </entry>
   <entry>
+    <title>面试题05. 替换空格</title>
+    <url>/posts/48c165ca.html</url>
+    <content><![CDATA[<blockquote>
+<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
+<p>示例1：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
+]]></content>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面试题06. 从尾到头打印链表</title>
     <url>/posts/9649f58.html</url>
     <content><![CDATA[<blockquote>
@@ -3149,26 +3171,6 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </tags>
   </entry>
   <entry>
-    <title>面试题05. 替换空格</title>
-    <url>/posts/48c165ca.html</url>
-    <content><![CDATA[<blockquote>
-<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
-<p>示例1：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
-]]></content>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>面试题10- I. 斐波那契数列</title>
     <url>/posts/18deca0d.html</url>
     <content><![CDATA[<blockquote>
@@ -3190,8 +3192,8 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>递归</tag>
+        <tag>动态规划</tag>
         <tag>记忆化搜索</tag>
         <tag>剑指Offer</tag>
       </tags>
