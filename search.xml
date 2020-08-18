@@ -1063,7 +1063,72 @@
 <h3 id="服务熔断有什么用？"><a href="#服务熔断有什么用？" class="headerlink" title="服务熔断有什么用？"></a>服务熔断有什么用？</h3><p>熔断机制是应对雪崩效应的一种微服务链路保护机制。当某个微服务不可用或者响应时间太长时，会进行服务降级，进而熔断该节点微服务的调用，快速返回“错误”的响应信息。当检测到该节点微服务调用响应正常后恢复调用链路。在SpringCloud框架里熔断机制通过Hystrix实现，Hystrix会监控微服务间调用的状况，当失败的调用到一定阈值，缺省是5秒内调用20次，如果失败，就会启动熔断机制。</p>
 <p>服务降级，一般是从整体负荷考虑。就是当某个服务熔断之后，服务器将不再被调用，此时客户端可以自己准备一个本地的fallback回调，返回一个缺省值。这样做，虽然水平下降，但好歹可用，比直接挂掉强。</p>
 <h3 id="如何理解分布式框架-分布式服务？"><a href="#如何理解分布式框架-分布式服务？" class="headerlink" title="如何理解分布式框架/分布式服务？"></a>如何理解分布式框架/分布式服务？</h3><p>分布式服务即是将传统的单体应用，从业务角度或其他角度切分为多个应用，独立运行，对外提供服务。部署在不同的服务器节点，称为分布式服务。框架用来具体实施时告诉你如何搭建出一套分布式系统。分布式框架中，最重要的两个组件就是注册中心和RPC框架，注册中心负责维护服务状态，RPC实现服务间的通信。</p>
-]]></content>
+<h2 id="分布式相关"><a href="#分布式相关" class="headerlink" title="分布式相关"></a>分布式相关</h2><h3 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h3><h4 id="CAP-BASE原则"><a href="#CAP-BASE原则" class="headerlink" title="CAP/BASE原则"></a>CAP/BASE原则</h4><p>CAP分别是Consistency一致性、Availability可用性、Partition tolerance分区容错性</p>
+<ol>
+<li>Consistency：对于多个分布式的多个应用节点，要求数据一致。如果某个节点修改了数据，其他节点在读该数据时能够读取到变化后的数据。</li>
+<li>Availability：在合理的时间返回合理的响应。提供可用正确的服务，返回正确处理结果而不是4xx/5xx</li>
+<li>Partition tolerance：当出现网络分区后，系统能够继续工作。集群中某个机器网络出现问题，但是集群依然正常工作。</li>
+</ol>
+<div><div class="fold_hider"><div class="close hider_title">网络分区</div></div><div class="fold">
+<p>当不同的服务节点之间的网络通信出现问题，称为网络分区。</p>
+<p>例如redis的哨兵组件由于出现网络问题而导致无法感知到主redis的状态，然后判断主redis不可用，而进行主从切换，此时主redis并非不可用，那么他还在为已连接的客户端服务，这样就会出现不一致。那么显然redis是一个ap系统。</p>
+
+</div></div>
+
+<p>BASE是对AP的一个扩展，ba是basically available基本可用，s是soft state软状态，e是eventual consistency最终一致性。即在系统出现故障时，允许损失部分可用功能，保证核心功能可用；允许存在中间状态，称为软状态(不一致)，但是经过一段时间后，所有节点的数据总会保持一致。</p>
+<h4 id="两段式提交"><a href="#两段式提交" class="headerlink" title="两段式提交"></a>两段式提交</h4><p>在这种协议中，系统一般包含两种节点，协调者(一般只有一个)，参与者(一般有多个)，在进行事务提交/回滚时分为两个阶段，一，请求阶段：协调者向所有参与者通知准备提交/回滚事务，参与者将告知协调者自己的决策-同意/拒绝；二，提交阶段：协调者基于第一阶段的投票结果将通知参与者进行提交/回滚操作。</p>
+<ul>
+<li>缺点：同步阻塞、单点问题、网络分区（脑裂）</li>
+</ul>
+<h4 id="三段式提交"><a href="#三段式提交" class="headerlink" title="三段式提交"></a>三段式提交</h4><p>在两段式的第一阶段插入预提交，执行但不提交，等待所有参与者的执行完成确认，收到所有确认后提交事务。可以解决当第一阶段执行完后在提交时只有一个完成提交后协调者和第一个参与者同时宕机，此时无人知道执行情况，加入预提交阶段可以直到此时提案已通过。</p>
+<ul>
+<li>解决：通过引入协调者等待超时解决同步阻塞问题；参与者等待超时自动提交解决单点问题</li>
+</ul>
+<h4 id="了解paxos协议吗？"><a href="#了解paxos协议吗？" class="headerlink" title="了解paxos协议吗？"></a>了解paxos协议吗？</h4><p>基于消息传递的具有高度容错性的算法，以“少数服从多数”原则和提案编号来产生Leader确定执行哪个提案。主要有三种角色，Proposer提案者、Acceptor表决者、Learner学习者。</p>
+<ol>
+<li>Prepare阶段：提案者提出提案N，发送给表决者，表决者根据自身最大编号，决定是否接受，当得到超过半数的表决者响应时进入Accept阶段</li>
+<li>Accept阶段：将提案N和内容发送给表决者，得到超过半数响应后其他的Acceptor称为Learner，同步该提案结果</li>
+</ol>
+<div><div class="fold_hider"><div class="close hider_title">活锁问题</div></div><div class="fold">
+<p>选举过程中，proposer的提案编号会由于没被接受而自增，因此多个proposer可能因此不断自增编号，但是没有一个成功被超过半数acceptor接收。</p>
+
+</div></div>
+
+
+
+<h3 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h3><h4 id="Zookeeper是一个什么样的组件？"><a href="#Zookeeper是一个什么样的组件？" class="headerlink" title="Zookeeper是一个什么样的组件？"></a>Zookeeper是一个什么样的组件？</h4><p>分布式协调服务，提供分布式数据一致性的解决方案，基于ZooKeeper可以实现负载均衡，命名服务，分布式锁等功能</p>
+<h4 id="ZXID是什么？"><a href="#ZXID是什么？" class="headerlink" title="ZXID是什么？"></a>ZXID是什么？</h4><p>是一个64位的ID，高32位为纪元epoch，低32位为事务ID，每产生一个leader，就会有一个新的epoch，每产生一个事务，则会自增事务ID</p>
+<h4 id="Zookeeper如何处理事务请求？"><a href="#Zookeeper如何处理事务请求？" class="headerlink" title="Zookeeper如何处理事务请求？"></a>Zookeeper如何处理事务请求？</h4><ol>
+<li>Leader将所有的请求封装成提案放入FIFO队列，按顺序发起提案</li>
+<li>Follower接收到提案后，比较zxid是否大于本地zxid，是则写入本地日志，发回ack</li>
+<li>Leader接收到半数以上的ack后发起commit，让follower提交事务</li>
+</ol>
+<h4 id="Leader的选举过程大概是什么样？"><a href="#Leader的选举过程大概是什么样？" class="headerlink" title="Leader的选举过程大概是什么样？"></a>Leader的选举过程大概是什么样？</h4><p>相关的源码在QuorumPeer.run()方法中，当进入Looking这个case时，通过lookForLeader执行选举过程，主要是将自身的id和选举地址作为消息发送给集群中的其他节点，发起投票，接收到投票的其他server根据自身id和发起投票的server的id大小比较将票投给id大的server，recvset中存放的是本轮获取的选票，如果节点收到的选票超过一半，则进入leading状态成为leader，其他节点进入following状态</p>
+<h4 id="Zookeeper使用的一致性协议了解吗？"><a href="#Zookeeper使用的一致性协议了解吗？" class="headerlink" title="Zookeeper使用的一致性协议了解吗？"></a>Zookeeper使用的一致性协议了解吗？</h4><p>基于FastPaxos的原子广播协议（Zookeeper Atomic Boardcast），Leader负责接收处理事务请求（写请求），以提案的形式发给Follower，得到半数响应则提交。有3种角色：</p>
+<ol>
+<li>Leader：负责写请求，发起提案投票</li>
+<li>Follower：负责读请求和转发写请求、投票提案、选举Leader</li>
+<li>Observer：观察者，没有投票权的Follower，协助处理读请求。直接增加follower会减慢投票过程，降低系统效率</li>
+</ol>
+<h4 id="Zookeeper的数据结构"><a href="#Zookeeper的数据结构" class="headerlink" title="Zookeeper的数据结构"></a>Zookeeper的数据结构</h4><p>类似Unix文件系统，每个目录节点称为Znode，Znode包含数据、子节点引用、访问权限和元数据。有四种类型：</p>
+<ol>
+<li>持久化目录节点PERSISTENT</li>
+<li>持久化顺序编号目录节PERSISTENT_SEQUENTIAL</li>
+<li>临时性目录节点EPHEMERAL</li>
+<li>临时性顺序编号目录节EPHEMERAL_SEQUENTIAL</li>
+</ol>
+<h4 id="有哪些应用场景？"><a href="#有哪些应用场景？" class="headerlink" title="有哪些应用场景？"></a>有哪些应用场景？</h4><ol>
+<li>配置中心：在进行create/delete等操作时，会调用triggerWatch对所有监听此Znode的客户端进行通知</li>
+<li>注册中心：将同一服务的节点存放在zookeeper某个目录节点下，当新增节点时会更新注册到zookeeper的服务列表</li>
+<li>集群管理：节点上线时会在目录下创建子节点，并将自己的状态发送到监控中心</li>
+<li>分布式锁：在目录节点下创建临时有序节点，序号最小的节点获得锁。当序号不是最小时，将通过watcher监听前一个节点，当节点被删除则可以收到通知</li>
+<li>分布式队列：每次让最小的节点出队，其他节点监听前一个节点</li>
+<li>DNS服务：创建目录节点存放域名和IP信息，从zk获取域名和IP的映射，通过watcher监听节点数据变更</li>
+</ol>
+<div><div class="fold_hider"><div class="close hider_title">watcher机制</div></div><div class="fold">
+<p>在进行create/delete等操作时，会调用triggerWatch对所有监听此Znode的客户端进行通知</p>
+
+</div></div>]]></content>
       <tags>
         <tag>Spring</tag>
       </tags>
@@ -1476,6 +1541,10 @@
 <p>② JDK8：</p>
 <p>如果table为空/长度为0则进行扩容，否则计算key对应的位置，不存在则调用newNode创建一个节点。如果存在且是TreeNode，则调用putTreeVal增加一个树节点，并维持平衡；如果是链表，则遍历插入/更新。此时如果树的size超过阈值8则通过treeifyBin方法，当table的长度大于64时将其转为红黑树，没超过时进行扩容。</p>
 <h4 id="扩容为什么要2的幂，具体是怎么扩容的？"><a href="#扩容为什么要2的幂，具体是怎么扩容的？" class="headerlink" title="扩容为什么要2的幂，具体是怎么扩容的？"></a>扩容为什么要2的幂，具体是怎么扩容的？</h4><p>保证为2的幂首先是在进行hash计算的时候，可以用与来替代取模运算，提高效率，其次可以减少碰撞，均匀分布。</p>
+<ol>
+<li>使用&amp;操作代替取模运算，&amp;length-1相当于%length，提升效率</li>
+<li>length-1为奇数，最后一位为1，保证了&amp;运算后的值可能为奇数/偶数，保证了散列的均匀性，如果length-1是偶数，那么所有hash值都会是偶数，这样造成了一般空间的浪费</li>
+</ol>
 <p>① JDK8之前：</p>
 <p>如果当前容量达到了最大容量<code>MAXIMUM_CAPACITY</code>，将阈值设置为Integer最大值，停止扩容；否则计算新容量，将阈值设为<code>newCapacity * loadFactor</code>和<code>MAXIMUM_CAPACITY + 1</code>的较小值，创建新容量的Entry数组，通过transfer将数据转移。遍历链表，重新计算位置，使用头插法将元素转移。</p>
 <p>② JDK8：</p>
