@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Micah">
 <meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722143755.png">
 <meta property="article:published_time" content="2020-07-16T14:14:00.000Z">
-<meta property="article:modified_time" content="2020-08-18T09:00:36.008Z">
+<meta property="article:modified_time" content="2020-08-18T09:05:00.266Z">
 <meta property="article:author" content="Micah">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary">
@@ -632,6 +632,8 @@
 
 </div></div>
 
+
+
 <p>BASE是对AP的一个扩展，ba是basically available基本可用，s是soft state软状态，e是eventual consistency最终一致性。即在系统出现故障时，允许损失部分可用功能，保证核心功能可用；允许存在中间状态，称为软状态(不一致)，但是经过一段时间后，所有节点的数据总会保持一致。</p>
 <h4 id="两段式提交"><a href="#两段式提交" class="headerlink" title="两段式提交"></a>两段式提交</h4><p>在这种协议中，系统一般包含两种节点，协调者(一般只有一个)，参与者(一般有多个)，在进行事务提交/回滚时分为两个阶段，一，请求阶段：协调者向所有参与者通知准备提交/回滚事务，参与者将告知协调者自己的决策-同意/拒绝；二，提交阶段：协调者基于第一阶段的投票结果将通知参与者进行提交/回滚操作。</p>
 <ul>
@@ -853,7 +855,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -864,7 +866,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
