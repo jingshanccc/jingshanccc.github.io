@@ -2553,6 +2553,36 @@
       </tags>
   </entry>
   <entry>
+    <title>1022. 从根到叶的二进制数之和</title>
+    <url>/posts/39280e8c.html</url>
+    <content><![CDATA[<blockquote>
+<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
+<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
+<p>以 10^9 + 7 为模，返回这些数字之和。</p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
+<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Leetcode</category>
+        <category>二叉树</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+        <tag>深度优先搜索</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1014. 最佳观光组合</title>
     <url>/posts/6cc1ef4f.html</url>
     <content><![CDATA[<blockquote>
@@ -2581,36 +2611,6 @@
       </categories>
       <tags>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1022. 从根到叶的二进制数之和</title>
-    <url>/posts/39280e8c.html</url>
-    <content><![CDATA[<blockquote>
-<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
-<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
-<p>以 10^9 + 7 为模，返回这些数字之和。</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
-<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Leetcode</category>
-        <category>二叉树</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-        <tag>深度优先搜索</tag>
       </tags>
   </entry>
   <entry>
@@ -3310,6 +3310,26 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
       </tags>
   </entry>
   <entry>
+    <title>面试题05. 替换空格</title>
+    <url>/posts/48c165ca.html</url>
+    <content><![CDATA[<blockquote>
+<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
+<p>示例1：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
+]]></content>
+      <tags>
+        <tag>剑指Offer</tag>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面试题06. 从尾到头打印链表</title>
     <url>/posts/9649f58.html</url>
     <content><![CDATA[<blockquote>
@@ -3333,26 +3353,6 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <tag>链表</tag>
         <tag>剑指Offer</tag>
         <tag>栈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试题05. 替换空格</title>
-    <url>/posts/48c165ca.html</url>
-    <content><![CDATA[<blockquote>
-<p>请实现一个函数，把字符串中的每个空格替换成“%20%”。</p>
-<p>示例1：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">"we are happy"</span></span><br><span class="line">输出：<span class="string">"we%20are%happy"</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<a id="more"></a>
-
-<h3 id="👊-暴力解法"><a href="#👊-暴力解法" class="headerlink" title="👊 暴力解法"></a>👊 暴力解法</h3><p>遍历字符串，如果遇到空格就替换成%20%</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i ++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i) == <span class="string">' '</span>)&#123;</span><br><span class="line">            sb.append(<span class="string">"%20"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> sb.append(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="💡-耍赖"><a href="#💡-耍赖" class="headerlink" title="💡 耍赖"></a>💡 耍赖</h3><p><code>return s.replaceAll(&quot; &quot; , &quot;%20%&quot; );</code></p>
-]]></content>
-      <tags>
-        <tag>剑指Offer</tag>
-        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -3539,8 +3539,8 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>递归</tag>
+        <tag>动态规划</tag>
         <tag>记忆化搜索</tag>
         <tag>剑指Offer</tag>
       </tags>
