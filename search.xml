@@ -1769,7 +1769,10 @@
 </li>
 </ul>
 <h3 id="什么是CAS？它会有什么问题？"><a href="#什么是CAS？它会有什么问题？" class="headerlink" title="什么是CAS？它会有什么问题？"></a>什么是CAS？它会有什么问题？</h3><p>CAS是指Compare And Swap，比较并交换，有3个操作数，分别是内存位置V、旧的预期值A和准备设置的新值B。CAS指令执行时，当且仅当V的值为A时，处理器才会用B更新V的值。其处理过程是原子操作，不会被其他线程打断。</p>
-<p>从语义上来说，如果V初次读取时A，并且在准备更新时仍为A，这并不能说明它没有被修改过，因为它可能已经<strong>先变为C再被改回A</strong>，但是CAS是察觉不到的，这个问题称为<strong>ABA问题</strong>。可以通过引入版本号、时间戳来解决这一问题。</p>
+<ol>
+<li>从语义上来说，如果V初次读取时A，并且在准备更新时仍为A，这并不能说明它没有被修改过，因为它可能已经<strong>先变为C再被改回A</strong>，但是CAS是察觉不到的，这个问题称为<strong>ABA问题</strong>。可以通过引入版本号、时间戳来解决这一问题。</li>
+<li>当多线程并发下，自旋可能一直不成功，循环消耗CPU，解决方法是限制时间/次数；或者采用LongAdder和ConcurrnetHashMap的方式，将锁粒度变小，LongAdder中由volatile修饰base变量和cells数组，当竞争激烈时将线程分担到cells数组中</li>
+</ol>
 <h3 id="了解ReentrantLock吗？和synchronized有什么区别"><a href="#了解ReentrantLock吗？和synchronized有什么区别" class="headerlink" title="了解ReentrantLock吗？和synchronized有什么区别"></a>了解ReentrantLock吗？和synchronized有什么区别</h3><p>ReentrantLock是JUC Lock接口的实现，synchronized是由JVM实现的，很多优化并不直接暴露给我们，ReentrantLock是API层面实现的，比synchronized拥有更细粒度的控制和更高级的功能，可实现中断响应、限时等待、等待通知、公平锁等。在性能上，JDK6之后做了许多优化，二者性能基本持平</p>
 <ol>
 <li>中断响应：通过lockInterrupt获取锁，能在获取过程中响应中断，如果中断则不再等待获取锁直接返回。而不响应中断的获取锁则是等待到获取锁成功再将线程置于中断状态</li>
@@ -1952,11 +1955,17 @@
 <p><strong>初始标记</strong>阶段进入STW，使用单线程标记GC Root直接关联的对象；<strong>并发标记</strong>阶段从初始标记的对象开始遍历，耗时较长但是不需要停顿；<strong>重新标记</strong>阶段修正在并发标记期间因用户程序运作而导致标记产生变动的部分记录，需要STW；<strong>并发清除</strong>清理垃圾，不需要移动对象，可以并发执行</p>
 <h4 id="G1回收过程"><a href="#G1回收过程" class="headerlink" title="G1回收过程"></a>G1回收过程</h4><p><strong>初始标记</strong>阶段进入STW，标记GC Root直接关联的对象，让下一阶段用户线程并发运行时能正确地在可用的Region中分配新对象；<strong>并发标记</strong>阶段从初始标记的对象开始遍历，查找整个堆，扫描完成后要重新处理此过程中变化的部分；<strong>最终标记</strong>进入短暂的STW，处理并发阶段结束后仍遗留的少量SATB记录；<strong>筛选回收</strong>对各Region的回收价值排序，根据用户期望停顿事件制定回收计划，需要暂停用户线程，多线程并发完成</p>
 <h4 id="CMS和G1的使用场景？"><a href="#CMS和G1的使用场景？" class="headerlink" title="CMS和G1的使用场景？"></a>CMS和G1的使用场景？</h4><ol>
-<li><p>CMS追求最短停顿时间，而GC时停顿时间将随着堆内存的增大而增大，因此在大内存中需要选择CMS，官方建议是8G。同时，在堆内存较小时，容易造成频繁CMS GC，而并发清理的过程也会抢占应用的CPU，CMS采用标记-清除算法，会产生很多碎片</p>
-</li>
-<li><p>在需要可控可预期的停顿周期场景下，使用G1更加合适，并且G1采用标记-整理算法，也适用在应用会产生大量内存碎片的场景下。</p>
-</li>
+<li>CMS追求最短停顿时间，而GC时停顿时间将随着堆内存的增大而增大，因此在大内存中需要选择CMS，官方建议是8G。同时，在堆内存较小时，容易造成频繁CMS GC，而并发清理的过程也会抢占应用的CPU，CMS采用标记-清除算法，会产生很多碎片</li>
+<li>在需要可控可预期的停顿周期场景下，使用G1更加合适，并且G1采用标记-整理算法，也适用在应用会产生大量内存碎片的场景下。</li>
 </ol>
+<p>JVM哪些区域会发生OOM，哪些不会？</p>
+<ol>
+<li>堆内存：当堆中没有内存可以分配给对象实例并且无法再扩展时，就会抛出OutOfMemoryError的错误，并会指明是head space。可以通过-Xmx和Xms来控制堆内存的大小，发生堆上OOM的可能是存在内存泄漏，也可能是堆大小分配不合理</li>
+<li>虚拟机栈和本地方法栈：如果线程请求的栈大于所分配的栈大小，就会抛出StackOverFlowError的错误，比如执行一个递归过深的方法。如果虚拟机栈是可扩展的，当扩展时无法申请足够的内存，会抛出OutOfMemoryError的错误</li>
+<li>直接内存：NIO可以使用native函数库在堆外内存上直接分配内存，当直接内存不足时，也会导致OOM</li>
+<li>方法区：元空间中内存不足时也会抛出Metaspace的OOM</li>
+</ol>
+<p>在程序计数器中不会发生OOM</p>
 <h3 id="你知道哪些内存分配和回收策略？"><a href="#你知道哪些内存分配和回收策略？" class="headerlink" title="你知道哪些内存分配和回收策略？"></a>你知道哪些内存分配和回收策略？</h3><ol>
 <li>对象优先在Eden区分配：大多数情况下对象在新生代Eden区分配，当Eden不足时会触发Minor GC</li>
 <li>大对象直接进入老年代：通过指定-XX:PretenureSizeThreshold参数，大于该值的直接在老年代分配</li>
@@ -2035,10 +2044,11 @@
 <p>通过Hash取模将文件分成n个小文件中，保证一个文件大小小于1M，对每个小文件通过HashMap统计出其频率，取出频率最高的100个词，写入新的文件，这样有得到了n个小文件，然后再对这n个小文件执行归并排序</p>
 </li>
 <li><p>有10个文件，每个文件1G，每行存放用户的query，每个文件的query都可能重复，按query的频次排序</p>
+<p>顺序读取10个文件，通过hash(query)%10放到另外的10个文件，再通过HashMap统计次数，然后使用归并/快速/堆排序按照出现次数进行排序，并将结果输出到另外的10个文件，再对这10个文件进行归并排序，每次从每个文件取m个，归并到结果文件中，然后不断补充（从排完序的文件中），直到所有数据全部归并完成</p>
 </li>
-</ol>
-<ol start="5">
-<li></li>
+<li><p>2.5亿个整数找出不重复整数的个数</p>
+<p>bitmap，用一个两位的bitmap，即00表示未出现，01表示出现1次，10表示重复。将所有整数映射到map上，如果出现就01，再次出现就10，10则不变。</p>
+</li>
 </ol>
 ]]></content>
       <tags>
@@ -2553,36 +2563,6 @@
       </tags>
   </entry>
   <entry>
-    <title>1022. 从根到叶的二进制数之和</title>
-    <url>/posts/39280e8c.html</url>
-    <content><![CDATA[<blockquote>
-<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
-<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
-<p>以 10^9 + 7 为模，返回这些数字之和。</p>
-</blockquote>
-<a id="more"></a>
-
-<div class="note info"><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
-
-<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
-<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
-<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Leetcode</category>
-        <category>二叉树</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-        <tag>二叉树</tag>
-        <tag>递归</tag>
-        <tag>深度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1014. 最佳观光组合</title>
     <url>/posts/6cc1ef4f.html</url>
     <content><![CDATA[<blockquote>
@@ -2611,6 +2591,36 @@
       </categories>
       <tags>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1022. 从根到叶的二进制数之和</title>
+    <url>/posts/39280e8c.html</url>
+    <content><![CDATA[<blockquote>
+<p>给出一棵二叉树，其上每个结点的值都是 0 或 1 。每一条从根到叶的路径都代表一个从最高有效位开始的二进制数。例如，如果路径为 0 -&gt; 1 -&gt; 1 -&gt; 0 -&gt; 1，那么它表示二进制数 01101，也就是 13 。</p>
+<p>对树上的每一片叶子，我们都要找出从根到该叶子的路径所表示的数字。</p>
+<p>以 10^9 + 7 为模，返回这些数字之和。</p>
+</blockquote>
+<a id="more"></a>
+
+<div class="note info"><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">22</span></span><br><span class="line">解释：(<span class="number">100</span>) + (<span class="number">101</span>) + (<span class="number">110</span>) + (<span class="number">111</span>) = <span class="number">4</span> + <span class="number">5</span> + <span class="number">6</span> + <span class="number">7</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="💡-思路"><a href="#💡-思路" class="headerlink" title="💡 思路"></a>💡 思路</h3><p>树中的路径问题，可以使用深度优先搜索来解决。本题中，需要求每一从根节点到叶子路径组成的二进制数的和。深搜过程中，需要保存已经得到的当前路径，到达根节点的标志是左右子树都为空，将二进制转为十进制我最开始无耻地使用 <code>Integer.parseInt(s,2)</code>，因为保存当前的路径直接用了字符串😂。</p>
+<h3 id="🧾-代码"><a href="#🧾-代码" class="headerlink" title="🧾 代码"></a>🧾 代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="string">""</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, String s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    s+=root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += (Integer.parseInt(s,<span class="number">2</span>)%<span class="number">1000000007</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, s);</span><br><span class="line">        dfs(root.right, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="📈-优化"><a href="#📈-优化" class="headerlink" title="📈 优化"></a>📈 优化</h3><p>上面的方法，<code>Integer.parseInt</code>的方式本身耗时，并且每次都从头求，没有利用到之前的记录，因此效率较低。因此在二进制转十进制这一部分进行优化。</p>
+<p>我们发现，每加上一个节点值，当前路径的二进制数左移一位，然后加上当前节点。举个例子：示例中，对于路径 <code>110</code>，加入第一个节点值时当前节点二进制数为 <code>1</code>，十进制为 1，第二个节点时，原来二进制数左移1位，对应于十进制乘2，为2，然后加上第二个节点值 1，得到 <code>11</code>，十进制为3，第三个节点，左移1位，加上节点值，得到 <code>110</code>，十进制为3*2+0.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sumRootToLeaf</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    dfs(root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cur = cur*<span class="number">2</span> + root.val;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        sum += cur;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        dfs(root.left, cur);</span><br><span class="line">        dfs(root.right, cur);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Leetcode</category>
+        <category>二叉树</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二叉树</tag>
+        <tag>递归</tag>
+        <tag>深度优先搜索</tag>
       </tags>
   </entry>
   <entry>
@@ -3508,6 +3518,12 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
 <p>浏览器解析并渲染视图，可能会再次请求页面中引用的其他静态资源文件</p>
 <p>渲染完成，请求结束。</p></div>
 
+<h3 id="DNS解析过程"><a href="#DNS解析过程" class="headerlink" title="DNS解析过程"></a>DNS解析过程</h3><ol>
+<li>查询hosts文件和本地DNS解析器缓存，如果存在待转换域名的映射，就返回IP，解析完成</li>
+<li>否则在本地DNS服务器区域解析，如果要查询的域名，包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析</li>
+<li>否则本地DNS服务器如果没有采用转发模式，则会将请求发送到根服务器，根服务器将判断域名所属顶域，返回顶域DNS的IP，本地DNS再将请求发至顶域DNS服务器，如果可以解析则返回IP，否则将返回下一级DNS服务器IP给本地DNS，本地继续请求解析，直至完成</li>
+<li>如果采用转发模式，将不断转发至上级DNS服务器，直至解析完成</li>
+</ol>
 <h2 id="HTTP常见状态码"><a href="#HTTP常见状态码" class="headerlink" title="HTTP常见状态码"></a>HTTP常见状态码</h2><div class="note info"><p>200：请求成功</p>
 <p>301：永久重定向，接下来的请求都应该使用新的URL. 302：临时重定向</p>
 <p>400：错误的请求，可能是请求方法错误. 401：未认证. 403：禁止访问. 404：无法找到</p>
@@ -3539,8 +3555,8 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>递归</tag>
         <tag>动态规划</tag>
+        <tag>递归</tag>
         <tag>记忆化搜索</tag>
         <tag>剑指Offer</tag>
       </tags>
