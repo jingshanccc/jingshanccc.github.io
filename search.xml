@@ -19,7 +19,7 @@
 <p>鉴于我的英语水平以及开发环境，千挑万选之后选中了<a href="https://github.com/voidint/g" target="_blank" rel="noopener">这个</a>。</p>
 <p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107171426999.png" alt="image-20201107171426999"></p>
 <p>相对来说，更加友好（不用翻译），并且支持Linux、MacOS、Windows。在release分支下可以找到Windows环境的压缩包，解压之后是一个exe文件，配置好环境变量之后就可以在命令行运行这个exe了。</p>
-<p><img src="C:%5CUsers%5CASUS%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20201107171847485.png" alt="image-20201107171847485"></p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/path.png" alt="path"></p>
 <p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107171647106.png" alt="image-20201107171647106"></p>
 <p>在试用安装一个Go版本之后，发现其默认的安装目录在C盘下，这对于有C盘强迫症的我来说是不能忍受的！于是走上了探索之路。在help菜单和官方FAQ中都没有找到能够修改下载和安装路径的方法，决定自己搞一搞。</p>
 <p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107172402788.png" alt="image-20201107172402788"></p>
@@ -3589,8 +3589,8 @@ redis服务器是一个事件驱动程序，有文件事件和时间事件。服
         <category>剑指Offer</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>递归</tag>
+        <tag>动态规划</tag>
         <tag>记忆化搜索</tag>
         <tag>剑指Offer</tag>
       </tags>
