@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Go安装及多版本控制</title>
+    <url>/posts/73e7566.html</url>
+    <content><![CDATA[<p/>
+
+<a id="more"></a>
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>其实Go的安装相对简单，在<a href="https://golang.google.cn/dl/" target="_blank" rel="noopener">官网</a>下载对应版本的安装包，完成下载后双击运行安装即可。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107171023171.png" alt="image-20201107171023171"></p>
+<p>之后需要配置相关的环境变量，可以通过go env来查看所有的环境变量，并对某些项进行设置。常用的设置项有：</p>
+<ol>
+<li>GOPATH：项目的工作空间，包含项目源代码以及依赖的第三方包</li>
+<li>GOPROXY：控制第三方包的下载来源，类似于maven/docker镜像地址</li>
+</ol>
+<h2 id="多版本控制"><a href="#多版本控制" class="headerlink" title="多版本控制"></a>多版本控制</h2><p>在使用Go一段时间后，发现其在语言版本上对于不同项目可能产生较大影响，和NodeJS相同，因此参考NodeJS在这方面的解决方案，我上网搜索了Go的版本控制，果不其然，找到了和nvm相同的gvm，不过可供选择的比较多。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107171202167.png" alt="image-20201107171202167"></p>
+<p>鉴于我的英语水平以及开发环境，千挑万选之后选中了<a href="https://github.com/voidint/g" target="_blank" rel="noopener">这个</a>。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107171426999.png" alt="image-20201107171426999"></p>
+<p>相对来说，更加友好（不用翻译），并且支持Linux、MacOS、Windows。在release分支下可以找到Windows环境的压缩包，解压之后是一个exe文件，配置好环境变量之后就可以在命令行运行这个exe了。</p>
+<p><img src="C:%5CUsers%5CASUS%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20201107171847485.png" alt="image-20201107171847485"></p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107171647106.png" alt="image-20201107171647106"></p>
+<p>在试用安装一个Go版本之后，发现其默认的安装目录在C盘下，这对于有C盘强迫症的我来说是不能忍受的！于是走上了探索之路。在help菜单和官方FAQ中都没有找到能够修改下载和安装路径的方法，决定自己搞一搞。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107172402788.png" alt="image-20201107172402788"></p>
+<p>并没有找到，于是在官方的Issues上找到了和我有相同需求的国人，不过issue还没关闭，但是作者提出了解决方法</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107172614281.png" alt="image-20201107172614281"></p>
+<p>在拉取master分支代码后需要在本地将源代码build成exe文件，之后配置G_HOME和GROOT环境变量，设置自己想要的下载和安装目录。关于Windows版本安装以后不生效的问题，官方FAQ中给出了回答。不过在修改了G_HOME之后，可以将path.ps1文件中的$HOME改为自定义的G_HOME目录。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107172904938.png" alt="image-20201107172904938"></p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/image-20201107173104410.png" alt="image-20201107173104410"></p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>算法口述</title>
     <url>/posts/4e2dc512.html</url>
     <content><![CDATA[<p>
@@ -1485,6 +1518,7 @@
 <li>相对安全的内存管理和访问机制，避免大部分内存泄露和指针越界</li>
 <li>热点代码检测和运行时编译及优化，使程序随运行时间增长获得更高性能</li>
 </ol>
+<h3 id="JDK新特性"><a href="#JDK新特性" class="headerlink" title="JDK新特性"></a>JDK新特性</h3><p>1.8：接口的默认方法，使用default关键字添加非抽象方法的实现；Lambda表达式可以让代码变得更短且更具有可读性；函数式接口只包含一个抽象方法，但是可以有多个非抽象方法（即特性1的默认方法），这种接口可以被隐式的转换为Lambda表达式；Optionals是一个防止NullPointerException的工具，可以在为空返回一个Optional对象；Streams流是可以用在一组元素上一次执行的操作序列。分为中间操作和最终操作，最终操作返回一个特定类型的计算结果。</p>
 <h3 id="Java如何实现平台无关？"><a href="#Java如何实现平台无关？" class="headerlink" title="Java如何实现平台无关？"></a>Java如何实现平台无关？</h3><p>Java的源代码经过编译后生成的字节码是和计算机体系结构无关的指令，可以在任何机器上解释执行，动态地转换成本地机器代码，而这个过程是由JVM完成的，不同平台使用不同的JVM，屏蔽了不同操作系统的差异。</p>
 <h3 id="Java是值传递还是引用传递？"><a href="#Java是值传递还是引用传递？" class="headerlink" title="Java是值传递还是引用传递？"></a>Java是值传递还是引用传递？</h3><blockquote>
 <p>值传递是指方法接收调用者提供的值，引用传递是指方法接收调用者提供的变量地址</p>
