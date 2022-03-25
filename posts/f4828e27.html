@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-xiefeiji.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-xiefeiji.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络," />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络面试问题">
+<meta property="og:url" content="https://www.realmicah.xyz/posts/f4828e27.html">
+<meta property="og:site_name" content="Micah">
+<meta property="og:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722003811.jpg">
+<meta property="article:published_time" content="2020-04-03T11:50:00.000Z">
+<meta property="article:modified_time" content="2022-03-24T17:05:09.535Z">
+<meta property="article:author" content="Micah">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/jingshanccc/image/raw/master/image/20200722003811.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.realmicah.xyz/posts/f4828e27.html"/>
+
+
+
+
+
+  <title>计算机网络面试问题 | Micah</title>
+  
+
+
+
+
+
+
+
+
+	<link rel="stylesheet" href="/share/css/share.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="https://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+	
+	<script src="/share/js/social-share.min.js"></script>
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="https://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+    
+    <meta name="baidu-site-verification" content="VxETXdoWpf" />
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Micah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+      <li class="menu-item">
+      <a href="https://travellings.now.sh/" target="blank">
+        
+          <i class="menu-item-icon fa fa-fw fa-paper-plane"></i><br/>
+        
+        开往
+      </a>
+      </li>
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+  
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="https://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.realmicah.xyz/posts/f4828e27.html">
+
+    <span hidden itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <meta itemprop="name" content="Micah">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xiefeiji.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+      <meta itemprop="name" content="Micah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络面试问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-03T19:50:00+08:00">
+                2020-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/f4828e27.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/posts/f4828e27.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.6k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>
+
+<a id="more"></a>
+
+<h2 id="计算机网络体系结构"><a href="#计算机网络体系结构" class="headerlink" title="计算机网络体系结构"></a>计算机网络体系结构</h2><div class="note info"><p>OSI标准是七层模型，TCP/IP中是四层模型</p>
+<p>​    <strong>物理层</strong>：完成数模转换和模数转换。网卡</p>
+<p>​    <strong>数据链路层</strong>：有错误检测和纠正机制。交换机，ARP协议</p>
+<p>​    <strong>网络层</strong>：解决不同子网的通信问题。路由器，RIP协议</p>
+<p>​    <strong>传输层</strong>：保证数据段有效到达对端。TCP,UDP协议</p>
+<p>​    <strong>会话层</strong>：不同实体建立和使用连接（会话）。全双工、半双工、单工</p>
+<p>​    <strong>表示层</strong>：数据的表示方式。编解码、加解密、压缩</p>
+<p>​    <strong>应用层</strong>：为用户直接提供服务。FTP(21)、SSH(22)、SMTP和POP3、HTTP(80)、DNS(53)</p></div>
+
+<h3 id="什么是RIP协议？"><a href="#什么是RIP协议？" class="headerlink" title="什么是RIP协议？"></a>什么是RIP协议？</h3><p>RIP是距离矢量路由协议，每个路由器维护一张表，记录自己和其他路由器之间的距离，在进行路由的时候优先选择距离短的。通过和相邻路由器交换信息更新表。</p>
+<h3 id="IP地址的分类"><a href="#IP地址的分类" class="headerlink" title="IP地址的分类"></a>IP地址的分类</h3><p>IP地址由网络号和主机号组成，共四个字节。根据网络号所占的字节数划分为ABCDE五类网。A类网网络号占一个字节，B类占两个字节，以此类推。</p>
+<div><div class="fold_hider"><div class="close hider_title">子网划分</div></div><div class="fold">
+<p>从主机号借用若干位成为子网号，数据报仍根据网络号找到目的网络，由路由器根据网络号和子网号找到目的子网，通过子网掩码和目的地址逐位与操作，得到子网地址。</p>
+<p><strong>意义</strong>：我们知道在交换机工作时会向当前局域网广播来寻找目的地址的MAC地址，也就是ARP协议，而如果没有子网划分，需要广播的范围就越广，然而最终只有一个目的地址的广播包起了作用，其他的都造成了资源的浪费，划分子网之后广播数据包只在同一网段传输，网络规模小，占用资源也更少。同时不同子网间无法直接通信，也提高了网络的安全性。</p>
+<p><strong>缺点：</strong>每个子网会有一个网络地址和广播地址不能作为主机地址，因此子网越多，浪费的IP也越多。同时不同子网通信需要用到路由器和网关等设备来通信。</p>
+
+</div></div>
+
+
+
+<h3 id="什么是ARP协议"><a href="#什么是ARP协议" class="headerlink" title="什么是ARP协议"></a>什么是ARP协议</h3><p>ARP是地址解析协议，完成了IP地址到物理地址的映射。每一个主机都有一张高速缓存映射表，里面记录了所在局域网内的其他主机和路由器的IP地址和物理地址。当主机需要发送数据包时，将查找自己的ARP缓存，如果能找到目的主机的记录，则直接发送，否则将向所在局域网广播一个ARP请求包，包含自己和目的主机的IP和MAC地址。收到请求的主机将检查自己是不是目的主机，如果是则保存源主机的IP和MAC地址，然后向源主机发送ARP响应，包含自己的IP和MAC地址。如果源主机请求的目的地址不在当前网络，将通过路由器转发到其他局域网进行查找。</p>
+<h3 id="什么是NAT？"><a href="#什么是NAT？" class="headerlink" title="什么是NAT？"></a>什么是NAT？</h3><p>NAT是网络地址转换，由NAT路由器将内网中的本地主机IP转换为全球IP地址，让内网中的主机和因特网中的主机进行通信。</p>
+<h2 id="什么是三次握手？"><a href="#什么是三次握手？" class="headerlink" title="什么是三次握手？"></a>什么是三次握手？</h2><div class="note info"><p>三次握手是遵循TCP协议的通信双方建立连接的过程。</p>
+<p>第一次握手：客户端发起连接请求，发送SYN=1，初始化序列号为x的数据包给服务端，进入SYN_SENT状态。</p>
+<p>第二次握手：服务端接收请求连接报文，并发送确认包，确认序列号为x+1，同时将SYN位置1，并初始化自己的序列号为y发送给客户端，进入SYN_RECV状态。</p>
+<p>第三次握手：客户端接收到确认和请求连接报文，检查确认标志位ACK是否为1，确认序列号是否为x+1，检查正确后，发送确认报文，确认序列号为y+1，进入established状态。服务端接收到确认报文，检查ACK和ack number正确后，进入established状态。三次握手结束，连接建立。</p></div>
+
+<h3 id="TCP建立连接可以两次握手吗？"><a href="#TCP建立连接可以两次握手吗？" class="headerlink" title="TCP建立连接可以两次握手吗？"></a>TCP建立连接可以两次握手吗？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>不可以，主要有以下两个原因。</p>
+<ul>
+<li><p>两次握手容易造成服务端连接资源浪费的情况，当客户端发送的第一次握手消息由于网络等原因延迟了，客户端会重新发送握手消息，然后成功完成通信并释放连接。此时延迟的握手消息到达了服务端，如果只有两次握手，服务端再接收到这个消息时就会发送确认并建立连接等待接收客户端的数据，但此时客户端并没有想要建立连接，因此服务端的连接资源也就白白浪费了。采用三次握手则可以避免这种情况。</p>
+</li>
+<li><p>三次握手可以确保通信双方成功互换初始序列号，这是后续通信时确认应答和超时重传的基础，保证TCP的可靠性。</p>
+</li>
+</ul>
+
+</div></div>
+
+<h3 id="初始序列号是什么？"><a href="#初始序列号是什么？" class="headerlink" title="初始序列号是什么？"></a>初始序列号是什么？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>发起连接的一方会生成一个32位的序列号作为初始序列号发送给对端，对端也会发送自己的初始序列号。初始序列号作为原点，对要传输的数据进行编号。根据发送序列号和确认序列号，发送方可以知道接收方已确认接收的数据，接收方可以验证哪些数据编号是合法的。</p>
+
+</div></div>
+
+<h3 id="序列号回绕如何解决？"><a href="#序列号回绕如何解决？" class="headerlink" title="序列号回绕如何解决？"></a>序列号回绕如何解决？</h3><p>由于初始序列号是随机生成的，因此在传输过程中，可能出现序列号回到0的情况，称为回绕。因为TCP判断丢包和乱序是通过序列号大小来判断的，因此需要解决回绕问题。内核处理回绕的解决方案是<code>(__s32)(seq1-seq2) &lt; 0;</code>，将相减结果转为有符号数，如果发生了回绕，转为的有符号数小于0。</p>
+<h3 id="TCP建立连接可以四次握手吗？"><a href="#TCP建立连接可以四次握手吗？" class="headerlink" title="TCP建立连接可以四次握手吗？"></a>TCP建立连接可以四次握手吗？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>可以，其实三次握手中的第二次握手，服务端将确认和请求连接的消息放在一个报文里，将这个过程拆分成两次握手，就是四次握手。但是这样也浪费了资源</p>
+
+</div></div>
+
+<h3 id="第三次握手中，如果客户端的ACK未到达服务端，会怎样？"><a href="#第三次握手中，如果客户端的ACK未到达服务端，会怎样？" class="headerlink" title="第三次握手中，如果客户端的ACK未到达服务端，会怎样？"></a>第三次握手中，如果客户端的ACK未到达服务端，会怎样？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>服务端如果没有接收到客户端的确认，则会重传第二次握手消息，默认可重传5次，如果都没有接收到确认，就进入CLOSED状态；如果接收到确认，就建立连接。</p>
+<p>服务端进入CLOSED状态之后，再接收到客户端的数据，将会以RST包响应。</p>
+
+</div></div>
+
+<h3 id="建立连接后，如果客户端出现故障，会怎样？"><a href="#建立连接后，如果客户端出现故障，会怎样？" class="headerlink" title="建立连接后，如果客户端出现故障，会怎样？"></a>建立连接后，如果客户端出现故障，会怎样？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>服务端每接收到客户端一个报文之后，就会重置自己的计时器，通常是两小时，如果在这期间都没有接收到客户端的数据，则会发送一个探测报文，之后每隔75秒发送一次，如果发送了10次都没有响应，则判断客户端出现故障，就会关闭连接。</p>
+
+</div></div>
+
+<h2 id="什么是四次挥手？"><a href="#什么是四次挥手？" class="headerlink" title="什么是四次挥手？"></a>什么是四次挥手？</h2><div class="note info"><p>四次挥手是遵循TCP协议的通信双方释放连接的过程</p>
+<p>第一次挥手：客户端完成了数据的传输，发起释放连接请求，FIN=1，序列号为x，进入FIN_WAIT1状态。</p>
+<p>第二次挥手：服务端接收到请求后，发送确认报文，进入CLOSE_WAIT状态。客户端接收到确认报文后，进入FIN_WAIT2状态。</p>
+<p>第三次挥手：服务端也完成了数据的发送，发送释放连接报文，进入LAST_ACK状态。</p>
+<p>第四次挥手：客户端接收到释放连接请求，发送确认报文，进入TIME_WAIT状态，等待2MSL时间后，释放连接，进入CLOSED状态。服务端接收到确认报文后，释放连接，进入CLOSED状态。</p></div>
+
+<h3 id="为什么不能三次挥手？服务端的CLOSE-WAIT状态有什么意义？"><a href="#为什么不能三次挥手？服务端的CLOSE-WAIT状态有什么意义？" class="headerlink" title="为什么不能三次挥手？服务端的CLOSE_WAIT状态有什么意义？"></a>为什么不能三次挥手？服务端的CLOSE_WAIT状态有什么意义？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>客户端发起释放连接的请求只能确认客户端没有数据要进行传输了，但此时服务端可能还有未发送的数据，CLOSE_WAIT状态用来等待服务端数据也发送完毕再释放连接。</p>
+
+</div></div>
+
+<h3 id="TIME-WAIT状态的意义？"><a href="#TIME-WAIT状态的意义？" class="headerlink" title="TIME_WAIT状态的意义？"></a>TIME_WAIT状态的意义？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>第四次挥手，客户端的ACK可能会丢失，TIME_WAIT状态用来重发可能丢失的ACK。如果服务端没有接收到ACK，则会重发FIN报文。TIME_WAIT的时长是2MSL，MSL就是报文段在网络中的最长存活时间。客户端的ACK在一个MSL内没到达服务端，服务端就会重发FIN，这个重发的FIN最长存活时间也是MSL，那么在2MSL时间内都没有接收到服务端重发的FIN，则认为ACK已经成功到达服务端。</p>
+
+</div></div>
+
+<h3 id="出现大量TIME-WAIT状态？"><a href="#出现大量TIME-WAIT状态？" class="headerlink" title="出现大量TIME_WAIT状态？"></a>出现大量TIME_WAIT状态？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>在高并发短连接的TCP服务器上，由于业务处理和数据传输的时间<strong>远小于</strong>TIME_WAIT超时时间，因此当服务器处理完请求后立刻主动正常关闭连接，就会出现大量TIME_WAIT状态。这是会占用着服务器的资源，因为端口是<strong>有限</strong>的，所以并发高时会有部分客户端无法连接到服务器</p>
+
+</div></div>
+
+<h2 id="TCP如何进行流量控制？"><a href="#TCP如何进行流量控制？" class="headerlink" title="TCP如何进行流量控制？"></a>TCP如何进行流量控制？</h2><div class="note info"><p>使用滑动窗口协议来实现流量控制。接收方根据自己缓冲区的情况，动态调整接收窗口大小，并将接收窗口大小放在ACK报文中发送给发送方。发送方的发送窗口大小不能超过接收窗口，防止发送速率太快，接收方缓冲区不够导致溢出。当发送方接收到确认之后，将窗口向右滑动。</p></div>
+
+<h3 id="什么是”零窗口“？"><a href="#什么是”零窗口“？" class="headerlink" title="什么是”零窗口“？"></a>什么是”零窗口“？</h3><p>当接收方无法接受新数据时，就会将接收窗口大小设为0，发送方将会停止发送数据，并通过1字节大小的探测报文来检查接收窗口的变化，当接收窗口&gt;0时，就恢复数据发送。</p>
+<h2 id="TCP如何进行拥塞控制？"><a href="#TCP如何进行拥塞控制？" class="headerlink" title="TCP如何进行拥塞控制？"></a>TCP如何进行拥塞控制？</h2><p>拥塞控制主要通过四个算法实现，分别是慢开始、拥塞避免、快重传、快恢复。</p>
+<p><img src="https://gitee.com/jingshanccc/image/raw/master/image/20200722003811.jpg" alt="拥塞控制"></p>
+<div class="note info"><p><strong>慢开始</strong>：刚开始发送数据时，将拥塞窗口大小设置为1MSS，最大报文段长度，之后每收到一个确认ACK，就将窗口增大1个MSS，这样窗口大小随着传输轮次呈指数增长。</p>
+<p><strong>拥塞避免</strong>：当慢开始执行到窗口大小等于慢开始门限时，将减缓窗口增大速度，每个传输轮次线性增长。</p>
+<p><strong>快重传</strong>：快重传要求接收方在接收到一个失序的报文段后立即发出重复确认。当发送方连续接收到三个重复确认，就要立即重传失序的报文段而不必等待为该报文段设置的重传计时器的超时。</p>
+<p><strong>快恢复</strong>：当发送方接收到三个重复确认时，就把慢开始门限减小为此时拥塞窗口的一半，然后执行拥塞避免算法。</p>
+<p>出现<strong>重传</strong>的两种情况：</p>
+<p>超时未接收到ACK：发送方在发送完一个报文段时，会启动一个计时器，当超时未接受到ACK时，则会重新传输该报文段。在这种情况下，发送方认为网络状况不佳，因此将慢开始门限设置为拥塞窗口的一半，拥塞窗口设置为初值，重新执行慢开始算法。</p>
+<p>接收到3个重复确认：此时由于可以接收到3个重复确认，因此网络没有出现拥塞，此时将慢开始门限减小为拥塞窗口的一半，但可以适当增大拥塞窗口，然后执行拥塞避免算法。</p></div>
+
+<h2 id="TCP和UDP的区别？"><a href="#TCP和UDP的区别？" class="headerlink" title="TCP和UDP的区别？"></a>TCP和UDP的区别？</h2><div class="note info"><p>TCP面向连接，UDP面向无连接，即UDP传输数据前不需要建立连接</p>
+<p>TCP是可靠的，UDP是不可靠的，因为UDP接收方不需要发送确认，也就没有确认重传等机制</p>
+<p>TCP有拥塞控制，在网络拥塞时控制发送速率，UDP不会因为网络的拥塞而减小发送速率，这在实时应用中是很重要的</p>
+<p>TCP只支持点对点通信，UDP支持一对一、一对多、多对一、多对多</p>
+<p>TCP是面向字节流的，一个数据包可以以字节为单位拆分成多个组发送，UDP是面向数据报文的，一个报文只能一次发完。</p>
+<p>TCP的报文首部20字节，比UDP8字节开销更大。</p></div>
+
+<h3 id="什么时候使用TCP，什么时候使用UDP？"><a href="#什么时候使用TCP，什么时候使用UDP？" class="headerlink" title="什么时候使用TCP，什么时候使用UDP？"></a>什么时候使用TCP，什么时候使用UDP？</h3><p>在实时性要求高、可以容忍传输错误的应用中，如直播、游戏、即时通信，使用UDP。其他情况使用可靠的TCP。</p>
+<h3 id="HTTP可以使用UDP吗？"><a href="#HTTP可以使用UDP吗？" class="headerlink" title="HTTP可以使用UDP吗？"></a>HTTP可以使用UDP吗？</h3><p>以前来说不可以，HTTP需要可靠的传输协议，UDP不可靠。而新的HTTP/3基于QUIC协议（Quick UDP Internet Connection），不再使用TCP，在UDP的基础上增加拥塞控制和可靠性等。</p>
+<h2 id="TCP如何保证传输的可靠性？"><a href="#TCP如何保证传输的可靠性？" class="headerlink" title="TCP如何保证传输的可靠性？"></a>TCP如何保证传输的可靠性？</h2><div class="note info"><p>奇偶校验和：检查数据包是否出错</p>
+<p>乱序重排：正确接收数据</p>
+<p>丢弃重复包：正确接收数据</p>
+<p>确认应答机制：发送确认让发送方知道数据已被成功接收</p>
+<p>超时重传机制：未被接收的数据重新发送</p>
+<p>流量控制：控制发送速率避免接收方缓冲区发生溢出</p></div>
+
+<h2 id="HTTP和HTTPS的区别？"><a href="#HTTP和HTTPS的区别？" class="headerlink" title="HTTP和HTTPS的区别？"></a>HTTP和HTTPS的区别？</h2><div class="note info"><p>HTTP默认使用80端口，HTTPS使用443端口</p>
+<p>HTTP使用明文传输，HTTPS运行于SSL协议之上，有加密和认证机制，更加安全</p>
+<p>HTTPS加解密过程需要消耗更多的CPU和内存</p>
+<p>HTTPS需要向证书颁发机构CA购买证书</p></div>
+
+<h3 id="HTTPS建立连接的过程？"><a href="#HTTPS建立连接的过程？" class="headerlink" title="HTTPS建立连接的过程？"></a>HTTPS建立连接的过程？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<ul>
+<li>浏览器向服务端发送连接请求，消息内容包含自己支持的加密规则（对称加密、非对称加密、摘要算法）</li>
+<li>服务端接收到请求后，选择一套加密规则，生成非对称加密的公钥，和证书一起发送回浏览器</li>
+<li>浏览器验证证书的有效性，随机生成用于对称加密的密钥，使用服务端的公钥加密生成密文，通过摘要算法生成摘要，一起发送给服务端</li>
+<li>服务端使用私钥解密消息，通过摘要算法验证数据完整性，得到浏览器生成的密钥，然后使用密钥加密消息，并生成摘要发送给浏览器。</li>
+<li>浏览器接受后使用密钥解密消息并验证完整性，成功之后，连接建立，接下来使用密钥加密数据传输保证安全性。</li>
+</ul>
+
+</div></div>
+
+<h3 id="直接输入-www-baidu-com-是如何转为HTTPS的？"><a href="#直接输入-www-baidu-com-是如何转为HTTPS的？" class="headerlink" title="直接输入 www.baidu.com , 是如何转为HTTPS的？"></a>直接输入 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> , 是如何转为HTTPS的？</h3><div><div class="fold_hider"><div class="close hider_title">查看答案</div></div><div class="fold">
+<p>通过重定向和HSTS机制，实现从HTTP到HTTPS的转换。</p>
+<p>打开浏览器的调试界面，可以看到直接使用 <a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> 时，服务端会发回307响应，在响应头中的LOCATION指定重定向的地址为 <a href="https://www.baidu.com" target="_blank" rel="noopener">https://www.baidu.com</a> ，然后浏览器重新向该地址发起请求。服务端在响应头中携带Strict-Transport-Security字段，设置过期时间，在这段时间内，再次请求该地址，浏览器会自动转换为HTTPS。</p>
+
+</div></div>
+
+<h2 id="GET和POST的区别"><a href="#GET和POST的区别" class="headerlink" title="GET和POST的区别"></a>GET和POST的区别</h2><div class="note info"><p>GET一般用于向服务端获取资源，POST可能会对服务端资源进行修改。因此GET具有幂等性，即每次请求相同的URL会获得相同的响应，POST不具有幂等性。</p>
+<p>GET的请求参数附在URL上，在请求头中，POST的请求参数放在请求体中。</p>
+<p>由于浏览器或服务器对URL长度限制，因此GET的请求参数不能过长，而POST则没有限制</p></div>
+
+<h2 id="Cookie和Session的区别"><a href="#Cookie和Session的区别" class="headerlink" title="Cookie和Session的区别"></a>Cookie和Session的区别</h2><div class="note info"><p>Session是服务端保存状态的方式，Cookie是客户端保存状态的方式</p>
+<p>Cookie保存在客户端，发起请求时将cookie放在请求头一起提交；Session保存在服务端，通过sessionId检查状态。</p>
+<p>sessionId可以保存在cookie中，如果禁用了cookie，可以将sessionId放在URL中。</p></div>
+
+<h2 id="输入URL到看到页面的过程"><a href="#输入URL到看到页面的过程" class="headerlink" title="输入URL到看到页面的过程"></a>输入URL到看到页面的过程</h2><div class="note info"><p>浏览器通过DNS解析域名获取服务端IP地址。</p>
+<p>三次握手建立TCP连接，之后浏览器发起HTTP请求</p>
+<p>服务端根据请求URL找到对应的请求处理器，处理之后返回响应包含处理结果和视图</p>
+<p>浏览器解析并渲染视图，可能会再次请求页面中引用的其他静态资源文件</p>
+<p>渲染完成，请求结束。</p></div>
+
+<h3 id="DNS解析过程"><a href="#DNS解析过程" class="headerlink" title="DNS解析过程"></a>DNS解析过程</h3><ol>
+<li>查询hosts文件和本地DNS解析器缓存，如果存在待转换域名的映射，就返回IP，解析完成</li>
+<li>否则在本地DNS服务器区域解析，如果要查询的域名，包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析</li>
+<li>否则本地DNS服务器如果没有采用转发模式，则会将请求发送到根服务器，根服务器将判断域名所属顶域，返回顶域DNS的IP，本地DNS再将请求发至顶域DNS服务器，如果可以解析则返回IP，否则将返回下一级DNS服务器IP给本地DNS，本地继续请求解析，直至完成</li>
+<li>如果采用转发模式，将不断转发至上级DNS服务器，直至解析完成</li>
+</ol>
+<h2 id="HTTP常见状态码"><a href="#HTTP常见状态码" class="headerlink" title="HTTP常见状态码"></a>HTTP常见状态码</h2><div class="note info"><p>200：请求成功</p>
+<p>301：永久重定向，接下来的请求都应该使用新的URL. 302：临时重定向</p>
+<p>400：错误的请求，可能是请求方法错误. 401：未认证. 403：禁止访问. 404：无法找到</p>
+<p>500：内部错误. 502：错误网关. 503：由于超载或系统维护服务不可用</p></div>
+
+      
+    </div>
+    
+    
+    
+		
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果这篇文章对您很有帮助，不妨</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Micah 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Micah 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+		<div>
+			
+				<div id="end-thanks">
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+			
+		</div>
+		
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/18deca0d.html" rel="next" title="面试题10- I. 斐波那契数列">
+                <i class="fa fa-chevron-left"></i> 面试题10- I. 斐波那契数列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/9649f58.html" rel="prev" title="面试题06. 从尾到头打印链表">
+                面试题06. 从尾到头打印链表 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+      	<div data-weibo-title="分享到微博" data-qq-title="分享到QQ" data-douban-title="分享到豆瓣" class="social-share" class="share-component" data-disabled="twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣">分享到：</div>
+			
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="https://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xiefeiji.gif"
+                alt="Micah" />
+            
+              <p class="site-author-name" itemprop="name">Micah</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jingshanccc" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jingshanccc@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络体系结构"><span class="nav-number">1.</span> <span class="nav-text">计算机网络体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是RIP协议？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是RIP协议？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP地址的分类"><span class="nav-number">1.2.</span> <span class="nav-text">IP地址的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是ARP协议"><span class="nav-number">1.3.</span> <span class="nav-text">什么是ARP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是NAT？"><span class="nav-number">1.4.</span> <span class="nav-text">什么是NAT？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是三次握手？"><span class="nav-number">2.</span> <span class="nav-text">什么是三次握手？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP建立连接可以两次握手吗？"><span class="nav-number">2.1.</span> <span class="nav-text">TCP建立连接可以两次握手吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始序列号是什么？"><span class="nav-number">2.2.</span> <span class="nav-text">初始序列号是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列号回绕如何解决？"><span class="nav-number">2.3.</span> <span class="nav-text">序列号回绕如何解决？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP建立连接可以四次握手吗？"><span class="nav-number">2.4.</span> <span class="nav-text">TCP建立连接可以四次握手吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三次握手中，如果客户端的ACK未到达服务端，会怎样？"><span class="nav-number">2.5.</span> <span class="nav-text">第三次握手中，如果客户端的ACK未到达服务端，会怎样？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立连接后，如果客户端出现故障，会怎样？"><span class="nav-number">2.6.</span> <span class="nav-text">建立连接后，如果客户端出现故障，会怎样？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是四次挥手？"><span class="nav-number">3.</span> <span class="nav-text">什么是四次挥手？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么不能三次挥手？服务端的CLOSE-WAIT状态有什么意义？"><span class="nav-number">3.1.</span> <span class="nav-text">为什么不能三次挥手？服务端的CLOSE_WAIT状态有什么意义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TIME-WAIT状态的意义？"><span class="nav-number">3.2.</span> <span class="nav-text">TIME_WAIT状态的意义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#出现大量TIME-WAIT状态？"><span class="nav-number">3.3.</span> <span class="nav-text">出现大量TIME_WAIT状态？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP如何进行流量控制？"><span class="nav-number">4.</span> <span class="nav-text">TCP如何进行流量控制？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是”零窗口“？"><span class="nav-number">4.1.</span> <span class="nav-text">什么是”零窗口“？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP如何进行拥塞控制？"><span class="nav-number">5.</span> <span class="nav-text">TCP如何进行拥塞控制？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP和UDP的区别？"><span class="nav-number">6.</span> <span class="nav-text">TCP和UDP的区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么时候使用TCP，什么时候使用UDP？"><span class="nav-number">6.1.</span> <span class="nav-text">什么时候使用TCP，什么时候使用UDP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP可以使用UDP吗？"><span class="nav-number">6.2.</span> <span class="nav-text">HTTP可以使用UDP吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP如何保证传输的可靠性？"><span class="nav-number">7.</span> <span class="nav-text">TCP如何保证传输的可靠性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP和HTTPS的区别？"><span class="nav-number">8.</span> <span class="nav-text">HTTP和HTTPS的区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS建立连接的过程？"><span class="nav-number">8.1.</span> <span class="nav-text">HTTPS建立连接的过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接输入-www-baidu-com-是如何转为HTTPS的？"><span class="nav-number">8.2.</span> <span class="nav-text">直接输入 www.baidu.com , 是如何转为HTTPS的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GET和POST的区别"><span class="nav-number">9.</span> <span class="nav-text">GET和POST的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie和Session的区别"><span class="nav-number">10.</span> <span class="nav-text">Cookie和Session的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入URL到看到页面的过程"><span class="nav-number">11.</span> <span class="nav-text">输入URL到看到页面的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS解析过程"><span class="nav-number">11.1.</span> <span class="nav-text">DNS解析过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP常见状态码"><span class="nav-number">12.</span> <span class="nav-text">HTTP常见状态码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-meetup"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Micah</span>
+
+
+  粤ICP备 -
+  <a target="_blank" style="color: #fff;" href="http://www.beian.miit.gov.cn/">20042597</a>号
+  </a>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" style="color: #fff;" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine-1.3.4.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+				admin_email: 'jingshanccc@qq.com',
+        verify: false,
+        notify: false,
+        appId: 'R0UO5alWKm8fusrJzNpSbokA-9Nh9j0Va',
+        appKey: 'jr0nCd5y6QtnHqbdQT7sF6ur',
+        placeholder: '留下邮箱，有回复时你将收到提醒，邮箱不会被公开。',
+        emoticon_url: 'https://cloud.panjunwen.com/alu',
+        emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+	<script type="text/javascript">
+		 var alltags=document.getElementById("tags");
+     if(alltags !== null){
+       var tags=alltags.getElementsByTagName("a");
+       	
+       for (var i = tags.length - 1; i >= 0; i--) {
+       			 var r=Math.floor(Math.random()*75+130);
+       			 var g=Math.floor(Math.random()*75+100);
+       			 var b=Math.floor(Math.random()*75+80);
+       			 tags[i].style.background = "rgb("+r+","+g+","+b+")";
+       }
+     }
+	</script>
+</body>
+</html>
